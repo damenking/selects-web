@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo install step...
+  pre_build:
+    commands:
+      - echo logging in to AWS ECR...
+      - $(aws ecr get-login --no-include-email --region us-west-2)
+  build:
+    commands:
+      - echo building images...
+      - docker build -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/client ./client
+      - docker build -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/nginx ./nginx
+      - docker build --build-arg SHOPIFY_ADMIN_API_PASSWORD=$SHOPIFY_ADMIN_API_PASSWORD --build-arg BTA_KEY=$BTA_KEY --build-arg BTA_PASSWORD=$BTA_PASSWORD -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/server ./server
+  post_build:
+    commands:
+      - echo pushing images to ECR...
+      - docker push 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/client
+      - docker push 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/nginx
+      - docker push 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/server
+
+artifacts:
+  files:
+    - Dockerrun.aws.json
