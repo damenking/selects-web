@@ -2,13 +2,13 @@ const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
 const getNumericProductId = require('../../util/shopify.js');
-const productsQueries = require('../../queries/products.js');
+const productsQueries = require('../../graphql/queries/products.js');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
   axios({
-    url: config.shopifyUrl,
+    url: config.shopifyAdminUrl,
     method: 'post',
     data: {
       query: productsQueries.allProductsQuery
@@ -17,9 +17,9 @@ router.get('/', (req, res) => {
       'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD
     }
   })
-    .then(result => {
+    .then(response => {
       const formattedResponse = { data: [], error: false };
-      const data = result.data.data;
+      const data = response.data.data;
       data.products.edges.forEach((edge, index) => {
         const imageList = [];
         formattedResponse.data[index] = edge.node;
@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
       });
       res.send(formattedResponse);
     })
-    .catch(() => {
+    .catch(response => {
       res.send({ data: [], error: true });
     });
 });

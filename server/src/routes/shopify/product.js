@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
-const productsQueries = require('../../queries/products.js');
+const productsQueries = require('../../graphql/queries/products.js');
 const getNumericProductId = require('../../util/shopify.js');
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/:productHandle', (req, res) => {
   const productHandle = req.params.productHandle;
   axios({
-    url: config.shopifyUrl,
+    url: config.shopifyAdminUrl,
     method: 'post',
     data: {
       query: productsQueries.productByHandleQuery(productHandle)
@@ -18,10 +18,10 @@ router.get('/:productHandle', (req, res) => {
       'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD
     }
   })
-    .then(result => {
+    .then(response => {
       try {
         const formattedResponse = { data: {}, error: false };
-        const data = result.data.data.productByHandle;
+        const data = response.data.data.productByHandle;
         formattedResponse.data = data;
         formattedResponse.data.variantIds = [];
         formattedResponse.data.id = getNumericProductId(
@@ -33,11 +33,10 @@ router.get('/:productHandle', (req, res) => {
         formattedResponse.data.price = data.priceRange.maxVariantPrice.amount;
         res.send(formattedResponse);
       } catch (e) {
-        console.log(e);
         res.send({ data: {}, error: true });
       }
     })
-    .catch(() => {
+    .catch(response => {
       res.send({ data: [], error: true });
     });
 });

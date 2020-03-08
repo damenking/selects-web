@@ -17,7 +17,7 @@ router.get('/availability/:btaProductId', (req, res) => {
     .then(response => {
       res.send({ data: response.data.dates, error: false });
     })
-    .catch(error => {
+    .catch(response => {
       res.send({ data: [], error: true });
     });
 });

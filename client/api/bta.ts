@@ -18,7 +18,7 @@ export const createBooking = async (
   startsAt: string,
   finishesAt: string
 ) => {
-  const API_URL = `${BASE_URL}/booking/new`;
+  const API_URL = `${BASE_URL}/booking/create`;
   const bookingInfo = {
     starts_at: startsAt,
     finishes_at: finishesAt,

@@ -3,14 +3,14 @@ const btaApi = require('../../bookthatapp-sdk/index.js');
 
 const router = express.Router();
 
-router.post('/new', (req, res) => {
+router.post('/create', (req, res) => {
   btaApi
     .createBooking(req.body)
     .then(response => {
-      res.sendStatus(200);
+      res.send({ error: false });
     })
-    .catch(error => {
-      res.sendStatus(error.response.status);
+    .catch(response => {
+      res.send({ error: true });
     });
 });
 
