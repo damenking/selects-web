@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.post('/create', (req, res) => {
   const { email, password, firstName, lastName } = req.body;
-
   axios({
     url: config.shopifyStorefrontUrl,
     method: 'post',

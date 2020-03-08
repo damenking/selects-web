@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
-import { createCustomer } from '../api/shopify';
+import { createCustomer } from '../api/shopify/customer';
 
 const SignUp: NextPage = () => {
   const [email, updateEmail] = useState('');

@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
-import { firebase } from '../firebase/firebase.js';
+// import { firebase } from '../firebase/firebase.js';
 import Layout from '../components/Layout';
+import { signIn } from '../api/shopify/auth';
+
+interface UserError {
+  field: string[];
+  message: string;
+}
 
 const SignIn: NextPage = () => {
   const [email, updateEmail] = useState('');
   const [password, updatePassword] = useState('');
+  const [error, updateError] = useState(false);
+  const [userErrors, updateUserErrors] = useState([]);
 
   const handleEmailChange = (e: React.SyntheticEvent): void => {
     const { value } = e.target as HTMLInputElement;
@@ -18,13 +26,15 @@ const SignIn: NextPage = () => {
     updatePassword(value);
   };
 
-  const handleSubmit = (email: string, password: string) => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(function(error) {
-        console.log(error);
-      });
+  const handleSubmit = async (email: string, password: string) => {
+    const { error, accessToken, userErrors } = await signIn(email, password);
+    if (error) {
+      updateError(true);
+      updateUserErrors(userErrors);
+    } else {
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userToken', accessToken);
+    }
   };
 
   return (
@@ -35,6 +45,15 @@ const SignIn: NextPage = () => {
       <label>password:</label>
       <input type="password" value={password} onChange={handlePasswordChange} />
       <button onClick={() => handleSubmit(email, password)}>Submit</button>
+      <br />
+      <div>
+        <ul>
+          {error && userErrors.length === 0 && <li>Error creating user</li>}
+          {userErrors.map((userError: UserError) => {
+            return <li>{userError.message}</li>;
+          })}
+        </ul>
+      </div>
       <hr />
       <p>
         DOn't have an account?{' '}

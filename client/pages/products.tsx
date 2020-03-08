@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import Layout from '../components/Layout';
-import { getAllProducts } from '../api/shopify';
+import { getAllProducts } from '../api/shopify/products';
 
 interface Product {
   id: string;

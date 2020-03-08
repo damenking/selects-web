@@ -1,24 +1,11 @@
-import { fetchWrapper, postWrapper } from './api';
-
-const BASE_URL = '/api/bta';
-
-export const getProductAvailability = async (productId: string) => {
-  const API_URL = `${BASE_URL}/product/availability/${productId}`;
-  try {
-    const response = await fetchWrapper(API_URL);
-    return response;
-  } catch (e) {
-    console.log('caught', e);
-    return { data: [], error: true, status: e.response.status };
-  }
-};
+import { postWrapper, BTA_BASE_URL } from '../api';
 
 export const createBooking = async (
   productId: string,
   startsAt: string,
   finishesAt: string
 ) => {
-  const API_URL = `${BASE_URL}/booking/create`;
+  const API_URL = `${BTA_BASE_URL}/booking/create`;
   const bookingInfo = {
     starts_at: startsAt,
     finishes_at: finishesAt,

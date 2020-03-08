@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Layout from '../../components/Layout';
-import { getProductByHandle } from '../../api/shopify';
-import { getProductAvailability, createBooking } from '../../api/bta';
+import { getProductByHandle } from '../../api/shopify/product';
+import { getProductAvailability } from '../../api/bta/product';
+import { createBooking } from '../../api/bta/booking';
+import { checkToken } from '../../api/shopify/auth';
 
 const ProductPage: NextPage<any> = props => {
   const [product, setProduct] = useState();
@@ -59,6 +61,12 @@ const ProductPage: NextPage<any> = props => {
 };
 
 ProductPage.getInitialProps = async context => {
+  const test = await checkToken(
+    'damen@damen.com',
+    localStorage.getItem('userToken')
+    // localStorage.getItem('userToken')
+  );
+  console.log(test);
   const { handle } = context.query;
   return { handle };
 };
