@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import Layout from '../components/Layout';
 import { getAllProducts } from '../api/shopify/products';
 
 interface Product {
@@ -16,8 +15,8 @@ const ProductsPage: NextPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await getAllProducts();
-      setProducts(data);
+      const { products, error } = await getAllProducts();
+      setProducts(products);
       setError(error);
     };
     fetchData();
@@ -28,22 +27,20 @@ const ProductsPage: NextPage = () => {
   }
 
   return (
-    <Layout title="products...">
-      <div>
-        <h1>hi</h1>
-        <h2>Products:</h2>
-        {products.map((product: Product, index: number) => {
-          return (
-            <div key={index}>
-              <img src={product.images[0]} width="100" height="100" />
-              <Link href="/product/[handle]" as={`/product/${product.handle}`}>
-                <a>{product.title}</a>
-              </Link>
-            </div>
-          );
-        })}
-      </div>
-    </Layout>
+    <div>
+      <h1>hi</h1>
+      <h2>Products:</h2>
+      {products.map((product: Product, index: number) => {
+        return (
+          <div key={index}>
+            <img src={product.images[0]} width="100" height="100" />
+            <Link href="/product/[handle]" as={`/product/${product.handle}`}>
+              <a>{product.title}</a>
+            </Link>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 

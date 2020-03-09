@@ -1,15 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import withAuth from '../firebase/withAuth.js';
+import { useContext } from 'react';
+import UserContext from '../components/UserContext';
 
-type Props = {
-  loggedIn: boolean;
-  handleLogout: VoidFunction;
-};
-
-const SignIn: React.FunctionComponent<Props> = ({ loggedIn, handleLogout }) => {
+const SignIn: React.FunctionComponent = () => {
+  const { loggedIn, signOut } = useContext(UserContext);
   if (loggedIn) {
-    return <button onClick={handleLogout}>Logout</button>;
+    return <button onClick={signOut}>Logout</button>;
   } else {
     return (
       <Link href="/signIn">
@@ -19,4 +16,4 @@ const SignIn: React.FunctionComponent<Props> = ({ loggedIn, handleLogout }) => {
   }
 };
 
-export default withAuth(SignIn);
+export default SignIn;

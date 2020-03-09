@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
-import Layout from '../../components/Layout';
 import { getProductByHandle } from '../../api/shopify/product';
 import { getProductAvailability } from '../../api/bta/product';
 import { createBooking } from '../../api/bta/booking';
-import { checkToken } from '../../api/shopify/auth';
 
 const ProductPage: NextPage<any> = props => {
   const [product, setProduct] = useState();
@@ -12,10 +10,11 @@ const ProductPage: NextPage<any> = props => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await getProductByHandle(props.handle);
-      setProduct(data);
-      getProductAvailability(data.primaryVariantId).then(response => {
-        setAvailabilityDates(response.data);
+      const { product } = await getProductByHandle(props.handle);
+      setProduct(product);
+      getProductAvailability(product.primaryVariantId).then(response => {
+        const { dates } = response;
+        setAvailabilityDates(dates);
       });
     };
     fetchData();
@@ -29,7 +28,7 @@ const ProductPage: NextPage<any> = props => {
     return <h1>Loading...</h1>;
   }
   return (
-    <Layout title={'Product pAge'}>
+    <div>
       <div>
         <h2>Product: {product.title}</h2>
         <h4>Price: {product.price} </h4>
@@ -56,17 +55,11 @@ const ProductPage: NextPage<any> = props => {
           );
         })}
       </div>
-    </Layout>
+    </div>
   );
 };
 
 ProductPage.getInitialProps = async context => {
-  const test = await checkToken(
-    'damen@damen.com',
-    localStorage.getItem('userToken')
-    // localStorage.getItem('userToken')
-  );
-  console.log(test);
   const { handle } = context.query;
   return { handle };
 };

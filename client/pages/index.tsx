@@ -1,12 +1,11 @@
-import * as React from 'react';
-import Layout from '../components/Layout';
+import React from 'react';
 import { NextPage } from 'next';
 
 const IndexPage: NextPage = () => {
   return (
-    <Layout title="Selects Photo Supply">
+    <div>
       <h3>This is the home page!</h3>
-    </Layout>
+    </div>
   );
 };
 

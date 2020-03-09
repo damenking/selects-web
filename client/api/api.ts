@@ -9,5 +9,6 @@ export const fetchWrapper = async (url: string) => {
 };
 
 export const postWrapper = async (url: string, body: any) => {
-  return axios.post(url, body);
+  const { data } = await axios.post(url, body);
+  return { data: data.data, error: data.error };
 };

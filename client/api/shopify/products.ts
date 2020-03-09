@@ -1,11 +1,13 @@
 import { fetchWrapper, SHOPIFY_BASE_URL } from '../api';
 
-export const getAllProducts = () => {
+export const getAllProducts = async () => {
   const API_URL = `${SHOPIFY_BASE_URL}/products`;
   try {
-    return fetchWrapper(API_URL);
+    const response = await fetchWrapper(API_URL);
+    const { products } = response.data;
+    return { products, error: response.error };
   } catch (e) {
     console.log('caught', e);
-    return { data: [], error: true };
+    return { products: [], error: true };
   }
 };

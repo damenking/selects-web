@@ -2,7 +2,6 @@ let SHOPIFY_ADMIN_API_PASSWORD = '';
 let BTA_KEY = '';
 let BTA_PASSWORD = '';
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   const config = require('./localsettings.json');
   SHOPIFY_ADMIN_API_PASSWORD = config.SHOPIFY_ADMIN_API_PASSWORD;

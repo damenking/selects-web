@@ -24,29 +24,38 @@ router.post('/signin', (req, res) => {
         customerAccessToken
       } = response.data.data.customerAccessTokenCreate;
       if (customerUserErrors.length > 0) {
-        res.send({ error: true, userErrors: customerUserErrors });
+        res.send({
+          data: { userErrors: customerUserErrors, accessToken: '' },
+          error: true
+        });
       } else {
         res.send({
-          error: false,
-          userErrors: customerUserErrors,
-          accessToken: customerAccessToken.accessToken
+          data: {
+            userErrors: customerUserErrors,
+            accessToken: customerAccessToken.accessToken
+          },
+          error: false
         });
       }
     })
     .catch(response => {
-      res.send({ error: true, userErrors: [] });
+      res.send({
+        data: {
+          userErrors: [],
+          accessToken: ''
+        },
+        error: true
+      });
     });
 });
 
 router.get('/checktoken', (req, res) => {
-  const { email, token } = req.query;
-  console.log('*********');
-  console.log(req.query);
+  const { token } = req.query;
   axios({
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.checkCustomerAccessToken(token)
+      query: authQueries.getCustomerByCustomerAccessToken(token)
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
@@ -54,12 +63,61 @@ router.get('/checktoken', (req, res) => {
     }
   })
     .then(response => {
-      console.log('a');
-      console.log(response.data);
+      try {
+        const { customer } = response.data.data;
+        res.send({ data: { user: customer, activeToken: true }, error: false });
+      } catch (error) {
+        res.send({ data: { user: {}, activeToken: false }, error: false });
+      }
     })
     .catch(response => {
-      console.log('b');
-      console.log(response);
+      res.send({ data: { user: {}, activeToken: false }, error: true });
+    });
+});
+
+router.post('/renewtoken', (req, res) => {
+  const { customerAccessToken } = req.body;
+  axios({
+    url: config.shopifyStorefrontUrl,
+    method: 'post',
+    data: {
+      query: authQueries.renewCustomerAccessToken(customerAccessToken)
+    },
+    headers: {
+      'X-Shopify-Storefront-Access-Token':
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
+    }
+  })
+    .then(response => {
+      const {
+        accessToken,
+        expiresAt,
+        userErrors
+      } = response.data.data.customerAccessTokenRenew;
+      if (userErrors.length > 0) {
+        res.send({
+          data: { userErrors, accessToken: '', expiresAt: '' },
+          error: true
+        });
+      } else {
+        res.send({
+          data: {
+            userErrors,
+            accessToken: accessToken,
+            expiresAt
+          },
+          error: false
+        });
+      }
+    })
+    .catch(response => {
+      res.send({
+        data: {
+          userErrors: [],
+          accessToken: ''
+        },
+        error: true
+      });
     });
 });
 

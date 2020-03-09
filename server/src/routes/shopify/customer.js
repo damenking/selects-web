@@ -26,13 +26,13 @@ router.post('/create', (req, res) => {
     .then(response => {
       const userErrors = response.data.data.customerCreate.userErrors;
       if (userErrors.length > 0) {
-        res.send({ error: true, userErrors });
+        res.send({ data: { userErrors }, error: true });
       } else {
-        res.send({ error: false, userErrors });
+        res.send({ data: { userErrors }, error: false });
       }
     })
     .catch(response => {
-      res.send({ error: true, userErrors: [] });
+      res.send({ data: { userErrors: [] }, error: true });
     });
 });
 

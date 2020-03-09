@@ -4,9 +4,10 @@ export const getProductAvailability = async (productId: string) => {
   const API_URL = `${BTA_BASE_URL}/product/availability/${productId}`;
   try {
     const response = await fetchWrapper(API_URL);
-    return response;
+    const { dates } = response.data;
+    return { dates, error: response.error };
   } catch (e) {
     console.log('caught', e);
-    return { data: [], error: true, status: e.response.status };
+    return { dates: [], error: true };
   }
 };

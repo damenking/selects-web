@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
-import Layout from '../components/Layout';
 import { createCustomer } from '../api/shopify/customer';
 
 const SignUp: NextPage = () => {
@@ -54,7 +53,7 @@ const SignUp: NextPage = () => {
   };
 
   return (
-    <Layout title="Sign Up">
+    <div>
       <h1>Sign Up</h1>
       <label>first name</label>
       <input type="text" value={firstName} onChange={handleFirstNameChange} />
@@ -86,7 +85,7 @@ const SignUp: NextPage = () => {
           <a>Sign In</a>
         </Link>
       </p>
-    </Layout>
+    </div>
   );
 };
 

@@ -25,7 +25,7 @@ export const createBooking = async (
   };
   try {
     const response = await postWrapper(API_URL, bookingInfo);
-    return { error: false, status: response.status };
+    return { error: response.error };
   } catch (e) {
     console.log('caught', e);
     return { error: true, status: e.response.status };

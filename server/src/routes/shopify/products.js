@@ -18,23 +18,23 @@ router.get('/', (req, res) => {
     }
   })
     .then(response => {
-      const formattedResponse = { data: [], error: false };
+      const formattedResponse = { data: { products: [] }, error: false };
       const data = response.data.data;
       data.products.edges.forEach((edge, index) => {
         const imageList = [];
-        formattedResponse.data[index] = edge.node;
-        formattedResponse.data[index].id = getNumericProductId(
-          formattedResponse.data[index].id
+        formattedResponse.data.products[index] = edge.node;
+        formattedResponse.data.products[index].id = getNumericProductId(
+          formattedResponse.data.products[index].id
         );
         edge.node.images.edges.forEach((imgEdge, imgIndex) => {
           imageList[imgIndex] = imgEdge.node.transformedSrc;
-          formattedResponse.data[index].images = imageList;
+          formattedResponse.data.products[index].images = imageList;
         });
       });
       res.send(formattedResponse);
     })
     .catch(response => {
-      res.send({ data: [], error: true });
+      res.send({ data: {}, error: true });
     });
 });
 

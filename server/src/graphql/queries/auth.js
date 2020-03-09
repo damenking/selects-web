@@ -19,14 +19,37 @@ const createCustomerAccessToken = (email, password) => {
   `;
 };
 
-const checkCustomerAccessToken = token => {
+const getCustomerByCustomerAccessToken = token => {
   return `
     query {
       customer (customerAccessToken: "${token}") {
-        firstName,
+        displayName,
       }
     }
   `;
 };
 
-module.exports = { createCustomerAccessToken, checkCustomerAccessToken };
+const renewCustomerAccessToken = token => {
+  console.log('%%%%%%%');
+  console.log(token);
+  return `
+    mutation {
+      customerAccessTokenRenew(customerAccessToken: ${token}) {
+        customerAccessToken {
+          accessToken
+          expiresAt
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+};
+
+module.exports = {
+  createCustomerAccessToken,
+  getCustomerByCustomerAccessToken,
+  renewCustomerAccessToken
+};

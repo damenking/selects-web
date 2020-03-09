@@ -10,9 +10,10 @@ export const createCustomer = async (
   const customerInfo = { email, password, firstName, lastName };
   try {
     const response = await postWrapper(API_URL, customerInfo);
-    return { error: response.data.error, userErrors: response.data.userErrors };
+    const { userErrors } = response.data;
+    return { userErrors, error: response.error };
   } catch (e) {
     console.log('caught', e);
-    return { error: true, userErrors: [] };
+    return { userErrors: [], error: true };
   }
 };

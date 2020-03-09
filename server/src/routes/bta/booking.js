@@ -7,10 +7,10 @@ router.post('/create', (req, res) => {
   btaApi
     .createBooking(req.body)
     .then(response => {
-      res.send({ error: false });
+      res.send({ data: {}, error: false });
     })
     .catch(response => {
-      res.send({ error: true });
+      res.send({ data: {}, error: true });
     });
 });
 

@@ -20,24 +20,25 @@ router.get('/:productHandle', (req, res) => {
   })
     .then(response => {
       try {
-        const formattedResponse = { data: {}, error: false };
+        const formattedResponse = { data: { product: {} }, error: false };
         const data = response.data.data.productByHandle;
-        formattedResponse.data = data;
-        formattedResponse.data.variantIds = [];
-        formattedResponse.data.id = getNumericProductId(
-          formattedResponse.data.id
+        formattedResponse.data.product = data;
+        formattedResponse.data.product.variantIds = [];
+        formattedResponse.data.product.id = getNumericProductId(
+          formattedResponse.data.product.id
         );
-        formattedResponse.data.primaryVariantId = getNumericProductId(
+        formattedResponse.data.product.primaryVariantId = getNumericProductId(
           data.variants.edges[0].node.id
         );
-        formattedResponse.data.price = data.priceRange.maxVariantPrice.amount;
+        formattedResponse.data.product.price =
+          data.priceRange.maxVariantPrice.amount;
         res.send(formattedResponse);
       } catch (e) {
         res.send({ data: {}, error: true });
       }
     })
     .catch(response => {
-      res.send({ data: [], error: true });
+      res.send({ data: {}, error: true });
     });
 });
 

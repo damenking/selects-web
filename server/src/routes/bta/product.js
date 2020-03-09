@@ -15,10 +15,10 @@ router.get('/availability/:btaProductId', (req, res) => {
       finish: formattedNextMonth
     })
     .then(response => {
-      res.send({ data: response.data.dates, error: false });
+      res.send({ data: { dates: response.data.dates }, error: false });
     })
     .catch(response => {
-      res.send({ data: [], error: true });
+      res.send({ data: {}, error: true });
     });
 });
 

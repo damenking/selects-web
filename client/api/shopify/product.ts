@@ -4,9 +4,10 @@ export const getProductByHandle = async (handle: string | string[]) => {
   const API_URL = `${SHOPIFY_BASE_URL}/product/${handle}`;
   try {
     const response = await fetchWrapper(API_URL);
-    return response;
+    const { product } = response.data;
+    return { product, error: response.error };
   } catch (e) {
     console.log('caught', e);
-    return { data: {}, error: true };
+    return { product: {}, error: true };
   }
 };
