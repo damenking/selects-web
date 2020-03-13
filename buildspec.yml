@@ -11,7 +11,7 @@ phases:
   build:
     commands:
       - echo building images...
-      - docker build --no-cache -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/client ./client
+      - docker build -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/client ./client
       - docker build -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/nginx ./nginx
       - docker build --build-arg SHOPIFY_ADMIN_API_PASSWORD=$SHOPIFY_ADMIN_API_PASSWORD --build-arg BTA_KEY=$BTA_KEY --build-arg BTA_PASSWORD=$BTA_PASSWORD -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/server ./server
   post_build:
