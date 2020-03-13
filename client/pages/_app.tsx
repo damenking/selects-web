@@ -1,6 +1,10 @@
 import React from 'react';
 import App from 'next/app';
+import Head from 'next/head';
+import { AppProvider } from '@shopify/polaris';
+import enTranslations from '@shopify/polaris/locales/en.json';
 import Router from 'next/router';
+import '@shopify/polaris/styles.css';
 import Layout from '../components/Layout';
 import UserContext from '../components/UserContext';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
@@ -64,12 +68,34 @@ class MyApp extends App {
           user: this.state.user
         }}
       >
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Head>
+          <title>Selects Photo Supply</title>
+        </Head>
+        <AppProvider i18n={enTranslations}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AppProvider>
       </UserContext.Provider>
     );
   }
 }
 
 export default MyApp;
+
+// import React from 'react';
+// import App, {Container} from 'next/app';
+// import enTranslations from '@shopify/polaris/locales/en.json';
+// import '@shopify/polaris/styles.css';
+
+// export default class WrappedApp extends App {
+//   render() {
+//     const {Component, pageProps} = this.props;
+
+//     return (
+//       <Container>
+
+//       </Container>
+//     );
+//   }
+// }

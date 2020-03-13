@@ -8,6 +8,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@shopify/polaris": "^4.15.2",
     "axios": "^0.19.2",
     "firebase": "^7.10.0",
     "firebaseui": "^4.4.0",

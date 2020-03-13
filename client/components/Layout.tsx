@@ -1,38 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
-import Head from 'next/head';
+import { Button } from '@shopify/polaris';
+import { CartMajorMonotone } from '@shopify/polaris-icons';
 import styles from './Layout.module.css';
 import SignIn from './SignIn';
-// import UserContext from './UserContext.js';
-// import { checkToken } from '../api/shopify/auth';
 
 type Props = {
   title?: string;
 };
 
-const Layout: React.FunctionComponent<Props> = ({
-  children,
-  title = 'Selects Photo Supply'
-}) => {
-  // const [user, setUser] = useState({});
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const userEmail = localStorage.getItem('userEmail');
-  //     const accessToken = localStorage.getItem('accessToken');
-  //     const { user } = await checkToken(userEmail, accessToken);
-  //     setUser(user);
-  //   };
-  //   fetchUser();
-  // }, []);
-
+const Layout: React.FunctionComponent<Props> = ({ children }) => {
   return (
     <div>
-      <Head>
-        <title>{title}</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
       <header>
         <nav>
           <Link href="/">
@@ -47,12 +26,15 @@ const Layout: React.FunctionComponent<Props> = ({
             <a>Products</a>
           </Link>{' '}
           | <SignIn />
+          <Button icon={CartMajorMonotone} />
         </nav>
       </header>
       {children}
       <footer>
         <hr />
-        <span className={styles.test}>This is a red footer</span>
+        <span className={styles.test}>
+          This is a red footer with a third party font
+        </span>
       </footer>
     </div>
   );
