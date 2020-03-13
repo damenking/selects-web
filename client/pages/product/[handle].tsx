@@ -1,11 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import { getProductByHandle } from '../../api/shopify/product';
 import { getProductAvailability } from '../../api/bta/product';
-import { createBooking } from '../../api/bta/booking';
+// import { createBooking } from '../../api/bta/booking';
+import { addLineItems } from '../../api/shopify/checkout';
+import UserContext from '../../components/UserContext';
+
+const defaultProduct = {
+  primaryVariantId: '',
+  title: '',
+  primaryVariantPrice: '',
+  description: '',
+  primaryVariantStorefrontId: ''
+};
 
 const ProductPage: NextPage<any> = props => {
-  const [product, setProduct] = useState();
+  const { checkoutId } = useContext(UserContext);
+  const [product, setProduct] = useState(defaultProduct);
+  const [loading, setLoading] = useState(true);
   const [availabilityDates, setAvailabilityDates] = useState([]);
 
   useEffect(() => {
@@ -16,22 +28,27 @@ const ProductPage: NextPage<any> = props => {
         const { dates } = response;
         setAvailabilityDates(dates);
       });
+      setLoading(false);
     };
     fetchData();
   }, []);
 
   const handleCreateBooking = async (start: string, finish: string) => {
-    createBooking(product.primaryVariantId, start, finish);
+    console.log(start, finish);
+    // createBooking(product.primaryVariantId, start, finish);
+    addLineItems(checkoutId, [
+      { variantId: product.primaryVariantStorefrontId, quantity: 1 }
+    ]);
   };
 
-  if (!product) {
+  if (loading) {
     return <h1>Loading...</h1>;
   }
   return (
     <div>
       <div>
         <h2>Product: {product.title}</h2>
-        <h4>Price: {product.price} </h4>
+        <h4>Price: {product.primaryVariantPrice} </h4>
         <p>Description: {product.description}</p>
       </div>
       <div>

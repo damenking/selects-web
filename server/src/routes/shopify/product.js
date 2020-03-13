@@ -24,14 +24,25 @@ router.get('/:productHandle', (req, res) => {
         const data = response.data.data.productByHandle;
         formattedResponse.data.product = data;
         formattedResponse.data.product.variantIds = [];
+        formattedResponse.data.product.variantStorefrontIds = [];
+        formattedResponse.data.product.variantPrices = [];
         formattedResponse.data.product.id = getNumericProductId(
           formattedResponse.data.product.id
         );
-        formattedResponse.data.product.primaryVariantId = getNumericProductId(
-          data.variants.edges[0].node.id
-        );
-        formattedResponse.data.product.price =
-          data.priceRange.maxVariantPrice.amount;
+        data.variants.edges.forEach(edge => {
+          edge.node.id = getNumericProductId(edge.node.id);
+          formattedResponse.data.product.variantIds.push(edge.node.id);
+          formattedResponse.data.product.variantStorefrontIds.push(
+            edge.node.storefrontId
+          );
+          formattedResponse.data.product.variantPrices.push(edge.node.price);
+        });
+        formattedResponse.data.product.primaryVariantId =
+          data.variants.edges[0].node.id;
+        formattedResponse.data.product.primaryVariantStorefrontId =
+          data.variants.edges[0].node.storefrontId;
+        formattedResponse.data.product.primaryVariantPrice =
+          data.variants.edges[0].node.price;
         res.send(formattedResponse);
       } catch (e) {
         res.send({ data: {}, error: true });

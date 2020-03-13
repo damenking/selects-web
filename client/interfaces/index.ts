@@ -4,7 +4,12 @@
 //
 // import User from 'path/to/interfaces';
 
-export type User = {
-  id: number;
-  name: string;
+export type LineItemSend = {
+  variantId: string;
+  quantity: number;
+};
+
+export type LineItemReceive = {
+  title: string;
+  quantity: number;
 };

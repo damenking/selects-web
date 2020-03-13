@@ -90,21 +90,20 @@ router.post('/renewtoken', (req, res) => {
   })
     .then(response => {
       const {
-        accessToken,
-        expiresAt,
+        customerAccessToken,
         userErrors
       } = response.data.data.customerAccessTokenRenew;
       if (userErrors.length > 0) {
         res.send({
-          data: { userErrors, accessToken: '', expiresAt: '' },
+          data: { userErrors, renewedToken: '', expiresAt: '' },
           error: true
         });
       } else {
         res.send({
           data: {
             userErrors,
-            accessToken: accessToken,
-            expiresAt
+            renewedToken: customerAccessToken.accessToken,
+            expiresAt: customerAccessToken.expiresAt
           },
           error: false
         });
@@ -114,7 +113,8 @@ router.post('/renewtoken', (req, res) => {
       res.send({
         data: {
           userErrors: [],
-          accessToken: ''
+          renewedToken: '',
+          expiresAt: ''
         },
         error: true
       });

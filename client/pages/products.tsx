@@ -28,7 +28,6 @@ const ProductsPage: NextPage = () => {
 
   return (
     <div>
-      <h1>hi</h1>
       <h2>Products:</h2>
       {products.map((product: Product, index: number) => {
         return (

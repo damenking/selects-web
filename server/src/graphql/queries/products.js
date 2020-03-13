@@ -5,15 +5,13 @@ const productByHandleQuery = productHandle => {
         id
         title
         description
-        priceRange {
-          maxVariantPrice {
-            amount
-          }
-        }
-        variants (first: 1) {
+        variants (first: 3) {
           edges {
             node {
               id
+              storefrontId
+              price
+              displayName
             }
           }
         }

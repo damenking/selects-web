@@ -3,7 +3,7 @@ const btaApi = require('../../bookthatapp-sdk/');
 
 const router = express.Router();
 
-router.get('/availability/:btaProductId', (req, res) => {
+router.get('/:btaProductId/availability', (req, res) => {
   const dateObj = new Date();
   const formattedNow = dateObj.toISOString();
   dateObj.setMonth(dateObj.getMonth() + 1);

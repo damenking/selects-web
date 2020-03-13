@@ -7,7 +7,8 @@ const UserContext = createContext({
   user: {},
   loggedIn: false,
   signIn,
-  signOut
+  signOut,
+  checkoutId: ''
 });
 
 export default UserContext;

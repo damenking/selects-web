@@ -30,11 +30,9 @@ const getCustomerByCustomerAccessToken = token => {
 };
 
 const renewCustomerAccessToken = token => {
-  console.log('%%%%%%%');
-  console.log(token);
   return `
     mutation {
-      customerAccessTokenRenew(customerAccessToken: ${token}) {
+      customerAccessTokenRenew(customerAccessToken: "${token}") {
         customerAccessToken {
           accessToken
           expiresAt

@@ -1,15 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 import { Button } from '@shopify/polaris';
 import { CartMajorMonotone } from '@shopify/polaris-icons';
-import styles from './Layout.module.css';
 import SignIn from './SignIn';
 
-type Props = {
-  title?: string;
-};
+import styles from './Layout.module.css';
 
-const Layout: React.FunctionComponent<Props> = ({ children }) => {
+const Layout: React.FunctionComponent = ({ children }) => {
+  const handleCartClick = () => {
+    Router.push('/cart');
+  };
   return (
     <div>
       <header>
@@ -26,7 +27,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => {
             <a>Products</a>
           </Link>{' '}
           | <SignIn />
-          <Button icon={CartMajorMonotone} />
+          <Button icon={CartMajorMonotone} onClick={() => handleCartClick()} />
         </nav>
       </header>
       {children}
