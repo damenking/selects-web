@@ -9,12 +9,14 @@ const defaultLineItems: CheckoutLineItem[] = [];
 const CartPage: NextPage = () => {
   const { checkoutId } = useContext(UserContext);
   const [lineItems, setLineItems] = useState(defaultLineItems);
+  const [checkoutUrl, setCheckoutUrl] = useState('');
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await getCheckout(checkoutId);
       setLineItems(response.lineItems);
+      setCheckoutUrl(response.checkoutUrl);
       setError(response.error);
     };
     if (checkoutId.length) {
@@ -49,6 +51,11 @@ const CartPage: NextPage = () => {
           </div>
         );
       })}
+      {lineItems.length && checkoutUrl.length && (
+        <a href={checkoutUrl}>
+          <button>Checkout!</button>
+        </a>
+      )}
     </div>
   );
 };

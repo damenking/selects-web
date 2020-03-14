@@ -19,9 +19,10 @@ router.get('/fetch', (req, res) => {
   shopifyClient.sdk.checkout
     .fetch(checkoutId)
     .then(response => {
-      const { lineItems } = response;
+      const { lineItems, webUrl } = response;
       res.send({
         data: {
+          webUrl,
           lineItems
         },
         error: false

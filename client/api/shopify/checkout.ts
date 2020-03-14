@@ -17,11 +17,14 @@ export const getCheckout = async (checkoutId: string) => {
   const API_URL = `${SHOPIFY_BASE_URL}/checkout/fetch?checkoutId=${checkoutId}`;
   try {
     const response = await fetchWrapper(API_URL);
-    const lineItems: CheckoutLineItem[] = response.data.lineItems;
-    return { lineItems, error: response.error };
+    const {
+      lineItems,
+      webUrl
+    }: { lineItems: CheckoutLineItem[]; webUrl: string } = response.data;
+    return { checkoutUrl: webUrl, lineItems, error: response.error };
   } catch (e) {
     console.log('caught', e);
-    return { lineItems: [], error: true };
+    return { checkoutUrl: '', lineItems: [], error: true };
   }
 };
 
