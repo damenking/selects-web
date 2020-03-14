@@ -2,13 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { getAllProducts } from '../api/shopify/products';
+import { Product } from '../interfaces/';
 
-interface Product {
-  id: string;
-  title: string;
-  handle: string;
-  images: string[];
-}
 const ProductsPage: NextPage = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(false);

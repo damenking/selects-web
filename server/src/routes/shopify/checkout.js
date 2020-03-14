@@ -18,14 +18,11 @@ router.get('/fetch', (req, res) => {
   const { checkoutId } = req.query;
   shopifyClient.sdk.checkout
     .fetch(checkoutId)
-    .then(checkout => {
-      const { id, email, lineItems, webUrl } = checkout;
+    .then(response => {
+      const { lineItems } = response;
       res.send({
         data: {
-          id,
-          email,
-          lineItems,
-          webUrl
+          lineItems
         },
         error: false
       });
@@ -35,7 +32,7 @@ router.get('/fetch', (req, res) => {
     });
 });
 
-router.post('/addlineitem', (req, res) => {
+router.post('/addlineitems', (req, res) => {
   const { checkoutId, lineItems } = req.body;
   shopifyClient.sdk.checkout
     .addLineItems(checkoutId, lineItems)
@@ -46,4 +43,18 @@ router.post('/addlineitem', (req, res) => {
       res.send({ error: true });
     });
 });
+
+router.post('/removelineitems', (req, res) => {
+  const { checkoutId, lineItems } = req.body;
+  shopifyClient.sdk.checkout
+    .removeLineItems(checkoutId, lineItems)
+    .then(response => {
+      const { lineItems } = response;
+      res.send({ data: { lineItems }, error: false });
+    })
+    .catch(response => {
+      res.send({ data: {}, error: true });
+    });
+});
+
 module.exports = router;

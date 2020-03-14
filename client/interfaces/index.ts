@@ -1,15 +1,23 @@
-// You can include shared interfaces/types in a separate file
-// and then use them in any component by importing them. For
-// example, to import the interface below do:
-//
-// import User from 'path/to/interfaces';
-
-export type LineItemSend = {
+// Line item as sent to shopify to be added to a checkout
+export interface LineItem {
   variantId: string;
   quantity: number;
-};
+}
 
-export type LineItemReceive = {
+export interface CheckoutLineItem {
+  id: string;
   title: string;
   quantity: number;
-};
+}
+
+export interface Checkout {
+  id: string;
+  lineItems: CheckoutLineItem[];
+}
+
+export interface Product {
+  id: string;
+  title: string;
+  handle: string;
+  images: string[];
+}
