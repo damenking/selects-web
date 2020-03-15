@@ -51,7 +51,7 @@ const CartPage: NextPage = () => {
           </div>
         );
       })}
-      {lineItems.length && checkoutUrl.length && (
+      {!!lineItems.length && !!checkoutUrl.length && (
         <a href={checkoutUrl}>
           <button>Checkout!</button>
         </a>

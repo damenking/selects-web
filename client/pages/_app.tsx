@@ -10,6 +10,7 @@ import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout } from '../api/shopify/checkout';
 
 import '@shopify/polaris/styles.css';
+import 'js-datepicker/dist/datepicker.min.css';
 
 class MyApp extends App {
   state = {
