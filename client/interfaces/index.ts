@@ -21,3 +21,27 @@ export interface Product {
   handle: string;
   images: string[];
 }
+
+export interface UserError {
+  field: string[];
+  message: string;
+}
+
+export interface Address {
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  province: string;
+  zip: string;
+  company?: string;
+}
+export interface CustomerInformation {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  address: Address;
+  phone: string;
+  customerAccessToken?: string;
+  company?: string;
+}

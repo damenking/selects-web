@@ -4,8 +4,10 @@ const shopifyClient = require('../../shopify-buy-sdk/shopifyBuy.js');
 const router = express.Router();
 
 router.post('/create', (req, res) => {
+  const { email, shippingAddress } = req.body;
+  shippingAddress.country = 'United States';
   shopifyClient.sdk.checkout
-    .create()
+    .create({ email, shippingAddress })
     .then(response => {
       res.send({ data: { checkoutId: response.id }, error: false });
     })

@@ -48,7 +48,7 @@ class MyApp extends App {
       const { user } = await checkToken(accessToken);
       localStorage.setItem('accessToken', accessToken);
       if (!checkoutId.length) {
-        const response = await createCheckout();
+        const response = await createCheckout(user.email, user.defaultAddress);
         checkoutId = response.checkoutId;
         localStorage.setItem('checkoutId', checkoutId);
       }

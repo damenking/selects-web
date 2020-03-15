@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
-import { createCustomer } from '../api/shopify/customer';
+import { createCustomer, createAddress } from '../api/shopify/customer';
+import { UserError, CustomerInformation } from '../interfaces/';
+import UserContext from '../components/UserContext';
 
 const SignUp: NextPage = () => {
+  const { signIn } = useContext(UserContext);
   const [email, updateEmail] = useState('');
   const [password, updatePassword] = useState('');
   const [firstName, updateFirstName] = useState('');
   const [lastName, updateLastName] = useState('');
   const [userErrors, updateUserErrors] = useState([]);
   const [error, updateError] = useState(false);
+  const [addressLine1, updateAddressLine1] = useState('');
+  const [addressLine2, updateAddressLine2] = useState('');
+  const [city, updateCity] = useState('');
+  const [state, updateState] = useState('');
+  const [zip, updateZip] = useState('');
+  const [phone, updatePhone] = useState('');
+  const [company, updateCompany] = useState('');
 
-  interface UserError {
-    field: string[];
-    message: string;
-  }
+  const handleCompanyChange = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updateCompany(value);
+  };
 
   const handleEmailChange = (e: React.SyntheticEvent): void => {
     const { value } = e.target as HTMLInputElement;
@@ -36,20 +46,47 @@ const SignUp: NextPage = () => {
     updateLastName(value);
   };
 
-  const handleSubmit = async (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string
-  ) => {
-    const { error, userErrors } = await createCustomer(
-      email,
-      password,
-      firstName,
-      lastName
-    );
+  const handleAddressLine1Change = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updateAddressLine1(value);
+  };
+
+  const handleAddressLine2Change = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updateAddressLine2(value);
+  };
+
+  const handleCityChange = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updateCity(value);
+  };
+
+  const handleStateChange = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updateState(value);
+  };
+
+  const handleZipChange = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updateZip(value);
+  };
+
+  const handlePhoneChange = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updatePhone(value);
+  };
+
+  const handleSubmit = async (customerInformation: CustomerInformation) => {
+    const { error, userErrors } = await createCustomer(customerInformation);
     updateError(error);
     updateUserErrors(userErrors);
+    if (!error) {
+      await signIn(customerInformation.email, customerInformation.password);
+      const customerAccessToken = localStorage.getItem('accessToken');
+      if (customerAccessToken) {
+        createAddress(customerInformation, customerAccessToken);
+      }
+    }
   };
 
   return (
@@ -60,12 +97,48 @@ const SignUp: NextPage = () => {
       <label>last name</label>
       <input type="text" value={lastName} onChange={handleLastNameChange} />
       <br />
+      <label>Address Line 1</label>
+      <input
+        type="text"
+        value={addressLine1}
+        onChange={handleAddressLine1Change}
+      />
+      <label>Address Line 2</label>
+      <input
+        type="text"
+        value={addressLine2}
+        onChange={handleAddressLine2Change}
+      />
+      <br />
+      <label>City</label>
+      <input type="text" value={city} onChange={handleCityChange} />
+      <label>State</label>
+      <input type="text" value={state} onChange={handleStateChange} />
+      <label>Zip</label>
+      <input type="text" value={zip} onChange={handleZipChange} />
+      <br />
+      <label>Phone</label>
+      <input type="phone" value={phone} onChange={handlePhoneChange} />
+      <br />
+      <label>Company</label>
+      <input type="company" value={company} onChange={handleCompanyChange} />
+      <br />
       <label>email:</label>
       <input type="text" value={email} onChange={handleEmailChange} />
       <label>password:</label>
       <input type="password" value={password} onChange={handlePasswordChange} />
       <button
-        onClick={() => handleSubmit(email, password, firstName, lastName)}
+        onClick={() =>
+          handleSubmit({
+            email,
+            password,
+            firstName,
+            lastName,
+            phone,
+            company,
+            address: { addressLine1, addressLine2, city, province: state, zip }
+          })
+        }
       >
         Submit
       </button>

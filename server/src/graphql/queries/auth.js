@@ -24,6 +24,18 @@ const getCustomerByCustomerAccessToken = token => {
     query {
       customer (customerAccessToken: "${token}") {
         displayName,
+        email
+        defaultAddress {
+          address1
+          address2
+          firstName
+          lastName
+          company
+          city
+          province
+          zip
+          phone
+        }
       }
     }
   `;
