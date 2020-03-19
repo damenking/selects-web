@@ -136,7 +136,15 @@ const SignUp: NextPage = () => {
             lastName,
             phone,
             company,
-            address: { addressLine1, addressLine2, city, province: state, zip }
+            address: {
+              firstName,
+              lastName,
+              address1: addressLine1,
+              address2: addressLine2,
+              city,
+              province: state,
+              zip
+            }
           })
         }
       >
