@@ -19,20 +19,14 @@ export const createAddress = async (
 ) => {
   const API_URL = `${SHOPIFY_BASE_URL}/customer/createAddress`;
   const { firstName, lastName, phone, company } = customerInfo;
-  const {
-    addressLine1,
-    addressLine2,
-    city,
-    province,
-    zip
-  } = customerInfo.address;
+  const { address1, address2, city, province, zip } = customerInfo.address;
   const reqObj = {
     firstName,
     lastName,
     phone,
     company,
-    address1: addressLine1,
-    address2: addressLine2,
+    address1,
+    address2,
     city,
     province,
     zip,
