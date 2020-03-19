@@ -68,3 +68,27 @@ export const removeLineItems = async (
     return { lineItems: [], error: true };
   }
 };
+
+export const deleteCheckout = async (checkoutId: string) => {
+  const API_URL = `${SHOPIFY_BASE_URL}/checkout/delete`;
+  const reqObj = { checkoutId };
+  try {
+    const response = await postWrapper(API_URL, reqObj);
+    return { error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { error: true };
+  }
+};
+
+export const updateCheckoutShippingLine = async (checkoutId: string) => {
+  const API_URL = `${SHOPIFY_BASE_URL}/checkout/updateshippingline`;
+  const reqObj = { checkoutId };
+  try {
+    const response = await postWrapper(API_URL, reqObj);
+    return { error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { error: true };
+  }
+};

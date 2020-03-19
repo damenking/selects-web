@@ -8,13 +8,28 @@ import Layout from '../components/Layout';
 import UserContext from '../components/UserContext';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout } from '../api/shopify/checkout';
+import { Address } from '../interfaces/';
 
 import '@shopify/polaris/styles.css';
 import 'js-datepicker/dist/datepicker.min.css';
 
 class MyApp extends App {
   state = {
-    user: {},
+    user: {
+      defaultAddress: {
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
+        city: '',
+        province: '',
+        zip: '',
+        country: '',
+        company: ''
+      },
+      email: '',
+      displayName: ''
+    },
     loggedIn: false,
     checkoutId: ''
   };
@@ -35,7 +50,14 @@ class MyApp extends App {
     } else {
       this.setState({
         loggedIn: false,
-        user: {},
+        user: {
+          defaultAddress: {
+            firstName: '',
+            lastName: ''
+          },
+          email: '',
+          displayName: ''
+        },
         checkoutId: checkoutId
       });
     }
@@ -70,6 +92,12 @@ class MyApp extends App {
     Router.push('/signIn');
   };
 
+  updateCheckoutId = async (email: string, address: Address) => {
+    const { checkoutId } = await createCheckout(email, address);
+    this.setState({ checkoutId: checkoutId });
+    localStorage.setItem('checkoutId', checkoutId);
+  };
+
   render() {
     const { Component, pageProps } = this.props;
 
@@ -80,7 +108,8 @@ class MyApp extends App {
           signOut: this.signOut,
           signIn: this.signIn,
           user: this.state.user,
-          checkoutId: this.state.checkoutId
+          checkoutId: this.state.checkoutId,
+          updateCheckoutId: this.updateCheckoutId
         }}
       >
         <Head>

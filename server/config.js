@@ -21,5 +21,7 @@ module.exports = {
     'https://selectsphotosupply.myshopify.com/api/2020-01/graphql.json',
   shopifyAdminUrl:
     'https://selectsphotosupply.myshopify.com/admin/api/2020-01/graphql.json',
-  SHOPIFY_STOREFRONT_ACCESS_TOKEN: '684cdbc8c7fb8764e07e647efe841435'
+  SHOPIFY_STOREFRONT_ACCESS_TOKEN: '684cdbc8c7fb8764e07e647efe841435',
+  shopifyAdminRestUrl:
+    'https://selectsphotosupply.myshopify.com/admin/api/2020-01/orders.json'
 };

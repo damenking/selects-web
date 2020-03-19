@@ -1,13 +1,34 @@
-// Line item as sent to shopify to be added to a checkout
+// Line item as sent to BTA to create a reservations
+export interface ReservationLineItem {
+  external_id: string;
+  start: string;
+  quantity: string;
+}
+
+export interface CustomAttribute {
+  key: string;
+  value: string;
+}
+
+// Line item as sent to shopify to be added to a checkout or
+// creating an order
 export interface LineItem {
-  variantId: string;
+  variant_id?: string;
+  variantId?: string;
   quantity: number;
+  customAttributes?: CustomAttribute[];
+}
+
+export interface CheckoutLineItemVariant {
+  id: string;
 }
 
 export interface CheckoutLineItem {
   id: string;
   title: string;
   quantity: number;
+  variant: CheckoutLineItemVariant;
+  customAttributes: CustomAttribute[];
 }
 
 export interface Checkout {
@@ -28,13 +49,17 @@ export interface UserError {
 }
 
 export interface Address {
-  addressLine1: string;
-  addressLine2?: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2?: string;
   city: string;
   province: string;
   zip: string;
   company?: string;
+  country?: string;
 }
+
 export interface CustomerInformation {
   email: string;
   firstName: string;

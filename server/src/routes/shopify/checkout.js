@@ -1,5 +1,8 @@
 const express = require('express');
+const axios = require('axios');
 const shopifyClient = require('../../shopify-buy-sdk/shopifyBuy.js');
+const config = require('../../../config.js');
+const checkoutQueries = require('../../graphql/queries/checkout.js');
 
 const router = express.Router();
 
@@ -57,6 +60,55 @@ router.post('/removelineitems', (req, res) => {
     })
     .catch(response => {
       res.send({ data: {}, error: true });
+    });
+});
+
+router.post('/delete', (req, res) => {
+  // This is a workaround for not being able to
+  // modify a checkout with a non-sales channel app.
+  // Needs more testing and need to add pricing var.
+  // If not this then some other solution needs to
+  // be in place otherwise I believe abandoned checkouts
+  // will pile up for on account orders.
+  const { checkoutId } = req.body;
+  axios({
+    url: config.shopifyStorefrontUrl,
+    method: 'post',
+    data: {
+      query: checkoutQueries.deleteCheckout(checkoutId)
+    },
+    headers: {
+      'X-Shopify-Storefront-Access-Token':
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
+    }
+  })
+    .then(response => {
+      res.send({ error: false });
+    })
+    .catch(response => {
+      res.send({ error: true });
+    });
+});
+
+router.post('/updateshippingline', (req, res) => {
+  // Needs to be done before delete step to 'complete' a checkout
+  const { checkoutId } = req.body;
+  axios({
+    url: config.shopifyStorefrontUrl,
+    method: 'post',
+    data: {
+      query: checkoutQueries.updateShippingLine(checkoutId, 'Standard')
+    },
+    headers: {
+      'X-Shopify-Storefront-Access-Token':
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
+    }
+  })
+    .then(response => {
+      res.send({ error: false });
+    })
+    .catch(response => {
+      res.send({ error: true });
     });
 });
 

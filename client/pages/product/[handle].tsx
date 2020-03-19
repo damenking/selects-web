@@ -62,7 +62,14 @@ const ProductPage: NextPage = () => {
     addLineItems(checkoutId, [
       {
         variantId: product.variantStorefrontIds[selectedVariantIndex],
-        quantity: 1
+        quantity: 1,
+        customAttributes: [
+          { key: 'start', value: selectedStartDate },
+          {
+            key: 'external_id',
+            value: product.variantIds[selectedVariantIndex]
+          }
+        ]
       }
     ]);
   };
