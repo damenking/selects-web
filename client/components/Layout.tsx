@@ -26,6 +26,9 @@ const Layout: React.FunctionComponent = ({ children }) => {
           <Link href="/products">
             <a>Products</a>
           </Link>{' '}
+          <Link href="/orderHistory">
+            <a>Order History</a>
+          </Link>{' '}
           | <SignIn />
           <Button icon={CartMajorMonotone} onClick={() => handleCartClick()} />
         </nav>

@@ -12,7 +12,10 @@ const defaultProduct = {
   primaryVariantId: '',
   title: '',
   primaryVariantPrice: '',
-  description: '',
+  metaData: {
+    description: '',
+    take: ''
+  },
   primaryVariantStorefrontId: '',
   variantIds: [],
   variantStorefrontIds: [],
@@ -103,8 +106,9 @@ const ProductPage: NextPage = () => {
             <li>7 days: {product.variantPrices[2]}</li>
           </ul>
         </div>
-        <p>Description: {product.description}</p>
-
+        <p>Description: {product.metaData.description}</p>
+        <br />
+        <p>Will's expert take: {product.metaData.take}</p>
         <br />
         <div>
           <h4>

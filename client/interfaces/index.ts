@@ -70,3 +70,16 @@ export interface CustomerInformation {
   customerAccessToken?: string;
   company?: string;
 }
+
+export interface Timeslot {
+  start: string;
+  finish: string;
+  available: number;
+  status: number;
+}
+
+export interface AvalableDate {
+  date: string;
+  available_slot_count: number;
+  timeslots: Timeslot[];
+}

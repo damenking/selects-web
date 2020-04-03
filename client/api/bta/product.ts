@@ -1,17 +1,5 @@
 import { fetchWrapper, BTA_BASE_URL } from '../api';
-
-interface Timeslot {
-  start: string;
-  finish: string;
-  available: number;
-  status: number;
-}
-
-interface AvalableDate {
-  date: string;
-  available_slot_count: number;
-  timeslots: Timeslot[];
-}
+import { AvalableDate } from '../../interfaces/';
 
 export const getProductAvailability = async (productId: string) => {
   const API_URL = `${BTA_BASE_URL}/product/${productId}/availability`;

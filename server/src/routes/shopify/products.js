@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
-const getNumericProductId = require('../../util/shopify.js');
+const { getNumericProductId } = require('../../util/shopify.js');
 const productsQueries = require('../../graphql/queries/products.js');
 
 const router = express.Router();

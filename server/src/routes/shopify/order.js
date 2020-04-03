@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/create', (req, res) => {
   const { lineItems, email } = req.body;
   axios({
-    url: config.shopifyAdminRestUrl,
+    url: config.shopifyAdminRestUrl + 'orders.json',
     method: 'post',
     data: {
       order: {

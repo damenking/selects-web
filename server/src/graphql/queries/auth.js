@@ -23,6 +23,7 @@ const getCustomerByCustomerAccessToken = token => {
   return `
     query {
       customer (customerAccessToken: "${token}") {
+        id
         displayName,
         email
         defaultAddress {
