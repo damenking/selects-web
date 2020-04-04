@@ -10,8 +10,9 @@ import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout } from '../api/shopify/checkout';
 import { Address } from '../interfaces/';
 
-import '@shopify/polaris/styles.css';
+// import '@shopify/polaris/styles.css';
 import 'js-datepicker/dist/datepicker.min.css';
+import '../styles.css';
 
 class MyApp extends App {
   state = {
@@ -25,23 +26,23 @@ class MyApp extends App {
         province: '',
         zip: '',
         country: '',
-        company: ''
+        company: '',
       },
       email: '',
-      displayName: ''
+      displayName: '',
     },
     loggedIn: false,
-    checkoutId: ''
+    checkoutId: '',
   };
 
   componentDidMount = () => {
     const accessToken = localStorage.getItem('accessToken') || '';
     const checkoutId = localStorage.getItem('checkoutId') || '';
     if (accessToken && accessToken !== '') {
-      checkToken(accessToken).then(response => {
+      checkToken(accessToken).then((response) => {
         const { activeToken, user } = response;
         if (activeToken) {
-          renewToken(accessToken).then(response => {
+          renewToken(accessToken).then((response) => {
             localStorage.setItem('accessToken', response.renewedToken);
           });
           this.setState({ loggedIn: true, user: user, checkoutId: checkoutId });
@@ -53,12 +54,12 @@ class MyApp extends App {
         user: {
           defaultAddress: {
             firstName: '',
-            lastName: ''
+            lastName: '',
           },
           email: '',
-          displayName: ''
+          displayName: '',
         },
-        checkoutId: checkoutId
+        checkoutId: checkoutId,
       });
     }
   };
@@ -77,7 +78,7 @@ class MyApp extends App {
       this.setState({
         loggedIn: true,
         user: user,
-        checkoutId: checkoutId
+        checkoutId: checkoutId,
       });
       Router.push('/');
     }
@@ -86,7 +87,7 @@ class MyApp extends App {
   signOut = () => {
     this.setState({
       loggedIn: false,
-      user: {}
+      user: {},
     });
     localStorage.setItem('accessToken', '');
     Router.push('/signIn');
@@ -109,7 +110,7 @@ class MyApp extends App {
           signIn: this.signIn,
           user: this.state.user,
           checkoutId: this.state.checkoutId,
-          updateCheckoutId: this.updateCheckoutId
+          updateCheckoutId: this.updateCheckoutId,
         }}
       >
         <Head>
