@@ -13,13 +13,13 @@ const defaultProduct = {
   title: '',
   primaryVariantPrice: '',
   metaData: {
-    description: '',
-    take: ''
+    descriptionShort: '',
+    take: '',
   },
   primaryVariantStorefrontId: '',
   variantIds: [],
   variantStorefrontIds: [],
-  variantPrices: []
+  variantPrices: [],
 };
 
 const ProductPage: NextPage = () => {
@@ -37,7 +37,7 @@ const ProductPage: NextPage = () => {
       const fetchData = async () => {
         const { product } = await getProductByHandle(handle);
         setProduct(product);
-        getProductAvailability(product.variantIds[0]).then(response => {
+        getProductAvailability(product.variantIds[0]).then((response) => {
           const { availableDatesObj } = response;
           updateavailableDatesObj(availableDatesObj);
         });
@@ -51,7 +51,7 @@ const ProductPage: NextPage = () => {
     if (!loading) {
       const fetchData = async () => {
         getProductAvailability(product.variantIds[selectedVariantIndex]).then(
-          response => {
+          (response) => {
             const { availableDatesObj } = response;
             updateavailableDatesObj(availableDatesObj);
           }
@@ -70,10 +70,10 @@ const ProductPage: NextPage = () => {
           { key: 'start', value: selectedStartDate },
           {
             key: 'external_id',
-            value: product.variantIds[selectedVariantIndex]
-          }
-        ]
-      }
+            value: product.variantIds[selectedVariantIndex],
+          },
+        ],
+      },
     ]);
   };
 
@@ -106,7 +106,7 @@ const ProductPage: NextPage = () => {
             <li>7 days: {product.variantPrices[2]}</li>
           </ul>
         </div>
-        <p>Description: {product.metaData.description}</p>
+        <p>Description: {product.metaData.descriptionShort}</p>
         <br />
         <p>Will's expert take: {product.metaData.take}</p>
         <br />
@@ -119,7 +119,7 @@ const ProductPage: NextPage = () => {
             name="variant-radio"
             value={0}
             checked={selectedVariantIndex === 0}
-            onChange={e => handleVariantSelectionChange(e)}
+            onChange={(e) => handleVariantSelectionChange(e)}
           />
           <label>3 Days</label>
         </div>
@@ -129,7 +129,7 @@ const ProductPage: NextPage = () => {
             name="variant-radio"
             value={1}
             checked={selectedVariantIndex === 1}
-            onChange={e => handleVariantSelectionChange(e)}
+            onChange={(e) => handleVariantSelectionChange(e)}
           />
           <label>5 Days</label>
         </div>
@@ -139,7 +139,7 @@ const ProductPage: NextPage = () => {
             name="variant-radio"
             value={2}
             checked={selectedVariantIndex === 2}
-            onChange={e => handleVariantSelectionChange(e)}
+            onChange={(e) => handleVariantSelectionChange(e)}
           />
           <label>7 Days</label>
         </div>

@@ -12,13 +12,13 @@ router.get('/:productHandle', (req, res) => {
     url: config.shopifyAdminUrl,
     method: 'post',
     data: {
-      query: productsQueries.productByHandleQuery(productHandle)
+      query: productsQueries.productByHandleQuery(productHandle),
     },
     headers: {
-      'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD
-    }
+      'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD,
+    },
   })
-    .then(response => {
+    .then((response) => {
       try {
         const formattedResponse = { data: { product: {} }, error: false };
         const data = response.data.data.productByHandle;
@@ -30,7 +30,7 @@ router.get('/:productHandle', (req, res) => {
           formattedResponse.data.product.id
         );
         formattedResponse.data.product.metaData = JSON.parse(data.description);
-        data.variants.edges.forEach(edge => {
+        data.variants.edges.forEach((edge) => {
           edge.node.id = getNumericProductId(edge.node.id);
           formattedResponse.data.product.variantIds.push(edge.node.id);
           formattedResponse.data.product.variantStorefrontIds.push(
@@ -50,7 +50,7 @@ router.get('/:productHandle', (req, res) => {
         res.send({ data: {}, error: true });
       }
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ data: {}, error: true });
     });
 });

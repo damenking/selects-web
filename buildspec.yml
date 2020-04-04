@@ -13,7 +13,7 @@ phases:
       - echo building images...
       - docker build -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/client:latest ./client
       - docker build -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/nginx:latest ./nginx
-      - docker build --build-arg SHOPIFY_ADMIN_API_PASSWORD=$SHOPIFY_ADMIN_API_PASSWORD --build-arg BTA_KEY=$BTA_KEY --build-arg BTA_PASSWORD=$BTA_PASSWORD -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/server:latest ./server
+      - docker build --build-arg SHOPIFY_ADMIN_API_KEY=$SHOPIFY_ADMIN_API_KEY --build-arg SHOPIFY_ADMIN_API_PASSWORD=$SHOPIFY_ADMIN_API_PASSWORD --build-arg BTA_KEY=$BTA_KEY --build-arg BTA_PASSWORD=$BTA_PASSWORD -t 754211760761.dkr.ecr.us-west-2.amazonaws.com/selectsweb/server:latest ./server
   post_build:
     commands:
       - echo pushing images to ECR...
