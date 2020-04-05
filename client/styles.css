@@ -1,3 +1,23 @@
+:root {
+  --color-paper: #f4f4f4;
+  --color-blue: #4999d4;
+  --color-orange: #f15a2a;
+  --color-box: #c59c6e;
+  --color-ink: #434343;
+}
+
+.background-paper {
+  background-color: var(--color-paper);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.display-flex {
+  display: flex;
+}
+
 @font-face {
   font-family: 'apercu-regular';
   src: url('/static/fonts/apercu-regular-web/web/apercu-regular.eot');
@@ -47,5 +67,76 @@ body {
   font-weight: normal;
   font-size: 16px;
   line-height: 150%;
-  color: #434343;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+h1 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 121.5px;
+  line-height: 100%;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 81px;
+  line-height: 150%;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 54px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+h4 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+h5 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 150%;
+  text-transform: uppercase;
+}
+
+small {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  text-decoration-line: underline;
+}
+
+.text-tiny {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10.67px;
+  line-height: 150%;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+input {
+  font-family: 'apercu-regular';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-ink);
 }

@@ -1,37 +1,13 @@
 import React from 'react';
-import Link from 'next/link';
-import Router from 'next/router';
-import { Button } from '@shopify/polaris';
-import { CartMajorMonotone } from '@shopify/polaris-icons';
-import SignIn from './SignIn';
+import Navbar from './navbar/Navbar';
 
 import styles from './Layout.module.css';
 
 const Layout: React.FunctionComponent = ({ children }) => {
-  const handleCartClick = () => {
-    Router.push('/cart');
-  };
   return (
     <div>
       <header>
-        <nav>
-          <Link href="/">
-            <a>Home</a>
-          </Link>{' '}
-          |{' '}
-          <Link href="/about">
-            <a>About</a>
-          </Link>{' '}
-          |{' '}
-          <Link href="/products">
-            <a>Products</a>
-          </Link>{' '}
-          <Link href="/orderHistory">
-            <a>Order History</a>
-          </Link>{' '}
-          | <SignIn />
-          <Button icon={CartMajorMonotone} onClick={() => handleCartClick()} />
-        </nav>
+        <Navbar />
       </header>
       {children}
       <footer>
