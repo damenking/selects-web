@@ -83,3 +83,8 @@ export interface AvalableDate {
   available_slot_count: number;
   timeslots: Timeslot[];
 }
+
+export interface DrawerOptionsObj {
+  elIndex: number;
+  options: string[];
+}

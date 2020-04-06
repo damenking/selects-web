@@ -1,4 +1,13 @@
 .navbarContainer {
+  height: 70px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-left: 24px;
+  padding-right: 24px;
+  border-bottom: 2px solid #d9d9d9;
+}
+
+.navbarContainerMobile {
   height: 72px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -10,13 +19,14 @@
 
 .navbarLeftInnerContainer {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
+  padding-bottom: 24px;
 }
 
 .navbarCenterInnerContainer {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .navbarRightInnerContainer {
@@ -25,12 +35,35 @@
   justify-content: flex-end;
 }
 
-.categoryItemContainer {
+.categoryItemOuterContainer {
   height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.categoryItemInnerContainer {
   display: flex;
   align-items: center;
-  cursor: default;
+  margin-right: auto;
+  margin-bottom: -1px;
 }
-.categoryItemContainer:hover {
+.categoryItemInnerContainer span {
+  margin-left: 8px;
+  margin-right: 8px;
+  cursor: default;
+  margin-bottom: 1px;
+}
+
+/* .categoryItemInnerContainer:hover {
   border-bottom: 3px solid black;
+} */
+
+.menuHighlighted {
+  border-bottom: 3px solid black;
+}
+
+@media (max-width: 1200px) {
+  .navbarContainer {
+    grid-template-columns: 1fr 3fr 3fr;
+  }
 }

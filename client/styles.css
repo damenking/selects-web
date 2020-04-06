@@ -18,6 +18,10 @@
   display: flex;
 }
 
+.hidden {
+  display: none;
+}
+
 @font-face {
   font-family: 'apercu-regular';
   src: url('/static/fonts/apercu-regular-web/web/apercu-regular.eot');

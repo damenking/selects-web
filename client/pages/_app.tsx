@@ -1,16 +1,14 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
-import { AppProvider } from '@shopify/polaris';
-import enTranslations from '@shopify/polaris/locales/en.json';
 import Router from 'next/router';
 import Layout from '../components/Layout';
 import UserContext from '../components/UserContext';
+import WindowDimensionsProvider from '../components/WindowDimensionsProvider';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout } from '../api/shopify/checkout';
 import { Address } from '../interfaces/';
 
-// import '@shopify/polaris/styles.css';
 import 'js-datepicker/dist/datepicker.min.css';
 import '../styles.css';
 
@@ -103,25 +101,25 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <UserContext.Provider
-        value={{
-          loggedIn: this.state.loggedIn,
-          signOut: this.signOut,
-          signIn: this.signIn,
-          user: this.state.user,
-          checkoutId: this.state.checkoutId,
-          updateCheckoutId: this.updateCheckoutId,
-        }}
-      >
-        <Head>
-          <title>Selects Photo Supply</title>
-        </Head>
-        <AppProvider i18n={enTranslations}>
+      <WindowDimensionsProvider>
+        <UserContext.Provider
+          value={{
+            loggedIn: this.state.loggedIn,
+            signOut: this.signOut,
+            signIn: this.signIn,
+            user: this.state.user,
+            checkoutId: this.state.checkoutId,
+            updateCheckoutId: this.updateCheckoutId,
+          }}
+        >
+          <Head>
+            <title>Selects Photo Supply</title>
+          </Head>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </AppProvider>
-      </UserContext.Provider>
+        </UserContext.Provider>
+      </WindowDimensionsProvider>
     );
   }
 }
