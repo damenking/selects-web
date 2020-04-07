@@ -1,0 +1,69 @@
+.drawerOuterContainer {
+  position: absolute;
+  top: 72px;
+  left: -100vw;
+  background-color: white;
+  width: 100%;
+  transition: left 0.3s;
+}
+
+.drawerOpen {
+  left: 0;
+}
+
+.drawerInnerContainer {
+  position: relative;
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+/* .menuOuterContainer {
+  display: inline-flex;
+  align-items: center;
+  max-height: 56px;
+} */
+
+.menuInnerContainer {
+  display: inline-flex;
+  max-height: 56px;
+  align-items: center;
+}
+
+.menuInnerContainer h5 {
+  margin-right: 8px;
+}
+
+.itemListOuterContainer {
+  max-height: 0;
+  transition: max-height 0.2s;
+  overflow: hidden;
+}
+
+.itemListInnerContainer {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  padding-left: 8px;
+  margin-top: -8px;
+}
+
+.itemListOuterContainerExpanded {
+  max-height: 216px;
+  transition: max-height 1s;
+  overflow-x: auto;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  margin-left: 16px;
+}
+
+.menuItem:hover {
+  text-decoration: underline;
+}

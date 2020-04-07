@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Profile from './Profile';
 import Search from './Search';
 import Drawer from './Drawer';
+import MobileDrawer from './MobileDrawer';
 import { checkIsMobile } from '../WindowDimensionsProvider';
 import { getMenuCollectionByHandle } from '../../api/shopify/collection';
 import { DrawerOptionsObj } from '../../interfaces/';
@@ -76,11 +77,26 @@ const Navbar: React.FunctionComponent = () => {
     updateHighlightedMenuItem(menuItem);
   };
 
+  const handleSetShowMobileDrawer = (show: boolean) => {
+    updateShowDrawer(show);
+  };
+
   if (isMobile) {
     return (
       <nav className={`${styles.navbarContainerMobile} background-paper`}>
         <div className={`${styles.navbarLeftInnerContainer} clickable`}>
-          <img src="/static/icons/hamburgerMenu.svg" />
+          {!showDrawer && (
+            <img
+              src="/static/icons/hamburgerMenu.svg"
+              onClick={() => handleSetShowMobileDrawer(true)}
+            />
+          )}
+          {showDrawer && (
+            <img
+              src="/static/icons/closeX.svg"
+              onClick={() => handleSetShowMobileDrawer(false)}
+            />
+          )}
         </div>
         <div className={`${styles.navbarCenterInnerContainer} clickable`}>
           <Link href="/">
@@ -94,6 +110,14 @@ const Navbar: React.FunctionComponent = () => {
             <img className="clickable" src="/static/icons/cart.svg" />
           </Link>
         </div>
+        <MobileDrawer
+          brandsOptions={brandsOptions}
+          camerasOptions={camerasOptions}
+          lensesOptions={lensesOptions}
+          lightingOptions={lightingOptions}
+          kitsOptions={kitsOptions}
+          showDrawer={showDrawer}
+        />
       </nav>
     );
   }
