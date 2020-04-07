@@ -9,4 +9,32 @@ const menuCollectionByHandleQuery = (collectionHandle) => {
   `;
 };
 
-module.exports = { menuCollectionByHandleQuery };
+const collectionByHandleQuery = (collectionHandle) => {
+  return `
+    {
+      collectionByHandle(handle: "${collectionHandle}") {
+        description
+        products(first: 50) {
+          edges {
+            node {
+              id
+              title
+              handle
+              featuredImage {
+                originalSrc
+                transformedSrc
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+};
+
+module.exports = { menuCollectionByHandleQuery, collectionByHandleQuery };

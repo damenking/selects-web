@@ -5,6 +5,30 @@ const collectionQueries = require('../../graphql/queries/collection.js');
 
 const router = express.Router();
 
+router.get('/:collectionHandle', (req, res) => {
+  const collectionHandle = req.params.collectionHandle;
+
+  axios({
+    url: config.shopifyAdminUrl,
+    method: 'post',
+    data: {
+      query: collectionQueries.collectionByHandleQuery(collectionHandle),
+    },
+    headers: {
+      'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD,
+    },
+  })
+    .then((response) => {
+      console.log(response.data.errors);
+      const collection = response.data.data.collectionByHandle;
+      res.send({ data: { collection }, error: false });
+    })
+    .catch((response) => {
+      console.log(response);
+      res.send({ data: {}, error: true });
+    });
+});
+
 router.get('/menu/:collectionHandle', (req, res) => {
   const collectionHandle = req.params.collectionHandle;
 

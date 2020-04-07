@@ -6,22 +6,6 @@
   --color-ink: #434343;
 }
 
-.background-paper {
-  background-color: var(--color-paper);
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.display-flex {
-  display: flex;
-}
-
-.hidden {
-  display: none;
-}
-
 @font-face {
   font-family: 'apercu-regular';
   src: url('/static/fonts/apercu-regular-web/web/apercu-regular.eot');
@@ -143,4 +127,20 @@ input {
   font-size: 16px;
   line-height: 150%;
   color: var(--color-ink);
+}
+
+.background-paper {
+  background-color: var(--color-paper);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.hidden {
+  display: none;
 }

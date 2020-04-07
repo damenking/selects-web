@@ -1,5 +1,7 @@
 import React from 'react';
+import Link from 'next/link';
 import { DrawerOptionsObj } from '../../interfaces/';
+import { getHandleFromName } from '../../util/shopify';
 
 import styles from './Drawer.module.css';
 
@@ -23,7 +25,12 @@ const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
                   key={index}
                   className={`${styles.categoryListItem} clickable`}
                 >
-                  <span>{option}</span>
+                  <Link
+                    href="/collection/[handle]"
+                    as={`/collection/${getHandleFromName(option)}`}
+                  >
+                    <span>{option}</span>
+                  </Link>
                 </div>
               </React.Fragment>
             );

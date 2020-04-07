@@ -40,7 +40,19 @@ export interface Product {
   id: string;
   title: string;
   handle: string;
-  images: string[];
+  featuredImage: {
+    originalSrc: string;
+    transformedSrc: string;
+  };
+  priceRange: {
+    minVariantPrice: {
+      amount: string;
+    };
+  };
+}
+
+export interface ProductEdge {
+  node: Product;
 }
 
 export interface UserError {
