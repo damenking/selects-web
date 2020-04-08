@@ -1,10 +1,22 @@
-const productByHandleQuery = productHandle => {
+const productByHandleQuery = (productHandle) => {
   return `
     {
       productByHandle(handle: "${productHandle}") {
         id
         title
         description
+        featuredImage {
+          originalSrc
+          transformedSrc
+        }
+        images (first:10) {
+          edges {
+            node {
+              originalSrc
+              transformedSrc
+            }
+          }
+        }
         variants (first: 3) {
           edges {
             node {

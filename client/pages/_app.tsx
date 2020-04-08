@@ -10,6 +10,7 @@ import { createCheckout } from '../api/shopify/checkout';
 import { Address } from '../interfaces/';
 
 import 'js-datepicker/dist/datepicker.min.css';
+import 'flickity/css/flickity.css';
 import '../styles.css';
 
 class MyApp extends App {

@@ -100,3 +100,11 @@ export interface DrawerOptionsObj {
   elIndex: number;
   options: string[];
 }
+
+export interface Image {
+  originalSrc: string;
+  transformedSrc: string;
+}
+export interface ImageEdge {
+  node: Image;
+}

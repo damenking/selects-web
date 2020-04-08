@@ -7,6 +7,12 @@ import { addLineItems } from '../../api/shopify/checkout';
 import UserContext from '../../components/UserContext';
 import DatePicker from '../../components/DatePicker';
 import { getRentalEndDate } from '../../util/time';
+import { checkIsMobile } from '../../components/WindowDimensionsProvider';
+import { ImageEdge } from '../../interfaces/';
+import Carousel from '../../components/Carousel';
+import TimeslotSelector from '../../components/TimeslotSelector';
+
+import styles from './handle.module.css';
 
 const defaultProduct = {
   primaryVariantId: '',
@@ -20,13 +26,19 @@ const defaultProduct = {
   variantIds: [],
   variantStorefrontIds: [],
   variantPrices: [],
+  featuredImage: {
+    originalSrc: '',
+    transformedSrc: '',
+  },
 };
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
   const { checkoutId } = useContext(UserContext);
+  const isMobile = checkIsMobile();
   const [product, setProduct] = useState(defaultProduct);
+  const [productImages, setProductImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [availableDatesObj, updateavailableDatesObj] = useState({});
   const [selectedVariantIndex, updateSelectedVariantIndex] = useState(0);
@@ -41,6 +53,10 @@ const ProductPage: NextPage = () => {
           const { availableDatesObj } = response;
           updateavailableDatesObj(availableDatesObj);
         });
+        const images = product.images.edges.map((edge: ImageEdge) => {
+          return edge.node.originalSrc;
+        });
+        setProductImages(images);
         setLoading(false);
       };
       fetchData();
@@ -94,6 +110,31 @@ const ProductPage: NextPage = () => {
     return <h1>Loading...</h1>;
   }
 
+  if (isMobile) {
+    return (
+      <div className={`${styles.containerMobile} grid-mobile-layout`}>
+        <div className="col-span-4 text-tiny">camera</div>
+        <div className="col-span-4">
+          <h4>{product.title}</h4>
+        </div>
+        <div className="col-span-4">
+          <Carousel images={productImages} />
+        </div>
+        <div className={`${styles.priceLineContainer} col-span-4`}>
+          <h5>
+            $347.00
+            <span style={{ fontSize: '16px', textTransform: 'lowercase' }}>
+              / 7 days (awaiting style change)
+            </span>
+          </h5>
+        </div>
+        <div className="col-span-4">When</div>
+        <div className={`${styles.dateSelectionOuterContainer} col-span-4`}>
+          <TimeslotSelector />
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       <div>

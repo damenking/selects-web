@@ -19,12 +19,10 @@ router.get('/:collectionHandle', (req, res) => {
     },
   })
     .then((response) => {
-      console.log(response.data.errors);
       const collection = response.data.data.collectionByHandle;
       res.send({ data: { collection }, error: false });
     })
     .catch((response) => {
-      console.log(response);
       res.send({ data: {}, error: true });
     });
 });

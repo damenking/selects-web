@@ -9,12 +9,11 @@ const Layout: React.FunctionComponent = ({ children }) => {
       <header>
         <Navbar />
       </header>
-      {children}
+      <div className={styles.layout}> {children}</div>
+
       <footer>
         <hr />
-        <span className={styles.test}>
-          This is a red footer with a third party font
-        </span>
+        <span>This is a footer</span>
       </footer>
     </div>
   );

@@ -74,8 +74,12 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
               className={styles.itemListInnerContainer}
               style={{ height: getMenuHeight('brandsOptions') }}
             >
-              {props.brandsOptions.map((option) => {
-                return <div className={styles.menuItem}>{option}</div>;
+              {props.brandsOptions.map((option, index) => {
+                return (
+                  <div key={index} className={styles.menuItem}>
+                    {option}
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -103,8 +107,12 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
               className={styles.itemListInnerContainer}
               style={{ height: getMenuHeight('camerasOptions') }}
             >
-              {props.camerasOptions.map((option) => {
-                return <div className={styles.menuItem}>{option}</div>;
+              {props.camerasOptions.map((option, index) => {
+                return (
+                  <div key={index} className={styles.menuItem}>
+                    {option}
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -129,8 +137,12 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
               className={styles.itemListInnerContainer}
               style={{ height: getMenuHeight('lensesOptions') }}
             >
-              {props.lensesOptions.map((option) => {
-                return <div className={styles.menuItem}>{option}</div>;
+              {props.lensesOptions.map((option, index) => {
+                return (
+                  <div key={index} className={styles.menuItem}>
+                    {option}
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -159,8 +171,12 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
               className={styles.itemListInnerContainer}
               style={{ height: getMenuHeight('lightingOptions') }}
             >
-              {props.lightingOptions.map((option) => {
-                return <div className={styles.menuItem}>{option}</div>;
+              {props.lightingOptions.map((option, index) => {
+                return (
+                  <div key={index} className={styles.menuItem}>
+                    {option}
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -183,8 +199,12 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
               className={styles.itemListInnerContainer}
               style={{ height: getMenuHeight('kitsOptions') }}
             >
-              {props.kitsOptions.map((option) => {
-                return <div className={styles.menuItem}>{option}</div>;
+              {props.kitsOptions.map((option, index) => {
+                return (
+                  <div key={index} className={styles.menuItem}>
+                    {option}
+                  </div>
+                );
               })}
             </div>
           </div>
