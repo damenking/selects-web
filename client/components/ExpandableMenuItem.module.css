@@ -1,0 +1,21 @@
+.menuInnerContainer {
+  display: inline-flex;
+  max-height: 56px;
+  align-items: center;
+}
+
+.menuInnerContainer h5 {
+  margin-right: 8px;
+}
+
+.contentContainerExpanded {
+  max-height: 216px;
+  transition: max-height 1s;
+  overflow-x: auto;
+}
+
+.contentContainerHidden {
+  max-height: 0;
+  transition: max-height 0.2s;
+  overflow: hidden;
+}

@@ -15,4 +15,33 @@
   border: 1px solid #d9d9d9;
   box-sizing: border-box;
   border-radius: 4px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  padding: 24px;
+}
+
+.addToButtonsContainerMobile {
+  margin-top: 24px;
+}
+
+.addToCartButtonContainer {
+  margin-bottom: 24px;
+}
+
+.keyFeaturesList {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 1em;
+}
+
+.keyFeaturesList > li:before {
+  display: inline-block;
+  content: '—';
+  width: 1em;
+  margin-left: -1em;
+}
+
+.readMoreContainer {
+  margin-top: 8px;
+  margin-bottom: 24px;
 }

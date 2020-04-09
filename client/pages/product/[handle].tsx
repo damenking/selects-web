@@ -11,6 +11,10 @@ import { checkIsMobile } from '../../components/WindowDimensionsProvider';
 import { ImageEdge } from '../../interfaces/';
 import Carousel from '../../components/Carousel';
 import TimeslotSelector from '../../components/TimeslotSelector';
+import AddToCart from '../../components/buttons/AddToCart';
+import AddToFavorites from '../../components/buttons/AddToFavorites';
+import RevealContent from '../../components/buttons/RevealContent';
+import ExpandableMenuItem from '../../components/ExpandableMenuItem';
 
 import styles from './handle.module.css';
 
@@ -21,6 +25,8 @@ const defaultProduct = {
   metaData: {
     descriptionShort: '',
     take: '',
+    keyFeatures: [],
+    descriptionLong: '',
   },
   primaryVariantStorefrontId: '',
   variantIds: [],
@@ -109,7 +115,7 @@ const ProductPage: NextPage = () => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
-
+  // console.log(isMobile);
   if (isMobile) {
     return (
       <div className={`${styles.containerMobile} grid-mobile-layout`}>
@@ -128,9 +134,46 @@ const ProductPage: NextPage = () => {
             </span>
           </h5>
         </div>
-        <div className="col-span-4">When</div>
+        <div className="col-span-4">WHEN</div>
         <div className={`${styles.dateSelectionOuterContainer} col-span-4`}>
-          <TimeslotSelector />
+          <TimeslotSelector
+            availableDates={availableDatesObj}
+            handleStartDateSelect={handleStartDateSelect}
+          />
+          <div className={styles.addToButtonsContainerMobile}>
+            <div className={styles.addToCartButtonContainer}>
+              <AddToCart />
+            </div>
+            <AddToFavorites />
+          </div>
+        </div>
+        <div className="col-span-4">
+          <p>{product.metaData.descriptionShort}</p>
+          <ul className={styles.keyFeaturesList}>
+            {product.metaData.keyFeatures.map((feature, index) => {
+              return <li key={index}>{feature}</li>;
+            })}
+          </ul>
+        </div>
+        <div className={`${styles.readMoreContainer} col-span-4`}>
+          <RevealContent>
+            <p>{product.metaData.descriptionLong}</p>
+          </RevealContent>
+        </div>
+        <div className="col-span-4">
+          <hr />
+          <ExpandableMenuItem title="specs">
+            <p>Not sure what should go here</p>
+          </ExpandableMenuItem>
+          <hr />
+          <ExpandableMenuItem title="bill's take">
+            <p>{product.metaData.take}</p>
+          </ExpandableMenuItem>
+          <hr />
+          <ExpandableMenuItem title="shipping">
+            <p>Shipping content to be added sometime in the future...</p>
+          </ExpandableMenuItem>
+          <hr />
         </div>
       </div>
     );

@@ -10,7 +10,7 @@ export const getProductAvailability = async (productId: string) => {
     dates.forEach((date: AvalableDate) => {
       const dateObj = new Date(date.date);
       dateObj.setHours(0);
-      availableDatesObj[dateObj.toString()] = 1;
+      availableDatesObj[dateObj.toString()] = date.available_slot_count;
     });
     return { dates, availableDatesObj, error: response.error };
   } catch (e) {

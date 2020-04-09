@@ -1,7 +1,9 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react';
 
-const DatePicker = props => {
+import styles from './DatePicker.module.css';
+
+const DatePicker = (props) => {
   const [pickerAttached, updatePickerAttached] = useState(false);
   const { handleStartDateSelect, availableDates } = props;
 
@@ -9,14 +11,21 @@ const DatePicker = props => {
     const lazyDatePicker = async () => {
       // Avoids window is not defined error on server
       const datepicker = (await import('js-datepicker')).default(
-        document.getElementById('product-datepicker'),
+        document.getElementById(props.pickerElId),
         {
-          disabler: date => {
+          id: props.pickerPairId,
+          disabler: (date) => {
+            // results in 0 if in the availability object but time slot count is 0
+            // or undefined if missing from availability object
             return !availableDates[date];
           },
           onSelect: (datePickerInstance, dateObj) => {
             handleStartDateSelect(dateObj);
-          }
+          },
+          formatter: (input, date, instance) => {
+            const value = date.toLocaleDateString();
+            input.value = value; // => '1/1/2099'
+          },
         }
       );
     };
@@ -26,7 +35,17 @@ const DatePicker = props => {
     }
   });
 
-  return <input id="product-datepicker" type="text" />;
+  return (
+    <input
+      id={props.pickerElId}
+      className={
+        styles.input + ' ' + (props.disabled ? styles.inputDisabled : '')
+      }
+      type="text"
+      placeholder="Choose a date"
+      disabled={props.disabled}
+    />
+  );
 };
 
 export default DatePicker;

@@ -1,11 +1,3 @@
-:root {
-  --color-paper: #f4f4f4;
-  --color-blue: #4999d4;
-  --color-orange: #f15a2a;
-  --color-box: #c59c6e;
-  --color-ink: #434343;
-}
-
 @font-face {
   font-family: 'apercu-regular';
   src: url('/static/fonts/apercu-regular-web/web/apercu-regular.eot');
@@ -20,7 +12,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 @font-face {
   font-family: 'apercu-medium';
   src: url('/static/fonts/apercu-medium-web/web/apercu-medium.eot');
@@ -34,7 +25,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 @font-face {
   font-family: 'apercu-italic';
   src: url('/static/fonts/apercu-italic-web/web/apercu-italic.eot');
@@ -49,6 +39,15 @@
   font-style: normal;
 }
 
+/* Figma style guide styles */
+:root {
+  --color-paper: #f4f4f4;
+  --color-blue: #4999d4;
+  --color-orange: #f15a2a;
+  --color-box: #c59c6e;
+  --color-ink: #434343;
+  --color-ink-plus-1: #8e8e8e;
+}
 body {
   font-family: 'apercu-regular';
   font-style: normal;
@@ -59,7 +58,6 @@ body {
   margin: 0;
   background: #ffffff;
 }
-
 h1 {
   font-style: normal;
   font-weight: normal;
@@ -70,7 +68,6 @@ h1 {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-
 h2 {
   font-style: normal;
   font-weight: normal;
@@ -80,7 +77,6 @@ h2 {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-
 h3 {
   font-style: normal;
   font-weight: normal;
@@ -91,7 +87,6 @@ h3 {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-
 h4 {
   font-style: normal;
   font-weight: normal;
@@ -102,7 +97,6 @@ h4 {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-
 h5 {
   font-style: normal;
   font-weight: normal;
@@ -112,7 +106,6 @@ h5 {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-
 small {
   font-style: normal;
   font-weight: 500;
@@ -121,7 +114,6 @@ small {
   letter-spacing: 0.02em;
   text-decoration-line: underline;
 }
-
 .text-tiny {
   font-style: normal;
   font-weight: 500;
@@ -130,34 +122,14 @@ small {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-
-input {
-  font-family: 'apercu-regular';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 150%;
-  color: var(--color-ink);
-}
-
-.background-paper {
+.background-color-paper {
   background-color: var(--color-paper);
 }
-
-.clickable {
-  cursor: pointer;
+.background-color-orange {
+  background-color: var(--color-orange);
 }
-
-.display-flex {
-  display: flex;
-}
-
-.hidden {
-  display: none;
-}
-
-.responsive-img {
-  width: 100%;
+.color-ink-plus-1 {
+  color: var(--color-ink-plus-1);
 }
 
 /* Simple layout system using grid */
@@ -244,28 +216,49 @@ input {
 .flickity-page-dots {
   bottom: 10px;
 }
-
 .flickity-page-dots .dot {
   border: 1px solid black;
   background: none;
 }
-
 .flickity-page-dots .is-selected {
   background: #333333;
 }
-
 .flickity-button {
   background: none;
 }
-
 .flickity-button:hover {
   background: none;
 }
-
 .flickity-prev-next-button .flickity-button-icon {
   position: absolute;
   left: 20%;
   top: 20%;
   width: 24px;
   height: 24px;
+}
+
+/* Random */
+input {
+  font-family: 'apercu-regular';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-ink);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.responsive-img {
+  width: 100%;
 }

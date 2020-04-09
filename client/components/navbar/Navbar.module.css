@@ -29,6 +29,12 @@
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
+.navbarCenterInnerContainerMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .navbarRightInnerContainer {
   display: flex;
   align-items: center;

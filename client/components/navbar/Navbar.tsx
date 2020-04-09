@@ -83,7 +83,7 @@ const Navbar: React.FunctionComponent = () => {
 
   if (isMobile) {
     return (
-      <nav className={`${styles.navbarContainerMobile} background-paper`}>
+      <nav className={`${styles.navbarContainerMobile} background-color-paper`}>
         <div className={`${styles.navbarLeftInnerContainer} clickable`}>
           {!showDrawer && (
             <img
@@ -98,7 +98,7 @@ const Navbar: React.FunctionComponent = () => {
             />
           )}
         </div>
-        <div className={`${styles.navbarCenterInnerContainer} clickable`}>
+        <div className={`${styles.navbarCenterInnerContainerMobile} clickable`}>
           <Link href="/">
             <img src="/static/icons/selectsFull.svg" />
           </Link>
@@ -122,7 +122,7 @@ const Navbar: React.FunctionComponent = () => {
     );
   }
   return (
-    <nav className={`${styles.navbarContainer} background-paper`}>
+    <nav className={`${styles.navbarContainer} background-color-paper`}>
       <div
         className={styles.navbarLeftInnerContainer}
         onMouseEnter={handleHideDrawer}

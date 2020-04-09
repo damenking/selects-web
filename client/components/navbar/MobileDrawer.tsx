@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import ExpandableMenuItem from '../ExpandableMenuItem';
 
 import styles from './MobileDrawer.module.css';
 
@@ -11,31 +12,7 @@ interface MobileDrawerProps {
   showDrawer: boolean;
 }
 
-interface ExpandedMenus {
-  brands: boolean;
-  cameras: boolean;
-  lenses: boolean;
-  lighting: boolean;
-  kits: boolean;
-}
-
-const defaultExpandedMenus: ExpandedMenus = {
-  brands: false,
-  cameras: false,
-  lenses: false,
-  lighting: false,
-  kits: false,
-};
-
 const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
-  const [expandedMenus, updateExpandedMenus] = useState(defaultExpandedMenus);
-
-  const toggleExpandedMenu = (menu: string) => {
-    const updatedExpandedMenus: any = { ...expandedMenus };
-    updatedExpandedMenus[menu] = !updatedExpandedMenus[menu];
-    updateExpandedMenus(updatedExpandedMenus as ExpandedMenus);
-  };
-
   const getMenuHeight = (menuOptions: string) => {
     const optionsLength = (props as any)[menuOptions].length;
     if (optionsLength < 5) {
@@ -54,161 +31,79 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
       }`}
     >
       <div className={styles.drawerInnerContainer}>
-        <div className={styles.menuOuterContainer}>
+        <ExpandableMenuItem title="brands">
           <div
-            className={`${styles.menuInnerContainer} clickable`}
-            onClick={() => toggleExpandedMenu('brands')}
+            className={styles.itemListInnerContainer}
+            style={{ height: getMenuHeight('brandsOptions') }}
           >
-            <h5>Brands</h5>
-            {!expandedMenus.brands && <img src="/static/icons/chevronUp.svg" />}
-            {expandedMenus.brands && (
-              <img src="/static/icons/chevronDown.svg" />
-            )}
+            {props.brandsOptions.map((option, index) => {
+              return (
+                <div key={index} className={styles.menuItem}>
+                  {option}
+                </div>
+              );
+            })}
           </div>
+        </ExpandableMenuItem>
+        <ExpandableMenuItem title="cameras">
           <div
-            className={`${styles.itemListOuterContainer} ${
-              expandedMenus.brands ? styles.itemListOuterContainerExpanded : ''
-            }`}
+            className={styles.itemListInnerContainer}
+            style={{ height: getMenuHeight('camerasOptions') }}
           >
-            <div
-              className={styles.itemListInnerContainer}
-              style={{ height: getMenuHeight('brandsOptions') }}
-            >
-              {props.brandsOptions.map((option, index) => {
-                return (
-                  <div key={index} className={styles.menuItem}>
-                    {option}
-                  </div>
-                );
-              })}
-            </div>
+            {props.camerasOptions.map((option, index) => {
+              return (
+                <div key={index} className={styles.menuItem}>
+                  {option}
+                </div>
+              );
+            })}
           </div>
-        </div>
+        </ExpandableMenuItem>
 
-        <div className={styles.menuOuterContainer}>
+        <ExpandableMenuItem title="lenses">
           <div
-            className={`${styles.menuInnerContainer} clickable`}
-            onClick={() => toggleExpandedMenu('cameras')}
+            className={styles.itemListInnerContainer}
+            style={{ height: getMenuHeight('lensesOptions') }}
           >
-            <h5>Cameras</h5>
-            {!expandedMenus.cameras && (
-              <img src="/static/icons/chevronUp.svg" />
-            )}
-            {expandedMenus.cameras && (
-              <img src="/static/icons/chevronDown.svg" />
-            )}
+            {props.lensesOptions.map((option, index) => {
+              return (
+                <div key={index} className={styles.menuItem}>
+                  {option}
+                </div>
+              );
+            })}
           </div>
+        </ExpandableMenuItem>
+
+        <ExpandableMenuItem title="lighting">
           <div
-            className={`${styles.itemListOuterContainer} ${
-              expandedMenus.cameras ? styles.itemListOuterContainerExpanded : ''
-            }`}
+            className={styles.itemListInnerContainer}
+            style={{ height: getMenuHeight('lightingOptions') }}
           >
-            <div
-              className={styles.itemListInnerContainer}
-              style={{ height: getMenuHeight('camerasOptions') }}
-            >
-              {props.camerasOptions.map((option, index) => {
-                return (
-                  <div key={index} className={styles.menuItem}>
-                    {option}
-                  </div>
-                );
-              })}
-            </div>
+            {props.lightingOptions.map((option, index) => {
+              return (
+                <div key={index} className={styles.menuItem}>
+                  {option}
+                </div>
+              );
+            })}
           </div>
-        </div>
-        <div className={styles.menuOuterContainer}>
+        </ExpandableMenuItem>
+
+        <ExpandableMenuItem title="kits">
           <div
-            className={`${styles.menuInnerContainer} clickable`}
-            onClick={() => toggleExpandedMenu('lenses')}
+            className={styles.itemListInnerContainer}
+            style={{ height: getMenuHeight('kitsOptions') }}
           >
-            <h5>Lenses</h5>
-            {!expandedMenus.lenses && <img src="/static/icons/chevronUp.svg" />}
-            {expandedMenus.lenses && (
-              <img src="/static/icons/chevronDown.svg" />
-            )}
+            {props.kitsOptions.map((option, index) => {
+              return (
+                <div key={index} className={styles.menuItem}>
+                  {option}
+                </div>
+              );
+            })}
           </div>
-          <div
-            className={`${styles.itemListOuterContainer} ${
-              expandedMenus.lenses ? styles.itemListOuterContainerExpanded : ''
-            }`}
-          >
-            <div
-              className={styles.itemListInnerContainer}
-              style={{ height: getMenuHeight('lensesOptions') }}
-            >
-              {props.lensesOptions.map((option, index) => {
-                return (
-                  <div key={index} className={styles.menuItem}>
-                    {option}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <div className={styles.menuOuterContainer}>
-          <div
-            className={`${styles.menuInnerContainer} clickable`}
-            onClick={() => toggleExpandedMenu('lighting')}
-          >
-            <h5>Lighting</h5>
-            {!expandedMenus.lighting && (
-              <img src="/static/icons/chevronUp.svg" />
-            )}
-            {expandedMenus.lighting && (
-              <img src="/static/icons/chevronDown.svg" />
-            )}
-          </div>
-          <div
-            className={`${styles.itemListOuterContainer} ${
-              expandedMenus.lighting
-                ? styles.itemListOuterContainerExpanded
-                : ''
-            }`}
-          >
-            <div
-              className={styles.itemListInnerContainer}
-              style={{ height: getMenuHeight('lightingOptions') }}
-            >
-              {props.lightingOptions.map((option, index) => {
-                return (
-                  <div key={index} className={styles.menuItem}>
-                    {option}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <div className={styles.menuOuterContainer}>
-          <div
-            className={`${styles.menuInnerContainer} clickable`}
-            onClick={() => toggleExpandedMenu('kits')}
-          >
-            <h5>Kits</h5>
-            {!expandedMenus.kits && <img src="/static/icons/chevronUp.svg" />}
-            {expandedMenus.kits && <img src="/static/icons/chevronDown.svg" />}
-          </div>
-          <div
-            className={`${styles.itemListOuterContainer} ${
-              expandedMenus.kits ? styles.itemListOuterContainerExpanded : ''
-            }`}
-          >
-            <div
-              className={styles.itemListInnerContainer}
-              style={{ height: getMenuHeight('kitsOptions') }}
-            >
-              {props.kitsOptions.map((option, index) => {
-                return (
-                  <div key={index} className={styles.menuItem}>
-                    {option}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+        </ExpandableMenuItem>
       </div>
     </div>
   );

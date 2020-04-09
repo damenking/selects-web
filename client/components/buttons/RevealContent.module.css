@@ -1,0 +1,30 @@
+.buttonContainerExpanded {
+  display: flex;
+  align-items: center;
+  max-height: 21px;
+}
+
+.buttonContainerHidden {
+  max-height: 0;
+  transition: max-height 0.5s;
+  overflow: hidden;
+}
+
+.readMoreText {
+  margin-left: 12px;
+}
+
+.contentContainerHidden {
+  max-height: 0px;
+  overflow: hidden;
+}
+
+.contentContainerExpanded {
+  max-height: 80vh;
+  transition: max-height 2s;
+  overflow: auto;
+}
+
+.contentContainerExpanded p {
+  margin: 0px;
+}
