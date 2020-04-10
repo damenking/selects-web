@@ -27,6 +27,7 @@ const defaultProduct = {
     take: '',
     keyFeatures: [],
     descriptionLong: '',
+    specs: '',
   },
   primaryVariantStorefrontId: '',
   variantIds: [],
@@ -160,10 +161,10 @@ const ProductPage: NextPage = () => {
             <p>{product.metaData.descriptionLong}</p>
           </RevealContent>
         </div>
-        <div className="col-span-4">
+        <div className={`${styles.extraInfoContainer} col-span-4`}>
           <hr />
           <ExpandableMenuItem title="specs">
-            <p>Not sure what should go here</p>
+            <p>{product.metaData.specs}</p>
           </ExpandableMenuItem>
           <hr />
           <ExpandableMenuItem title="bill's take">
@@ -174,6 +175,64 @@ const ProductPage: NextPage = () => {
             <p>Shipping content to be added sometime in the future...</p>
           </ExpandableMenuItem>
           <hr />
+        </div>
+        <div className={`${styles.pairWithTextContainer} col-span-4`}>
+          <span className="font-family-apercu-medium">PAIR WITH</span>
+        </div>
+        <div className="col-span-2">
+          <img
+            className="responsive-img clickable"
+            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+          />
+        </div>
+        <div className="col-span-2">
+          <img
+            className="responsive-img clickable"
+            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+          />
+        </div>
+        <div className="col-span-2 row-span-3">
+          <div className="col-span-4 text-tiny">product type</div>
+          <p>Product Name</p>
+          <small>
+            <u>$99 per day</u>
+          </small>
+        </div>
+        <div className="col-span-2 row-span-3">
+          <div className="col-span-4 text-tiny">product type</div>
+          <p>Product Name</p>
+          <small>
+            <u>$99 per day</u>
+          </small>
+        </div>
+        <div className={`${styles.similarProductsTextContainer} col-span-4`}>
+          <span className="font-family-apercu-medium">SIMILAR PRODUCTS</span>
+        </div>
+        <div className="col-span-2">
+          <img
+            className="responsive-img clickable"
+            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+          />
+        </div>
+        <div className="col-span-2">
+          <img
+            className="responsive-img clickable"
+            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+          />
+        </div>
+        <div className="col-span-2 row-span-3">
+          <div className="col-span-4 text-tiny">product type</div>
+          <p>Product Name</p>
+          <small>
+            <u>$99 per day</u>
+          </small>
+        </div>
+        <div className="col-span-2 row-span-3">
+          <div className="col-span-4 text-tiny">product type</div>
+          <p>Product Name</p>
+          <small>
+            <u>$99 per day</u>
+          </small>
         </div>
       </div>
     );

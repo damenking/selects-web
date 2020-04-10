@@ -11,6 +11,7 @@
 .contentContainerExpanded {
   max-height: 216px;
   transition: max-height 1s;
+  overflow-y: hidden;
   overflow-x: auto;
 }
 

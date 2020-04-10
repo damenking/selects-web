@@ -4,7 +4,6 @@ import styles from './ExpandableMenuItem.module.css';
 
 interface ExpandableMenuItemProps {
   title: string;
-  // contentHeight: string;
 }
 const ExpandableMenuItem: React.FunctionComponent<ExpandableMenuItemProps> = (
   props

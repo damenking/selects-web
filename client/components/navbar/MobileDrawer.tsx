@@ -1,5 +1,7 @@
 import React from 'react';
 import ExpandableMenuItem from '../ExpandableMenuItem';
+import Link from 'next/link';
+import { getHandleFromName } from '../../util/shopify';
 
 import styles from './MobileDrawer.module.css';
 
@@ -10,6 +12,7 @@ interface MobileDrawerProps {
   lightingOptions: string[];
   kitsOptions: string[];
   showDrawer: boolean;
+  handleHideDrawer: any;
 }
 
 const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
@@ -38,8 +41,17 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
           >
             {props.brandsOptions.map((option, index) => {
               return (
-                <div key={index} className={styles.menuItem}>
-                  {option}
+                <div
+                  key={index}
+                  className={`${styles.menuItem} clickable`}
+                  onClick={props.handleHideDrawer}
+                >
+                  <Link
+                    href="/collection/[handle]"
+                    as={`/collection/${getHandleFromName(option)}`}
+                  >
+                    <span>{option}</span>
+                  </Link>
                 </div>
               );
             })}
@@ -52,8 +64,17 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
           >
             {props.camerasOptions.map((option, index) => {
               return (
-                <div key={index} className={styles.menuItem}>
-                  {option}
+                <div
+                  key={index}
+                  className={`${styles.menuItem} clickable`}
+                  onClick={props.handleHideDrawer}
+                >
+                  <Link
+                    href="/collection/[handle]"
+                    as={`/collection/${getHandleFromName(option)}`}
+                  >
+                    <span>{option}</span>
+                  </Link>
                 </div>
               );
             })}
@@ -67,8 +88,17 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
           >
             {props.lensesOptions.map((option, index) => {
               return (
-                <div key={index} className={styles.menuItem}>
-                  {option}
+                <div
+                  key={index}
+                  className={`${styles.menuItem} clickable`}
+                  onClick={props.handleHideDrawer}
+                >
+                  <Link
+                    href="/collection/[handle]"
+                    as={`/collection/${getHandleFromName(option)}`}
+                  >
+                    <span>{option}</span>
+                  </Link>
                 </div>
               );
             })}
@@ -82,8 +112,17 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
           >
             {props.lightingOptions.map((option, index) => {
               return (
-                <div key={index} className={styles.menuItem}>
-                  {option}
+                <div
+                  key={index}
+                  className={`${styles.menuItem} clickable`}
+                  onClick={props.handleHideDrawer}
+                >
+                  <Link
+                    href="/collection/[handle]"
+                    as={`/collection/${getHandleFromName(option)}`}
+                  >
+                    <span>{option}</span>
+                  </Link>
                 </div>
               );
             })}
@@ -97,8 +136,17 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = (props) => {
           >
             {props.kitsOptions.map((option, index) => {
               return (
-                <div key={index} className={styles.menuItem}>
-                  {option}
+                <div
+                  key={index}
+                  className={`${styles.menuItem} clickable`}
+                  onClick={props.handleHideDrawer}
+                >
+                  <Link
+                    href="/collection/[handle]"
+                    as={`/collection/${getHandleFromName(option)}`}
+                  >
+                    <span>{option}</span>
+                  </Link>
                 </div>
               );
             })}

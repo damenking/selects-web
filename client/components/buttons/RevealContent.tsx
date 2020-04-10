@@ -16,7 +16,9 @@ const RevealContent: React.FunctionComponent = ({ children }) => {
         onClick={() => updateContentRevealed(true)}
       >
         <img src="/static/icons/plus.svg" />
-        <span className={styles.readMoreText}>Read more</span>
+        <span className={`${styles.readMoreText} font-family-apercu-medium`}>
+          Read more
+        </span>
       </div>
       <div
         className={`${

@@ -57,6 +57,7 @@ body {
   color: var(--color-ink);
   margin: 0;
   background: #ffffff;
+  text-underline-position: under;
 }
 h1 {
   font-style: normal;
@@ -122,6 +123,10 @@ small {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+p {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
 .background-color-paper {
   background-color: var(--color-paper);
 }
@@ -130,6 +135,9 @@ small {
 }
 .color-ink-plus-1 {
   color: var(--color-ink-plus-1);
+}
+.font-family-apercu-medium {
+  font-family: 'apercu-medium';
 }
 
 /* Simple layout system using grid */

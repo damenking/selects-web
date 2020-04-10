@@ -45,3 +45,16 @@
   margin-top: 8px;
   margin-bottom: 24px;
 }
+
+.extraInfoContainer {
+  margin-bottom: 48px;
+}
+
+.pairWithTextContainer {
+  margin-bottom: 16px;
+}
+
+.similarProductsTextContainer {
+  margin-top: 48px;
+  margin-bottom: 16px;
+}

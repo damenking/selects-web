@@ -117,6 +117,7 @@ const Navbar: React.FunctionComponent = () => {
           lightingOptions={lightingOptions}
           kitsOptions={kitsOptions}
           showDrawer={showDrawer}
+          handleHideDrawer={handleHideDrawer}
         />
       </nav>
     );
