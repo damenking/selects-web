@@ -44,6 +44,7 @@ const DatePicker = (props) => {
       type="text"
       placeholder="Choose a date"
       disabled={props.disabled || !pickerAttached}
+      readOnly
     />
   );
 };
