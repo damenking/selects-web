@@ -6,6 +6,9 @@ import styles from './TimeslotSelector.module.css';
 const TimeslotSelector: React.FunctionComponent<any> = (props) => {
   const [availableEndDatesObj, updateAvailableEndDatesObj] = useState({});
   const [disableEndSelect, updateDisableEndSelect] = useState(true);
+  const [pickerPairId] = useState(
+    Math.floor(Math.random() * Math.floor(100000))
+  );
 
   const handleStartDateSelect = (startDateObj: Date) => {
     props.handleStartDateSelect(startDateObj);
@@ -43,7 +46,7 @@ const TimeslotSelector: React.FunctionComponent<any> = (props) => {
         availableDates={props.availableDates}
         handleStartDateSelect={handleStartDateSelect}
         pickerElId="picker-start"
-        pickerPairId={1}
+        pickerPairId={pickerPairId}
       />
       <div className={styles.returnLabel}>
         <small className={`${styles.datePickerLabel} color-ink-plus-1`}>
@@ -54,7 +57,7 @@ const TimeslotSelector: React.FunctionComponent<any> = (props) => {
         availableDates={availableEndDatesObj}
         handleStartDateSelect={props.handleStartDateSelect}
         pickerElId="picker-end"
-        pickerPairId={1}
+        pickerPairId={pickerPairId}
         disabled={disableEndSelect}
       />
     </div>

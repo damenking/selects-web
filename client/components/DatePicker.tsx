@@ -43,7 +43,7 @@ const DatePicker = (props) => {
       }
       type="text"
       placeholder="Choose a date"
-      disabled={props.disabled}
+      disabled={props.disabled || !pickerAttached}
     />
   );
 };
