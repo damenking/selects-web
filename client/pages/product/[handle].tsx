@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -5,8 +6,8 @@ import { getProductByHandle } from '../../api/shopify/product';
 import { getProductAvailability } from '../../api/bta/product';
 import { addLineItems } from '../../api/shopify/checkout';
 import UserContext from '../../components/UserContext';
-import DatePicker from '../../components/DatePicker';
-import { getRentalEndDate } from '../../util/time';
+// import DatePicker from '../../components/DatePicker';
+// import { getRentalEndDate } from '../../util/time';
 import { checkIsMobile } from '../../components/WindowDimensionsProvider';
 import { ImageEdge } from '../../interfaces/';
 import Carousel from '../../components/Carousel';
@@ -84,26 +85,26 @@ const ProductPage: NextPage = () => {
     }
   }, [selectedVariantIndex]);
 
-  const handleAddToCheckout = async () => {
-    addLineItems(checkoutId, [
-      {
-        variantId: product.variantStorefrontIds[selectedVariantIndex],
-        quantity: 1,
-        customAttributes: [
-          { key: 'start', value: selectedStartDate },
-          {
-            key: 'external_id',
-            value: product.variantIds[selectedVariantIndex],
-          },
-        ],
-      },
-    ]);
-  };
+  // const handleAddToCheckout = async () => {
+  //   addLineItems(checkoutId, [
+  //     {
+  //       variantId: product.variantStorefrontIds[selectedVariantIndex],
+  //       quantity: 1,
+  //       customAttributes: [
+  //         { key: 'start', value: selectedStartDate },
+  //         {
+  //           key: 'external_id',
+  //           value: product.variantIds[selectedVariantIndex],
+  //         },
+  //       ],
+  //     },
+  //   ]);
+  // };
 
-  const handleVariantSelectionChange = (e: React.SyntheticEvent): void => {
-    const { value } = e.target as HTMLInputElement;
-    updateSelectedVariantIndex(parseInt(value, 10));
-  };
+  // const handleVariantSelectionChange = (e: React.SyntheticEvent): void => {
+  //   const { value } = e.target as HTMLInputElement;
+  //   updateSelectedVariantIndex(parseInt(value, 10));
+  // };
 
   const handleStartDateSelect = (date: Date | undefined) => {
     if (date) {
@@ -113,10 +114,6 @@ const ProductPage: NextPage = () => {
     }
   };
 
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
-  // console.log(isMobile);
   if (isMobile) {
     return (
       <div className={`${styles.containerMobile} grid-mobile-layout`}>
@@ -238,76 +235,201 @@ const ProductPage: NextPage = () => {
     );
   }
   return (
-    <div>
-      <div>
-        <h2>Product: {product.title}</h2>
-        <div>
-          <h4>Prices:</h4>
-          <ul>
-            <li>3 days: {product.variantPrices[0]}</li>
-            <li>5 days: {product.variantPrices[1]}</li>
-            <li>7 days: {product.variantPrices[2]}</li>
-          </ul>
-        </div>
-        <p>Description: {product.metaData.descriptionShort}</p>
-        <br />
-        <p>Will's expert take: {product.metaData.take}</p>
-        <br />
-        <div>
-          <h4>
-            Select duration for availability then choose date from calendar
-          </h4>
-          <input
-            type="radio"
-            name="variant-radio"
-            value={0}
-            checked={selectedVariantIndex === 0}
-            onChange={(e) => handleVariantSelectionChange(e)}
-          />
-          <label>3 Days</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="variant-radio"
-            value={1}
-            checked={selectedVariantIndex === 1}
-            onChange={(e) => handleVariantSelectionChange(e)}
-          />
-          <label>5 Days</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="variant-radio"
-            value={2}
-            checked={selectedVariantIndex === 2}
-            onChange={(e) => handleVariantSelectionChange(e)}
-          />
-          <label>7 Days</label>
-        </div>
-        <div>
-          <h4>Enter rental start date:</h4>
-          <DatePicker
-            availableDates={availableDatesObj}
-            handleStartDateSelect={handleStartDateSelect}
-          />
-          {!!selectedStartDate.length && (
-            <>
-              <h4>
-                Rental end date:{' '}
-                {getRentalEndDate(
-                  selectedStartDate,
-                  selectedVariantIndex
-                ).toLocaleDateString()}
-              </h4>
-              <button onClick={() => handleAddToCheckout()}>Add to cart</button>
-            </>
-          )}
+    <div className={`${styles.containerDesktop} grid-desktop-layout`}>
+      <div className="col-span-1"></div>
+      <div className="col-span-5">
+        <Carousel
+          images={productImages}
+          includeSelector={true}
+          selectorHeight="94px"
+        />
+      </div>
+      <div className="col-span-5">
+        <div className="grid-desktop-layout">
+          <div className="col-span-12 text-tiny">camera</div>
+          <div className="col-span-12">
+            <h4>{product.title}</h4>
+          </div>
+          <div className={`col-span-12`}>
+            <h5>
+              $347.00
+              <span style={{ fontSize: '16px', textTransform: 'lowercase' }}>
+                / 7 days (awaiting style change)
+              </span>
+            </h5>
+          </div>
+          <div className="col-span-12">WHEN</div>
+          <div className={`${styles.dateSelectionOuterContainer} col-span-10`}>
+            <TimeslotSelector
+              availableDates={availableDatesObj}
+              handleStartDateSelect={handleStartDateSelect}
+            />
+            <div className={styles.addToButtonsContainerDesktop}>
+              <AddToCart />
+              <AddToFavorites />
+            </div>
+          </div>
+          <div className="col-span-12">
+            <p>{product.metaData.descriptionShort}</p>
+            <ul className={styles.keyFeaturesList}>
+              {product.metaData.keyFeatures.map((feature, index) => {
+                return <li key={index}>{feature}</li>;
+              })}
+            </ul>
+          </div>
+          <div className={`${styles.readMoreContainer} col-span-12`}>
+            <RevealContent>
+              <p>{product.metaData.descriptionLong}</p>
+            </RevealContent>
+          </div>
+          <div className={`${styles.extraInfoContainer} col-span-12`}>
+            <hr />
+            <ExpandableMenuItem title="specs">
+              <p>{product.metaData.specs}</p>
+            </ExpandableMenuItem>
+            <hr />
+            <ExpandableMenuItem title="bill's take">
+              <p>{product.metaData.take}</p>
+            </ExpandableMenuItem>
+            <hr />
+            <ExpandableMenuItem title="shipping">
+              <p>Shipping content to be added sometime in the future...</p>
+            </ExpandableMenuItem>
+            <hr />
+          </div>
         </div>
       </div>
+      <div className="col-span-1"></div>
+      <div className="col-span-1 row-span-10"></div>
+      <div className={`${styles.pairWithTextContainer} col-span-10`}>
+        <span className="font-family-apercu-medium">PAIR WITH</span>
+      </div>
+      <div className="col-span-5">
+        <img
+          className="responsive-img clickable"
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+        />
+      </div>
+      <div className="col-span-5">
+        <img
+          className="responsive-img clickable"
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+        />
+      </div>
+      <div className="col-span-5 row-span-3">
+        <div className="col-span-4 text-tiny">product type</div>
+        <p>Product Name</p>
+        <small>
+          <u>$99 per day</u>
+        </small>
+      </div>
+      <div className="col-span-5 row-span-3">
+        <div className="col-span-4 text-tiny">product type</div>
+        <p>Product Name</p>
+        <small>
+          <u>$99 per day</u>
+        </small>
+      </div>
+      <div className={`${styles.similarProductsTextContainer} col-span-11`}>
+        <span className="font-family-apercu-medium">ALSO GREAT</span>
+      </div>
+      <div className="col-span-5">
+        <img
+          className="responsive-img clickable"
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+        />
+      </div>
+      <div className="col-span-5">
+        <img
+          className="responsive-img clickable"
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
+        />
+      </div>
+      <div className="col-span-5 row-span-3">
+        <div className="col-span-4 text-tiny">product type</div>
+        <p>Product Name</p>
+        <small>
+          <u>$99 per day</u>
+        </small>
+      </div>
+      <div className="col-span-5 row-span-3">
+        <div className="col-span-4 text-tiny">product type</div>
+        <p>Product Name</p>
+        <small>
+          <u>$99 per day</u>
+        </small>
+      </div>
+      <div className="col-span-1 row-span-10"></div>
     </div>
   );
 };
 
 export default ProductPage;
+
+// <div>
+//         <h2>Product: {product.title}</h2>
+//         <div>
+//           <h4>Prices:</h4>
+//           <ul>
+//             <li>3 days: {product.variantPrices[0]}</li>
+//             <li>5 days: {product.variantPrices[1]}</li>
+//             <li>7 days: {product.variantPrices[2]}</li>
+//           </ul>
+//         </div>
+//         <p>Description: {product.metaData.descriptionShort}</p>
+//         <br />
+//         <p>Will's expert take: {product.metaData.take}</p>
+//         <br />
+//         <div>
+//           <h4>
+//             Select duration for availability then choose date from calendar
+//           </h4>
+//           <input
+//             type="radio"
+//             name="variant-radio"
+//             value={0}
+//             checked={selectedVariantIndex === 0}
+//             onChange={(e) => handleVariantSelectionChange(e)}
+//           />
+//           <label>3 Days</label>
+//         </div>
+//         <div>
+//           <input
+//             type="radio"
+//             name="variant-radio"
+//             value={1}
+//             checked={selectedVariantIndex === 1}
+//             onChange={(e) => handleVariantSelectionChange(e)}
+//           />
+//           <label>5 Days</label>
+//         </div>
+//         <div>
+//           <input
+//             type="radio"
+//             name="variant-radio"
+//             value={2}
+//             checked={selectedVariantIndex === 2}
+//             onChange={(e) => handleVariantSelectionChange(e)}
+//           />
+//           <label>7 Days</label>
+//         </div>
+//         <div>
+//           <h4>Enter rental start date:</h4>
+//           <DatePicker
+//             availableDates={availableDatesObj}
+//             handleStartDateSelect={handleStartDateSelect}
+//           />
+//           {!!selectedStartDate.length && (
+//             <>
+//               <h4>
+//                 Rental end date:{' '}
+//                 {getRentalEndDate(
+//                   selectedStartDate,
+//                   selectedVariantIndex
+//                 ).toLocaleDateString()}
+//               </h4>
+//               <button onClick={() => handleAddToCheckout()}>Add to cart</button>
+//             </>
+//           )}
+//         </div>
+//       </div>

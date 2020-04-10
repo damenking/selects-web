@@ -1,0 +1,5 @@
+.imageSelector {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 24px;
+}

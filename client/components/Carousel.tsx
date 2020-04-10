@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from 'react';
 import { useWindowDimensions } from './WindowDimensionsProvider';
 
+import styles from './Carousel.module.css';
+
 interface CarouselProps {
   images: string[];
+  includeSelector: boolean;
+  selectorHeight?: string;
 }
 
 const Carousel: React.FunctionComponent<CarouselProps> = (props) => {
   const [carouselAttached, updateCarouselAttached] = useState(false);
+  const [flickityInstance, updateFlickityInstance] = useState();
   const screenWidth = useWindowDimensions().width;
 
   useEffect(() => {
@@ -22,25 +27,49 @@ const Carousel: React.FunctionComponent<CarouselProps> = (props) => {
           adaptiveHeight: true,
         }
       );
+      updateFlickityInstance(flickity);
     };
     if (!carouselAttached && Object.keys(props.images).length) {
       updateCarouselAttached(true);
       lazyCarousel();
     }
   });
+
+  const handleSelect = (index: number) => {
+    flickityInstance.selectCell(index, false, false);
+  };
+
   return (
-    <div className="carousel">
-      {props.images.map((image, index) => {
-        return (
-          <img
-            key={index}
-            style={{ height: `${screenWidth - 32}` }}
-            className="responsive-img"
-            src={image}
-          />
-        );
-      })}
-    </div>
+    <>
+      <div className="carousel">
+        {props.images.map((image, index) => {
+          return (
+            <img
+              key={index}
+              style={{ height: `${screenWidth - 32}` }}
+              className="responsive-img"
+              src={image}
+            />
+          );
+        })}
+      </div>
+      {props.includeSelector && (
+        <div className={`${styles.imageSelector}`}>
+          {props.images.map((image, index) => {
+            return (
+              <img
+                key={index}
+                src={image}
+                height={props.selectorHeight}
+                width={props.selectorHeight}
+                className="clickable"
+                onClick={() => handleSelect(index)}
+              />
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 };
 
