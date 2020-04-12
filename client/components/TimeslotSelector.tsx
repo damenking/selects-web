@@ -3,17 +3,23 @@ import DatePicker from './DatePicker';
 
 import styles from './TimeslotSelector.module.css';
 
+const generatePickerId = () => {
+  return Math.floor(Math.random() * Math.floor(1000000));
+};
+
 const TimeslotSelector: React.FunctionComponent<any> = (props) => {
   const [availableEndDatesObj, updateAvailableEndDatesObj] = useState({});
   const [disableEndSelect, updateDisableEndSelect] = useState(true);
-  const [pickerPairId] = useState(
-    Math.floor(Math.random() * Math.floor(100000))
-  );
+  const [pickerPairId] = useState(generatePickerId());
 
   const handleStartDateSelect = (startDateObj: Date) => {
     props.handleStartDateSelect(startDateObj);
-    getAvailableEndDates(startDateObj);
-    updateDisableEndSelect(false);
+    if (startDateObj) {
+      getAvailableEndDates(startDateObj);
+      updateDisableEndSelect(false);
+    } else {
+      updateDisableEndSelect(true);
+    }
   };
 
   const getAvailableEndDates = (startDateObj: Date) => {

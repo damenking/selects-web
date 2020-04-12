@@ -1,19 +1,26 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react';
+import JSdatepicker from 'js-datepicker';
 
 import styles from './DatePicker.module.css';
 
 const DatePicker = (props) => {
   const [pickerAttached, updatePickerAttached] = useState(false);
-  const { handleStartDateSelect, availableDates } = props;
+  const {
+    handleStartDateSelect,
+    availableDates,
+    pickerElId,
+    disabled,
+    pickerPairId,
+  } = props;
 
   useEffect(() => {
     const lazyDatePicker = async () => {
       // Avoids window is not defined error on server
       const datepicker = (await import('js-datepicker')).default(
-        document.getElementById(props.pickerElId),
+        document.getElementById(pickerElId),
         {
-          id: props.pickerPairId,
+          id: pickerPairId,
           disabler: (date) => {
             // results in 0 if in the availability object but time slot count is 0
             // or undefined if missing from availability object
@@ -29,7 +36,7 @@ const DatePicker = (props) => {
         }
       );
     };
-    if (!pickerAttached && Object.keys(props.availableDates).length) {
+    if (!pickerAttached && Object.keys(availableDates).length) {
       updatePickerAttached(true);
       lazyDatePicker();
     }
@@ -37,13 +44,11 @@ const DatePicker = (props) => {
 
   return (
     <input
-      id={props.pickerElId}
-      className={
-        styles.input + ' ' + (props.disabled ? styles.inputDisabled : '')
-      }
+      id={pickerElId}
+      className={styles.input + ' ' + (disabled ? styles.inputDisabled : '')}
       type="text"
       placeholder="Choose a date"
-      disabled={props.disabled || !pickerAttached}
+      disabled={disabled || !pickerAttached}
       readOnly
     />
   );
