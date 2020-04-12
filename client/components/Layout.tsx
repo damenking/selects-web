@@ -1,7 +1,8 @@
 import React from 'react';
 import Navbar from './navbar/Navbar';
+import Footer from './Footer';
 
-import styles from './Layout.module.css';
+// import styles from './Layout.module.css';
 
 const Layout: React.FunctionComponent = ({ children }) => {
   return (
@@ -9,12 +10,8 @@ const Layout: React.FunctionComponent = ({ children }) => {
       <header>
         <Navbar />
       </header>
-      <div className={styles.layout}> {children}</div>
-
-      <footer>
-        <hr />
-        <span>This is a footer</span>
-      </footer>
+      <div className="max-width-2000"> {children}</div>
+      <Footer />
     </div>
   );
 };

@@ -67,3 +67,10 @@
   column-gap: 24px;
   margin-top: 24px;
 }
+
+@media (max-height: 1200px) {
+  .containerDesktop {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}

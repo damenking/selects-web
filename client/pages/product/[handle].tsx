@@ -16,8 +16,12 @@ import AddToCart from '../../components/buttons/AddToCart';
 import AddToFavorites from '../../components/buttons/AddToFavorites';
 import RevealContent from '../../components/buttons/RevealContent';
 import ExpandableMenuItem from '../../components/ExpandableMenuItem';
+import ProductCard from '../../components/ProductCard';
 
 import styles from './handle.module.css';
+
+const placeholderImage =
+  'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*';
 
 const defaultProduct = {
   primaryVariantId: '',
@@ -177,67 +181,28 @@ const ProductPage: NextPage = () => {
           <span className="font-family-apercu-medium">PAIR WITH</span>
         </div>
         <div className="col-span-2">
-          <img
-            className="responsive-img clickable"
-            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-          />
+          <ProductCard imageUrl={placeholderImage} />
         </div>
         <div className="col-span-2">
-          <img
-            className="responsive-img clickable"
-            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-          />
-        </div>
-        <div className="col-span-2 row-span-3">
-          <div className="col-span-4 text-tiny">product type</div>
-          <p>Product Name</p>
-          <small>
-            <u>$99 per day</u>
-          </small>
-        </div>
-        <div className="col-span-2 row-span-3">
-          <div className="col-span-4 text-tiny">product type</div>
-          <p>Product Name</p>
-          <small>
-            <u>$99 per day</u>
-          </small>
+          <ProductCard imageUrl={placeholderImage} />
         </div>
         <div className={`${styles.similarProductsTextContainer} col-span-4`}>
           <span className="font-family-apercu-medium">SIMILAR PRODUCTS</span>
         </div>
         <div className="col-span-2">
-          <img
-            className="responsive-img clickable"
-            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-          />
+          <ProductCard imageUrl={placeholderImage} />
         </div>
         <div className="col-span-2">
-          <img
-            className="responsive-img clickable"
-            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-          />
-        </div>
-        <div className="col-span-2 row-span-3">
-          <div className="col-span-4 text-tiny">product type</div>
-          <p>Product Name</p>
-          <small>
-            <u>$99 per day</u>
-          </small>
-        </div>
-        <div className="col-span-2 row-span-3">
-          <div className="col-span-4 text-tiny">product type</div>
-          <p>Product Name</p>
-          <small>
-            <u>$99 per day</u>
-          </small>
+          <ProductCard imageUrl={placeholderImage} />
         </div>
       </div>
     );
   }
   return (
-    <div className={`${styles.containerDesktop} grid-desktop-layout`}>
-      <div className="col-span-1"></div>
-      <div className="col-span-5">
+    <div
+      className={`${styles.containerDesktop} grid-desktop-layout-expandable`}
+    >
+      <div className="col-span-5-offset-1">
         <Carousel
           images={productImages}
           includeSelector={true}
@@ -250,7 +215,7 @@ const ProductPage: NextPage = () => {
           <div className="col-span-12">
             <h4>{product.title}</h4>
           </div>
-          <div className={`col-span-12`}>
+          <div className="col-span-12">
             <h5>
               $347.00
               <span style={{ fontSize: '16px', textTransform: 'lowercase' }}>
@@ -299,67 +264,28 @@ const ProductPage: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="col-span-1"></div>
-      <div className="col-span-1 row-span-10"></div>
-      <div className={`${styles.pairWithTextContainer} col-span-10`}>
+
+      <div className={`${styles.pairWithTextContainer} col-span-10-offset-1`}>
         <span className="font-family-apercu-medium">PAIR WITH</span>
       </div>
-      <div className="col-span-5">
-        <img
-          className="responsive-img clickable"
-          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-        />
+      <div className="col-span-5-offset-1">
+        <ProductCard imageUrl={placeholderImage} />
       </div>
       <div className="col-span-5">
-        <img
-          className="responsive-img clickable"
-          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-        />
+        <ProductCard imageUrl={placeholderImage} />
       </div>
-      <div className="col-span-5 row-span-3">
-        <div className="col-span-4 text-tiny">product type</div>
-        <p>Product Name</p>
-        <small>
-          <u>$99 per day</u>
-        </small>
-      </div>
-      <div className="col-span-5 row-span-3">
-        <div className="col-span-4 text-tiny">product type</div>
-        <p>Product Name</p>
-        <small>
-          <u>$99 per day</u>
-        </small>
-      </div>
-      <div className={`${styles.similarProductsTextContainer} col-span-11`}>
+
+      <div
+        className={`${styles.similarProductsTextContainer} col-span-10-offset-1`}
+      >
         <span className="font-family-apercu-medium">ALSO GREAT</span>
       </div>
-      <div className="col-span-5">
-        <img
-          className="responsive-img clickable"
-          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-        />
+      <div className="col-span-5-offset-1">
+        <ProductCard imageUrl={placeholderImage} />
       </div>
       <div className="col-span-5">
-        <img
-          className="responsive-img clickable"
-          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*"
-        />
+        <ProductCard imageUrl={placeholderImage} />
       </div>
-      <div className="col-span-5 row-span-3">
-        <div className="col-span-4 text-tiny">product type</div>
-        <p>Product Name</p>
-        <small>
-          <u>$99 per day</u>
-        </small>
-      </div>
-      <div className="col-span-5 row-span-3">
-        <div className="col-span-4 text-tiny">product type</div>
-        <p>Product Name</p>
-        <small>
-          <u>$99 per day</u>
-        </small>
-      </div>
-      <div className="col-span-1 row-span-10"></div>
     </div>
   );
 };

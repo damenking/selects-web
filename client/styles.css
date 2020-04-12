@@ -47,6 +47,8 @@
   --color-box: #c59c6e;
   --color-ink: #434343;
   --color-ink-plus-1: #8e8e8e;
+  /* text-underline-position: under; */
+  /* This seems to break on hover effects sadly.  Will have to add to static underlines case by case. */
 }
 body {
   font-family: 'apercu-regular';
@@ -57,7 +59,6 @@ body {
   color: var(--color-ink);
   margin: 0;
   background: #ffffff;
-  text-underline-position: under;
 }
 h1 {
   font-style: normal;
@@ -133,6 +134,9 @@ p {
 .background-color-orange {
   background-color: var(--color-orange);
 }
+.background-color-ink {
+  background-color: var(--color-ink);
+}
 .color-ink-plus-1 {
   color: var(--color-ink-plus-1);
 }
@@ -147,6 +151,20 @@ p {
   grid-template-rows: auto;
   column-gap: 24px;
 }
+.grid-desktop-layout-expandable {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  column-gap: 24px;
+}
+@media (max-width: 1200px) {
+  .grid-desktop-layout-expandable {
+    display: grid;
+    grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 0px;
+    grid-template-rows: auto;
+    column-gap: 24px;
+  }
+}
 .grid-mobile-layout {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -156,35 +174,131 @@ p {
 .col-span-1 {
   grid-column: span 1;
 }
+.col-span-1-offset-1 {
+  grid-column: 2 / span 1;
+}
+.col-span-1-offset-2 {
+  grid-column: 3 / span 1;
+}
+.col-span-1-offset-3 {
+  grid-column: 4 / span 1;
+}
 .col-span-2 {
   grid-column: span 2;
+}
+.col-span-2-offset-1 {
+  grid-column: 2 / span 2;
+}
+.col-span-2-offset-2 {
+  grid-column: 3 / span 2;
+}
+.col-span-2-offset-3 {
+  grid-column: 4 / span 2;
 }
 .col-span-3 {
   grid-column: span 3;
 }
+.col-span-3-offset-1 {
+  grid-column: 2 / span 3;
+}
+.col-span-3-offset-2 {
+  grid-column: 3 / span 3;
+}
+.col-span-3-offset-3 {
+  grid-column: 4 / span 3;
+}
 .col-span-4 {
   grid-column: span 4;
+}
+.col-span-4-offset-1 {
+  grid-column: 2 / span 4;
+}
+.col-span-4-offset-2 {
+  grid-column: 3 / span 4;
+}
+.col-span-4-offset-3 {
+  grid-column: 4 / span 4;
 }
 .col-span-5 {
   grid-column: span 5;
 }
+.col-span-5-offset-1 {
+  grid-column: 2 / span 5;
+}
+.col-span-5-offset-2 {
+  grid-column: 3 / span 5;
+}
+.col-span-5-offset-3 {
+  grid-column: 4 / span 5;
+}
 .col-span-6 {
   grid-column: span 6;
+}
+.col-span-6-offset-1 {
+  grid-column: 2 / span 6;
+}
+.col-span-6-offset-2 {
+  grid-column: 3 / span 6;
+}
+.col-span-6-offset-3 {
+  grid-column: 4 / span 6;
 }
 .col-span-7 {
   grid-column: span 7;
 }
+.col-span-7-offset-1 {
+  grid-column: 2 / span 7;
+}
+.col-span-7-offset-2 {
+  grid-column: 3 / span 7;
+}
+.col-span-7-offset-3 {
+  grid-column: 4 / span 7;
+}
 .col-span-8 {
   grid-column: span 8;
+}
+.col-span-8-offset-1 {
+  grid-column: 2 / span 8;
+}
+.col-span-8-offset-2 {
+  grid-column: 3 / span 8;
+}
+.col-span-8-offset-3 {
+  grid-column: 4 / span 8;
 }
 .col-span-9 {
   grid-column: span 9;
 }
+.col-span-9-offset-1 {
+  grid-column: 2 / span 9;
+}
+.col-span-9-offset-2 {
+  grid-column: 3 / span 9;
+}
+.col-span-9-offset-3 {
+  grid-column: 4 / span 9;
+}
 .col-span-10 {
   grid-column: span 10;
 }
+.col-span-10-offset-1 {
+  grid-column: 2 / span 10;
+}
+.col-span-10-offset-2 {
+  grid-column: 3 / span 10;
+}
 .col-span-11 {
   grid-column: span 11;
+}
+.col-span-11-offset-1 {
+  grid-column: 2 / span 11;
+}
+.col-span-11-offset-2 {
+  grid-column: 3 / span 11;
+}
+.col-span-11-offset-3 {
+  grid-column: 4 / span 11;
 }
 .col-span-12 {
   grid-column: span 12;
@@ -244,6 +358,9 @@ p {
   width: 24px;
   height: 24px;
 }
+.flickity-slider {
+  z-index: -1;
+}
 
 /* Random */
 input {
@@ -269,4 +386,10 @@ input {
 
 .responsive-img {
   width: 100%;
+}
+
+.max-width-2000 {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 2000px;
 }
