@@ -3,6 +3,7 @@ import App from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
 import Layout from '../components/Layout';
+import 'react-dates/initialize';
 import UserContext from '../components/UserContext';
 import WindowDimensionsProvider from '../components/WindowDimensionsProvider';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
@@ -10,6 +11,7 @@ import { createCheckout } from '../api/shopify/checkout';
 import { Address } from '../interfaces/';
 
 import 'js-datepicker/dist/datepicker.min.css';
+import 'react-dates/lib/css/_datepicker.css';
 import 'flickity/css/flickity.css';
 import '../styles.css';
 

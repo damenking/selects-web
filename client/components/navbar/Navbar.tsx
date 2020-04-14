@@ -124,6 +124,12 @@ const Navbar: React.FunctionComponent = () => {
   }
   return (
     <nav className={`${styles.navbarContainer} background-color-paper`}>
+      {showDrawer && (
+        <Drawer
+          options={getDrawerOptions()}
+          handleHideDrawer={handleHideDrawer}
+        />
+      )}
       <div
         className={styles.navbarLeftInnerContainer}
         onMouseEnter={handleHideDrawer}
@@ -209,12 +215,6 @@ const Navbar: React.FunctionComponent = () => {
           <img className="clickable" src="/static/icons/cart.svg" />
         </Link>
       </div>
-      {showDrawer && (
-        <Drawer
-          options={getDrawerOptions()}
-          handleHideDrawer={handleHideDrawer}
-        />
-      )}
     </nav>
   );
 };

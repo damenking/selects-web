@@ -1,9 +1,27 @@
 .profileContainer {
   margin-left: 24px;
   margin-right: 24px;
+  position: relative;
 }
 
 .profileContainerMobile {
   margin-left: 16px;
   margin-right: 16px;
+}
+
+.dropdownContent {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 150px;
+  line-height: 200%;
+}
+
+.dropdownContent p {
+  padding-left: 8px;
+  padding-right: 8px;
+  margin: 0px;
+}
+
+.dropdownContent p:hover {
+  background-color: #f4f4f4;
 }

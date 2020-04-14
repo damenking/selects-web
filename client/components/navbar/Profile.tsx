@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
-import { useContext } from 'react';
 import UserContext from '../../components/UserContext';
 import { checkIsMobile } from '../WindowDimensionsProvider';
+import DropdownMenu from '../DropdownMenu';
 
 import styles from './Profile.module.css';
 
 const Profile: React.FunctionComponent = () => {
   const { loggedIn, signOut, user } = useContext(UserContext);
+  const [showDropdown, updateShowDropdown] = useState(false);
+
   const isMobile = checkIsMobile();
+
+  const handleLoggedInClick = (e: React.SyntheticEvent): void => {
+    e.preventDefault();
+    updateShowDropdown(!showDropdown);
+    const dropdownEl = document.getElementById(
+      'profile-dropdown-menu'
+    ) as HTMLElement;
+    dropdownEl.focus();
+  };
+
+  const handleMenuOnBlur = () => {
+    updateShowDropdown(false);
+  };
+
+  const handleSignOutClick = () => {
+    updateShowDropdown(false);
+    signOut();
+  };
 
   if (isMobile) {
     return (
@@ -20,9 +40,22 @@ const Profile: React.FunctionComponent = () => {
     );
   } else if (loggedIn) {
     return (
-      <div className={`${styles.profileContainer} display-flex clickable`}>
-        <span onClick={signOut}>{user.displayName}</span>
-        <img src="/static/icons/chevronDown.svg" />
+      <div className={`${styles.profileContainer} clickable`}>
+        <div className="display-flex" onMouseDown={handleLoggedInClick}>
+          <span>{user.displayName}</span>
+          <img src="/static/icons/chevronDown.svg" />
+        </div>
+        <DropdownMenu
+          showDropdown={showDropdown}
+          handleMenuOnBlur={handleMenuOnBlur}
+        >
+          <div className={styles.dropdownContent}>
+            <Link href="/orderHistory">
+              <p onClick={() => updateShowDropdown(false)}>Order History</p>
+            </Link>
+            <p onClick={handleSignOutClick}>Sign Out</p>
+          </div>
+        </DropdownMenu>
       </div>
     );
   } else {
