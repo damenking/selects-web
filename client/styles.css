@@ -47,6 +47,7 @@
   --color-box: #c59c6e;
   --color-ink: #434343;
   --color-ink-plus-1: #8e8e8e;
+  --color-orange-plus-1: #f79c7f;
   /* text-underline-position: under; */
   /* This seems to break on hover effects sadly.  Will have to add to static underlines case by case. */
 }
@@ -420,4 +421,18 @@ input {
   .DayPicker_weekHeader_li {
     width: 14.285714286% !important;
   }
+}
+
+.CalendarDay__selected,
+.CalendarDay__selected:active,
+.CalendarDay__selected:hover {
+  background: var(--color-orange);
+  border: 1px double var(--color-orange);
+  color: #fff;
+}
+
+.CalendarDay__selected_span {
+  background: var(--color-orange-plus-1);
+  border: 1px double var(--color-orange-plus-1);
+  color: #fff;
 }

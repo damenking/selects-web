@@ -1,5 +1,6 @@
 import { fetchWrapper, BTA_BASE_URL } from '../api';
 import { AvalableDate } from '../../interfaces/';
+import moment from 'moment';
 
 export const getProductAvailability = async (productId: string) => {
   const API_URL = `${BTA_BASE_URL}/product/${productId}/availability`;
@@ -8,9 +9,8 @@ export const getProductAvailability = async (productId: string) => {
     const { dates } = response.data;
     const availableDatesObj: any = {};
     dates.forEach((date: AvalableDate) => {
-      const dateObj = new Date(date.date);
-      dateObj.setHours(0);
-      availableDatesObj[dateObj.toString()] = date.available_slot_count;
+      availableDatesObj[moment(date.date).toDate().toString()] =
+        date.available_slot_count;
     });
     return { dates, availableDatesObj, error: response.error };
   } catch (e) {

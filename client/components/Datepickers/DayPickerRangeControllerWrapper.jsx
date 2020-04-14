@@ -59,6 +59,10 @@ const propTypes = forbidExtraProps({
   monthFormat: PropTypes.string,
 
   isRTL: PropTypes.bool,
+
+  // Custom
+  handleOnDateChange: PropTypes.func,
+  lastAvailableEndDate: PropTypes.string,
 });
 
 const defaultProps = {
@@ -75,7 +79,7 @@ const defaultProps = {
   // day presentation and interaction related props
   renderCalendarDay: undefined,
   renderDayContents: null,
-  minimumNights: 1,
+  minimumNights: 0,
   isDayBlocked: () => false,
   isOutsideRange: (day) => !isInclusivelyAfterDay(day, moment()),
   isDayHighlighted: () => false,
@@ -125,28 +129,31 @@ class DayPickerRangeControllerWrapper extends React.Component {
   }
 
   onDatesChange({ startDate, endDate }) {
-    const { daysViolatingMinNightsCanBeClicked, minimumNights } = this.props;
-    let doesNotMeetMinNights = false;
-    if (daysViolatingMinNightsCanBeClicked && startDate && endDate) {
-      const dayDiff = endDate.diff(
-        startDate.clone().startOf('day').hour(12),
-        'days'
-      );
-      doesNotMeetMinNights = dayDiff < minimumNights && dayDiff >= 0;
+    if (
+      endDate &&
+      this.props.lastAvailableEndDate &&
+      endDate.isAfter(moment(this.props.lastAvailableEndDate))
+    ) {
+      this.setState({
+        startDate: endDate,
+        endDate: null,
+      });
+      this.props.handleOnDateChange(endDate, null);
+    } else {
+      this.setState({
+        startDate,
+        endDate: endDate,
+      });
+      this.props.handleOnDateChange(startDate, endDate);
     }
-    this.setState({
-      startDate,
-      endDate: doesNotMeetMinNights ? null : endDate,
-      errorMessage: doesNotMeetMinNights
-        ? 'That day does not meet the minimum nights requirement'
-        : null,
-    });
   }
 
   onFocusChange(focusedInput) {
+    // May want to have a check for start date and end date to determine focus
     this.setState({
       // Force the focusedInput to always be truthy so that dates are always selectable
-      focusedInput: !focusedInput ? START_DATE : focusedInput,
+      // focusedInput: !focusedInput ? START_DATE : focusedInput,
+      focusedInput: END_DATE,
     });
   }
 
@@ -163,6 +170,8 @@ class DayPickerRangeControllerWrapper extends React.Component {
       'initialStartDate',
       'initialEndDate',
       'showInputs',
+      'handleOnDateChange',
+      'lastAvailableEndDate',
     ]);
 
     const startDateString = startDate && startDate.format('YYYY-MM-DD');
