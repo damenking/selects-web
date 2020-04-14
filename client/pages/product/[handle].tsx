@@ -224,7 +224,7 @@ const ProductPage: NextPage = () => {
             </h5>
           </div>
           <div className="col-span-12">WHEN</div>
-          <div className={`${styles.dateSelectionOuterContainer} col-span-10`}>
+          <div className={`${styles.dateSelectionOuterContainer} col-span-12`}>
             <TimeslotSelector
               availableDates={availableDatesObj}
               handleStartDateSelect={handleStartDateSelect}

@@ -396,7 +396,7 @@ input {
 }
 
 /* Overrides to make Airbnb single month calendar responsive */
-@media (max-width: 2000px) {
+@media (max-width: 1670px) {
   .DayPicker,
   .DayPicker > div,
   .DayPicker > div > div,

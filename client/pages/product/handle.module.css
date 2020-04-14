@@ -20,6 +20,12 @@
   margin-top: 16px;
   margin-bottom: 24px;
   padding: 24px;
+  max-width: 670px;
+}
+@media (max-width: 1670px) and (min-width: 800px) {
+  .dateSelectionOuterContainer {
+    max-width: 500px;
+  }
 }
 
 .addToButtonsContainerMobile {

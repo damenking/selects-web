@@ -8,7 +8,7 @@ import styles from './TimeslotSelector.module.css';
 const TimeslotSelector: React.FunctionComponent<any> = (props) => {
   const [lastAvailableEndDate, updatelastAvailableEndDate] = useState('');
   const screenWidth = useWindowDimensions().width;
-  const numMonths = screenWidth >= 2000 ? 2 : 1;
+  const numMonths = screenWidth > 1670 ? 2 : 1;
 
   const isOutsideRange = (day: moment.Moment) => {
     const dateString = day.hour(0).toDate().toString();
