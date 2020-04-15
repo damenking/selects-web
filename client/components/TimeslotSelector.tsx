@@ -16,10 +16,11 @@ const TimeslotSelector: React.FunctionComponent<any> = (props) => {
   };
 
   const handleOnDateChange = (
-    startDate: moment.Moment
-    // endDate: moment.Moment | undefined
+    startDate: moment.Moment,
+    endDate: moment.Moment | undefined
   ) => {
     getAvailableEndDates(startDate.toDate());
+    props.handleDatesSelect(startDate, endDate);
   };
 
   const getAvailableEndDates = (startDateObj: Date) => {

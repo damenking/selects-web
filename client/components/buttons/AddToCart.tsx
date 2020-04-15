@@ -4,6 +4,7 @@ import styles from './AddToCart.module.css';
 
 interface AddToCardProps {
   isDisabled: boolean;
+  handleAddToCheckout: any;
 }
 
 const AddToCart: React.FunctionComponent<AddToCardProps> = (props) => {
@@ -11,7 +12,10 @@ const AddToCart: React.FunctionComponent<AddToCardProps> = (props) => {
     <div
       className={`${styles.container} ${
         props.isDisabled ? styles.disabled : ''
-      } background-color-orange clickable`}
+      } 
+      ${props.isDisabled ? '' : 'clickable'}
+      background-color-orange`}
+      onClick={props.handleAddToCheckout}
     >
       <div className={styles.iconContainer}>
         <img src="/static/icons/cartAdd.svg" />

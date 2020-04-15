@@ -13,16 +13,16 @@ export const createBooking = async (
     items: [
       {
         external_id: productId,
-        quantity: '1'
-      }
+        quantity: '1',
+      },
     ],
     customers: [
       {
         first_name: 'Damen',
         last_name: 'K',
-        email: 'dk@dk.com'
-      }
-    ]
+        email: 'dk@dk.com',
+      },
+    ],
   };
   try {
     const response = await postWrapper(API_URL, reqObj);
@@ -46,9 +46,9 @@ export const createAndConfirmReservation = async (
     firstName,
     lastName,
     email,
-    reservationLineItems
+    reservationLineItems,
   };
-  reservationLineItems[0].external_id = '32618861920387';
+  // reservationLineItems[0].external_id = '32618861920387';
   try {
     const response = await postWrapper(API_URL, reqObj);
     return { error: response.error };

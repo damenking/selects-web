@@ -4,8 +4,8 @@ import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
   imageUrl: string;
-  category: string;
-  price: string;
+  category?: string;
+  price?: string;
 }
 
 const ProductCard: React.FunctionComponent<ProductCardProps> = (props) => {

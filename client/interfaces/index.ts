@@ -2,6 +2,7 @@
 export interface ReservationLineItem {
   external_id: string;
   start: string;
+  finish: string;
   quantity: string;
 }
 

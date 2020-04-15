@@ -5,7 +5,7 @@ import UserContext from '../components/UserContext';
 import {
   CheckoutLineItem,
   ReservationLineItem,
-  CustomAttribute
+  CustomAttribute,
 } from '../interfaces/index';
 import { createAndConfirmReservation } from '../api/bta/booking';
 import { createOrder } from '../api/shopify/order';
@@ -55,20 +55,24 @@ const CartPage: NextPage = () => {
 
   const handleConfirmBooking = async (onAccount: boolean) => {
     const reservationItems: ReservationLineItem[] = [];
-    lineItems.forEach(lineItem => {
+    lineItems.forEach((lineItem) => {
       let external_id = '';
       let start = '';
+      let finish = '';
       lineItem.customAttributes.forEach((attribute: CustomAttribute) => {
         if (attribute.key === 'external_id') {
           external_id = attribute.value;
         } else if (attribute.key === 'start') {
           start = attribute.value;
+        } else if (attribute.key === 'finish') {
+          finish = attribute.value;
         }
       });
       const reservationLineItem: ReservationLineItem = {
         external_id,
         start,
-        quantity: '1'
+        finish,
+        quantity: '1',
       };
       reservationItems.push(reservationLineItem);
     });

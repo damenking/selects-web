@@ -1,13 +1,11 @@
-// @ts-nocheck
 import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import * as momentJS from 'moment';
 import { getProductByHandle } from '../../api/shopify/product';
 import { getProductAvailability } from '../../api/bta/product';
 import { addLineItems } from '../../api/shopify/checkout';
 import UserContext from '../../components/UserContext';
-// import DatePicker from '../../components/DatePicker';
-// import { getRentalEndDate } from '../../util/time';
 import { checkIsMobile } from '../../components/WindowDimensionsProvider';
 import { ImageEdge } from '../../interfaces/';
 import Carousel from '../../components/Carousel';
@@ -17,6 +15,7 @@ import AddToFavorites from '../../components/buttons/AddToFavorites';
 import RevealContent from '../../components/buttons/RevealContent';
 import ExpandableMenuItem from '../../components/ExpandableMenuItem';
 import ProductCard from '../../components/ProductCard';
+import { getVarianceIndexByDays } from '../../util/checkout';
 
 import styles from './handle.module.css';
 
@@ -51,10 +50,10 @@ const ProductPage: NextPage = () => {
   const isMobile = checkIsMobile();
   const [product, setProduct] = useState(defaultProduct);
   const [productImages, setProductImages] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [availableDatesObj, updateavailableDatesObj] = useState({});
   const [selectedVariantIndex, updateSelectedVariantIndex] = useState(0);
   const [selectedStartDate, updatedSelectedStartDate] = useState('');
+  const [selectedEndDate, updateSelectedEndDate] = useState('');
 
   useEffect(() => {
     if (handle) {
@@ -69,52 +68,61 @@ const ProductPage: NextPage = () => {
           return edge.node.originalSrc;
         });
         setProductImages(images);
-        setLoading(false);
       };
       fetchData();
     }
   }, [handle]);
 
-  useEffect(() => {
-    if (!loading) {
-      const fetchData = async () => {
-        getProductAvailability(product.variantIds[selectedVariantIndex]).then(
-          (response) => {
-            const { availableDatesObj } = response;
-            updateavailableDatesObj(availableDatesObj);
-          }
-        );
-      };
-      fetchData();
-    }
-  }, [selectedVariantIndex]);
+  // useEffect(() => {
+  //   if (!loading) {
+  //     const fetchData = async () => {
+  //       getProductAvailability(product.variantIds[selectedVariantIndex]).then(
+  //         (response) => {
+  //           const { availableDatesObj } = response;
+  //           updateavailableDatesObj(availableDatesObj);
+  //         }
+  //       );
+  //     };
+  //     fetchData();
+  //   }
+  // }, [selectedVariantIndex]);
 
-  // const handleAddToCheckout = async () => {
-  //   addLineItems(checkoutId, [
-  //     {
-  //       variantId: product.variantStorefrontIds[selectedVariantIndex],
-  //       quantity: 1,
-  //       customAttributes: [
-  //         { key: 'start', value: selectedStartDate },
-  //         {
-  //           key: 'external_id',
-  //           value: product.variantIds[selectedVariantIndex],
-  //         },
-  //       ],
-  //     },
-  //   ]);
-  // };
+  const handleAddToCheckout = async () => {
+    addLineItems(checkoutId, [
+      {
+        variantId: product.variantStorefrontIds[selectedVariantIndex],
+        quantity: 1,
+        customAttributes: [
+          { key: 'start', value: selectedStartDate },
+          { key: 'finish', value: selectedEndDate },
+          {
+            key: 'external_id',
+            value: product.variantIds[selectedVariantIndex],
+          },
+        ],
+      },
+    ]);
+  };
 
-  // const handleVariantSelectionChange = (e: React.SyntheticEvent): void => {
-  //   const { value } = e.target as HTMLInputElement;
-  //   updateSelectedVariantIndex(parseInt(value, 10));
-  // };
-
-  const handleStartDateSelect = (date: Date | undefined) => {
-    if (date) {
-      updatedSelectedStartDate(date.toISOString());
+  const handleDatesSelect = (
+    startDate: momentJS.Moment,
+    endDate: momentJS.Moment | undefined
+  ) => {
+    if (startDate) {
+      updatedSelectedStartDate(startDate.toISOString());
     } else {
       updatedSelectedStartDate('');
+    }
+    if (endDate) {
+      updateSelectedEndDate(endDate.toISOString());
+    } else {
+      updateSelectedEndDate('');
+    }
+    if (startDate && endDate) {
+      const dateDif = endDate.diff(startDate, 'days') + 1;
+      updateSelectedVariantIndex(getVarianceIndexByDays(dateDif));
+    } else {
+      updateSelectedVariantIndex(getVarianceIndexByDays(1));
     }
   };
 
@@ -126,7 +134,7 @@ const ProductPage: NextPage = () => {
           <h4>{product.title}</h4>
         </div>
         <div className="col-span-4">
-          <Carousel images={productImages} />
+          <Carousel images={productImages} includeSelector={false} />
         </div>
         <div className={`${styles.priceLineContainer} col-span-4`}>
           <h5>
@@ -140,11 +148,14 @@ const ProductPage: NextPage = () => {
         <div className={`${styles.dateSelectionOuterContainer} col-span-4`}>
           <TimeslotSelector
             availableDates={availableDatesObj}
-            handleStartDateSelect={handleStartDateSelect}
+            handleDatesSelect={handleDatesSelect}
           />
           <div className={styles.addToButtonsContainerMobile}>
             <div className={styles.addToCartButtonContainer}>
-              <AddToCart />
+              <AddToCart
+                isDisabled={!selectedStartDate}
+                handleAddToCheckout={handleAddToCheckout}
+              />
             </div>
             <AddToFavorites />
           </div>
@@ -227,10 +238,13 @@ const ProductPage: NextPage = () => {
           <div className={`${styles.dateSelectionOuterContainer} col-span-12`}>
             <TimeslotSelector
               availableDates={availableDatesObj}
-              handleStartDateSelect={handleStartDateSelect}
+              handleDatesSelect={handleDatesSelect}
             />
             <div className={styles.addToButtonsContainerDesktop}>
-              <AddToCart />
+              <AddToCart
+                isDisabled={!selectedStartDate}
+                handleAddToCheckout={handleAddToCheckout}
+              />
               <AddToFavorites />
             </div>
           </div>
@@ -291,71 +305,3 @@ const ProductPage: NextPage = () => {
 };
 
 export default ProductPage;
-
-// <div>
-//         <h2>Product: {product.title}</h2>
-//         <div>
-//           <h4>Prices:</h4>
-//           <ul>
-//             <li>3 days: {product.variantPrices[0]}</li>
-//             <li>5 days: {product.variantPrices[1]}</li>
-//             <li>7 days: {product.variantPrices[2]}</li>
-//           </ul>
-//         </div>
-//         <p>Description: {product.metaData.descriptionShort}</p>
-//         <br />
-//         <p>Will's expert take: {product.metaData.take}</p>
-//         <br />
-//         <div>
-//           <h4>
-//             Select duration for availability then choose date from calendar
-//           </h4>
-//           <input
-//             type="radio"
-//             name="variant-radio"
-//             value={0}
-//             checked={selectedVariantIndex === 0}
-//             onChange={(e) => handleVariantSelectionChange(e)}
-//           />
-//           <label>3 Days</label>
-//         </div>
-//         <div>
-//           <input
-//             type="radio"
-//             name="variant-radio"
-//             value={1}
-//             checked={selectedVariantIndex === 1}
-//             onChange={(e) => handleVariantSelectionChange(e)}
-//           />
-//           <label>5 Days</label>
-//         </div>
-//         <div>
-//           <input
-//             type="radio"
-//             name="variant-radio"
-//             value={2}
-//             checked={selectedVariantIndex === 2}
-//             onChange={(e) => handleVariantSelectionChange(e)}
-//           />
-//           <label>7 Days</label>
-//         </div>
-//         <div>
-//           <h4>Enter rental start date:</h4>
-//           <DatePicker
-//             availableDates={availableDatesObj}
-//             handleStartDateSelect={handleStartDateSelect}
-//           />
-//           {!!selectedStartDate.length && (
-//             <>
-//               <h4>
-//                 Rental end date:{' '}
-//                 {getRentalEndDate(
-//                   selectedStartDate,
-//                   selectedVariantIndex
-//                 ).toLocaleDateString()}
-//               </h4>
-//               <button onClick={() => handleAddToCheckout()}>Add to cart</button>
-//             </>
-//           )}
-//         </div>
-//       </div>
