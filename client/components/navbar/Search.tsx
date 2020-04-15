@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Router from 'next/router';
 import { checkIsMobile } from '../WindowDimensionsProvider';
 
 import styles from './Search.module.css';
@@ -29,9 +30,24 @@ const Search: React.FunctionComponent = () => {
     updateSearchValue(value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      executeSearch();
+    }
+  };
+
+  const executeSearch = () => {
+    const searchTerm = searchValue !== 'SEARCH' ? searchValue : '';
+    Router.push({ pathname: '/search', query: { searchTerm: searchTerm } });
+  };
+
   return (
     <div className={`display-flex ${inputHidden ? 'clickable' : ''}`}>
-      <img src="/static/icons/search.svg" />
+      <img
+        onMouseDown={executeSearch}
+        src="/static/icons/search.svg"
+        className="clickable"
+      />
       {!inputHidden && (
         <input
           className={styles.searchInput}
@@ -40,6 +56,7 @@ const Search: React.FunctionComponent = () => {
           onBlur={handleOnBlur}
           onChange={handleOnChange}
           value={searchValue}
+          onKeyDown={handleKeyDown}
         />
       )}
     </div>

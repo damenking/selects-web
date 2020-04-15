@@ -32,6 +32,7 @@ const productByHandleQuery = (productHandle) => {
   `;
 };
 
+// not currently used
 const allProductsQuery = `
   { 
     products(first: 50) {
@@ -40,6 +41,19 @@ const allProductsQuery = `
           id
           title
           handle
+          tags
+          featuredImage {
+            originalSrc
+            transformedSrc
+          }
+          collections (first: 10) {
+            edges {
+              node {
+                id
+                title
+              }
+            }
+          }
           images(first: 10) {
             edges {
               node {
@@ -54,4 +68,27 @@ const allProductsQuery = `
   }
 `;
 
-module.exports = { allProductsQuery, productByHandleQuery };
+const productsSearchQuery = `
+  { 
+    products(first: 250) {
+      edges {
+        node {
+          id
+          title
+          handle
+          tags
+          featuredImage {
+            originalSrc
+            transformedSrc
+          }
+        }
+      }
+    }
+  }
+`;
+
+module.exports = {
+  allProductsQuery,
+  productByHandleQuery,
+  productsSearchQuery,
+};
