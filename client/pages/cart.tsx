@@ -99,8 +99,8 @@ const CartPage: NextPage = () => {
       {lineItems.map((lineItem: CheckoutLineItem) => {
         return (
           <div key={lineItem.id}>
-            <h1>{lineItem.title}</h1>
-            <h1>Quantity: {lineItem.quantity}</h1>
+            <h5>{lineItem.title}</h5>
+            <h5>Quantity: {lineItem.quantity}</h5>
             <button onClick={() => handleRemoveLineItem(lineItem.id)}>
               remove item
             </button>

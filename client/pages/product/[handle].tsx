@@ -16,6 +16,7 @@ import RevealContent from '../../components/buttons/RevealContent';
 import ExpandableMenuItem from '../../components/ExpandableMenuItem';
 import ProductCard from '../../components/ProductCard';
 import { getVarianceIndexByDays } from '../../util/checkout';
+import { updateCustomerFavorites } from '../../api/shopify/customer';
 
 import styles from './handle.module.css';
 
@@ -23,6 +24,7 @@ const placeholderImage =
   'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*';
 
 const defaultProduct = {
+  id: '',
   primaryVariantId: '',
   title: '',
   primaryVariantPrice: '',
@@ -46,7 +48,7 @@ const defaultProduct = {
 const ProductPage: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
-  const { checkoutId } = useContext(UserContext);
+  const { checkoutId, user } = useContext(UserContext);
   const isMobile = checkIsMobile();
   const [product, setProduct] = useState(defaultProduct);
   const [productImages, setProductImages] = useState([]);
@@ -54,6 +56,12 @@ const ProductPage: NextPage = () => {
   const [selectedVariantIndex, updateSelectedVariantIndex] = useState(0);
   const [selectedStartDate, updatedSelectedStartDate] = useState('');
   const [selectedEndDate, updateSelectedEndDate] = useState('');
+  const defaultIsFavorited = user.favorites.product.indexOf(product.id) !== -1;
+  const [isFavorited, updateIsFavorited] = useState(defaultIsFavorited);
+
+  useEffect(() => {
+    updateIsFavorited(defaultIsFavorited);
+  }, [defaultIsFavorited]);
 
   useEffect(() => {
     if (handle) {
@@ -73,19 +81,19 @@ const ProductPage: NextPage = () => {
     }
   }, [handle]);
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const fetchData = async () => {
-  //       getProductAvailability(product.variantIds[selectedVariantIndex]).then(
-  //         (response) => {
-  //           const { availableDatesObj } = response;
-  //           updateavailableDatesObj(availableDatesObj);
-  //         }
-  //       );
-  //     };
-  //     fetchData();
-  //   }
-  // }, [selectedVariantIndex]);
+  const handleAddToFavorites = () => {
+    const favoriteIds = [...user.favorites.product];
+    favoriteIds.push(product.id);
+    updateCustomerFavorites(user.id, favoriteIds);
+    updateIsFavorited(true);
+  };
+
+  const handleRemoveFromFavorites = () => {
+    const favoriteIds = [...user.favorites.product];
+    favoriteIds.splice(favoriteIds.indexOf(product.id), 1);
+    updateCustomerFavorites(user.id, favoriteIds);
+    updateIsFavorited(false);
+  };
 
   const handleAddToCheckout = async () => {
     addLineItems(checkoutId, [
@@ -157,7 +165,11 @@ const ProductPage: NextPage = () => {
                 handleAddToCheckout={handleAddToCheckout}
               />
             </div>
-            <AddToFavorites />
+            <AddToFavorites
+              handleAddToFavorites={handleAddToFavorites}
+              handleRemoveFromFavorites={handleRemoveFromFavorites}
+              isFavorited={isFavorited}
+            />
           </div>
         </div>
         <div className="col-span-4">
@@ -245,7 +257,11 @@ const ProductPage: NextPage = () => {
                 isDisabled={!selectedStartDate}
                 handleAddToCheckout={handleAddToCheckout}
               />
-              <AddToFavorites />
+              <AddToFavorites
+                handleAddToFavorites={handleAddToFavorites}
+                handleRemoveFromFavorites={handleRemoveFromFavorites}
+                isFavorited={isFavorited}
+              />
             </div>
           </div>
           <div className="col-span-12">

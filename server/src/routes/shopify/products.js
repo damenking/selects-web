@@ -90,4 +90,23 @@ router.get('/search', (req, res) => {
     });
 });
 
+router.get('/byIds', (req, res) => {
+  const { ids } = req.query;
+  if (!ids) {
+    res.send({ data: { products: [] }, error: true });
+  } else {
+    axios({
+      url: `${config.shopifyAdminRestUrlWithAuth}products.json?ids=${ids}`,
+      method: 'get',
+    })
+      .then((response) => {
+        const products = response.data.products;
+        res.send({ data: { products }, error: false });
+      })
+      .catch((response) => {
+        res.send({ data: { products: [] }, error: true });
+      });
+  }
+});
+
 module.exports = router;

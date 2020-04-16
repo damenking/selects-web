@@ -18,6 +18,7 @@ import '../styles.css';
 class MyApp extends App {
   state = {
     user: {
+      id: '',
       defaultAddress: {
         firstName: '',
         lastName: '',
@@ -31,6 +32,9 @@ class MyApp extends App {
       },
       email: '',
       displayName: '',
+      favorites: {
+        product: [] as string[],
+      },
     },
     loggedIn: false,
     checkoutId: '',
@@ -91,7 +95,25 @@ class MyApp extends App {
       user: {},
     });
     localStorage.setItem('accessToken', '');
-    Router.push('/signIn');
+    Router.push('/account/signIn');
+  };
+
+  addFavorite = (productId: string) => {
+    const updatedFavorites = [...this.state.user.favorites.product];
+    const updatedUser = { ...this.state.user };
+    updatedUser.favorites = { ...this.state.user.favorites };
+    updatedFavorites.push(productId);
+    updatedUser.favorites.product = updatedFavorites;
+    this.setState({ user: updatedUser });
+  };
+
+  removeFavorite = (productId: string) => {
+    const updatedFavorites = [...this.state.user.favorites.product];
+    const updatedUser = { ...this.state.user };
+    updatedUser.favorites = { ...this.state.user.favorites };
+    updatedFavorites.splice(updatedFavorites.indexOf(productId), 1);
+    updatedUser.favorites.product = updatedFavorites;
+    this.setState({ user: updatedUser });
   };
 
   updateCheckoutId = async (email: string, address: Address) => {
@@ -113,6 +135,8 @@ class MyApp extends App {
             user: this.state.user,
             checkoutId: this.state.checkoutId,
             updateCheckoutId: this.updateCheckoutId,
+            addFavorite: this.addFavorite,
+            removeFavorite: this.removeFavorite,
           }}
         >
           <Head>

@@ -109,3 +109,20 @@ export interface Image {
 export interface ImageEdge {
   node: Image;
 }
+
+// https://shopify.dev/docs/admin-api/rest/reference/metafield
+export interface Metafield {
+  key: string;
+  value: any;
+  value_type: string;
+  namespace: string;
+}
+
+export interface ProductFavorite {
+  id: string;
+  image: {
+    src: string;
+  };
+  handl: string;
+  title: string;
+}

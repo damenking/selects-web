@@ -18,14 +18,14 @@ router.post('/create', (req, res) => {
         firstName,
         lastName,
         convertToE164(phone)
-      )
+      ),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
-        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    }
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   })
-    .then(response => {
+    .then((response) => {
       const userErrors = response.data.data.customerCreate.userErrors;
       if (userErrors.length > 0) {
         res.send({ data: { userErrors }, error: true });
@@ -33,7 +33,7 @@ router.post('/create', (req, res) => {
         res.send({ data: { userErrors }, error: false });
       }
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ data: { userErrors: [] }, error: true });
     });
 });
@@ -49,7 +49,7 @@ router.post('/createAddress', (req, res) => {
     city,
     province,
     zip,
-    customerAccessToken
+    customerAccessToken,
   } = req.body;
   axios({
     url: config.shopifyStorefrontUrl,
@@ -66,14 +66,14 @@ router.post('/createAddress', (req, res) => {
         province,
         zip,
         customerAccessToken
-      )
+      ),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
-        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    }
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   })
-    .then(response => {
+    .then((response) => {
       const userErrors =
         response.data.data.customerAddressCreate.customerUserErrors;
       if (userErrors.length > 0) {
@@ -82,9 +82,54 @@ router.post('/createAddress', (req, res) => {
         res.send({ data: { userErrors }, error: false });
       }
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ data: { userErrors: [] }, error: true });
     });
 });
 
+router.get('/:customerId/metafields/favorites', (req, res) => {
+  const customerId = req.params.customerId;
+  axios({
+    url: `${config.shopifyAdminRestUrlWithAuth}customers/${customerId}/metafields.json`,
+    method: 'get',
+  })
+    .then((response) => {
+      const metaFields = response.data.metafields;
+      let productFavorites = [];
+      metaFields.forEach((metaField) => {
+        if (metaField.key === 'product') {
+          productFavorites = JSON.parse(metaField.value);
+        }
+      });
+      res.send({ data: { favorites: productFavorites }, error: false });
+    })
+    .catch((response) => {
+      res.send({ data: { favorites: [] }, error: true });
+    });
+});
+
+router.post('/:customerId/metafields/updatefavorites', (req, res) => {
+  // /admin/api/2020-04/customers/#{customer_id}.json
+  const customerId = req.params.customerId;
+  const { favoriteIds } = req.body;
+  const reqObj = {
+    metafield: {
+      namespace: 'favorites',
+      key: 'product',
+      value_type: 'json_string',
+      value: JSON.stringify(favoriteIds),
+    },
+  };
+  axios({
+    url: `${config.shopifyAdminRestUrlWithAuth}customers/${customerId}/metafields.json`,
+    method: 'post',
+    data: reqObj,
+  })
+    .then((response) => {
+      res.send({ error: false });
+    })
+    .catch((response) => {
+      res.send({ error: true });
+    });
+});
 module.exports = router;

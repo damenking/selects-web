@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import { useContext } from 'react';
-import UserContext from '../components/UserContext';
+import UserContext from '../../components/UserContext';
 
 const SignIn: NextPage = () => {
   const [email, updateEmail] = useState('');
@@ -32,7 +32,7 @@ const SignIn: NextPage = () => {
       <hr />
       <p>
         DOn't have an account?{' '}
-        <Link href="/signUp">
+        <Link href="/account/signUp">
           <a>Sign Up</a>
         </Link>
       </p>

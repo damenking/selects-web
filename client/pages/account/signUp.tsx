@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
-import { createCustomer, createAddress } from '../api/shopify/customer';
-import { UserError, CustomerInformation } from '../interfaces/';
-import UserContext from '../components/UserContext';
+import { createCustomer, createAddress } from '../../api/shopify/customer';
+import { UserError, CustomerInformation } from '../../interfaces/';
+import UserContext from '../../components/UserContext';
 
 const SignUp: NextPage = () => {
   const { signIn } = useContext(UserContext);
@@ -143,8 +143,8 @@ const SignUp: NextPage = () => {
               address2: addressLine2,
               city,
               province: state,
-              zip
-            }
+              zip,
+            },
           })
         }
       >
@@ -162,7 +162,7 @@ const SignUp: NextPage = () => {
       <hr />
       <p>
         Already have an account?{' '}
-        <Link href="/signIn">
+        <Link href="/account/signIn">
           <a>Sign In</a>
         </Link>
       </p>

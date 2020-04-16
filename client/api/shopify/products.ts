@@ -25,3 +25,17 @@ export const searchProducts = async (searchTerm: string | string[]) => {
     return { products: [], error: true };
   }
 };
+
+export const getProductsByIds = async (productIds: string[]) => {
+  const API_URL = `${SHOPIFY_BASE_URL}/products/byIds?ids=${productIds.join(
+    ','
+  )}`;
+  try {
+    const response = await fetchWrapper(API_URL);
+    const { products } = response.data;
+    return { products, error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { products: [], error: true };
+  }
+};

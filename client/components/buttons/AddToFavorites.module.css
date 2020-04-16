@@ -21,3 +21,7 @@
   text-decoration: underline;
   white-space: nowrap;
 }
+
+.disabled {
+  opacity: 0.8;
+}

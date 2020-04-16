@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Router from 'next/router';
-import { getCustomerOrders } from '../api/shopify/orders';
+import { getCustomerOrders } from '../../api/shopify/orders';
 
 const OrderHistoryPage: NextPage = () => {
   const [orders, setOrders] = useState([]);
@@ -15,7 +15,7 @@ const OrderHistoryPage: NextPage = () => {
         setOrders(orders);
         setError(error);
       } else {
-        Router.push('/signIn');
+        Router.push('/account/signIn');
       }
     };
     fetchData();

@@ -50,8 +50,11 @@ const Profile: React.FunctionComponent = () => {
           handleMenuOnBlur={handleMenuOnBlur}
         >
           <div className={styles.dropdownContent}>
-            <Link href="/orderHistory">
+            <Link href="/account/orderHistory">
               <p onClick={() => updateShowDropdown(false)}>Order History</p>
+            </Link>
+            <Link href="/account/favorites">
+              <p onClick={() => updateShowDropdown(false)}>Favorites</p>
             </Link>
             <p onClick={handleSignOutClick}>Sign Out</p>
           </div>
@@ -61,7 +64,7 @@ const Profile: React.FunctionComponent = () => {
   } else {
     return (
       <div className={`${styles.profileContainer} clickable`}>
-        <Link href="/signIn">
+        <Link href="/account/signIn">
           <span>Sign In</span>
         </Link>
       </div>

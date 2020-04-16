@@ -1,12 +1,15 @@
 import { createContext } from 'react';
 import { Address } from '../interfaces/';
 
-const signOut = function(): void {};
-const signIn = function(_a: string, _b: string): void {};
-const updateCheckoutId = function(_a: string, _b: Address): void {};
+const signOut = function (): void {};
+const signIn = function (_a: string, _b: string): void {};
+const updateCheckoutId = function (_a: string, _b: Address): void {};
+const addFavorite = function (_a: string): void {};
+const removeFavorite = function (_a: string): void {};
 
 const UserContext = createContext({
   user: {
+    id: '',
     defaultAddress: {
       firstName: '',
       lastName: '',
@@ -15,16 +18,21 @@ const UserContext = createContext({
       city: '',
       province: '',
       country: 'United States',
-      zip: ''
+      zip: '',
     },
     email: '',
-    displayName: ''
+    displayName: '',
+    favorites: {
+      product: [] as string[],
+    },
   },
   loggedIn: false,
   signIn,
   signOut,
   checkoutId: '',
-  updateCheckoutId
+  updateCheckoutId,
+  addFavorite,
+  removeFavorite,
 });
 
 export default UserContext;

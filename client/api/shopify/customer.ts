@@ -1,4 +1,4 @@
-import { postWrapper, SHOPIFY_BASE_URL } from '../api';
+import { postWrapper, fetchWrapper, SHOPIFY_BASE_URL } from '../api';
 import { CustomerInformation } from '../../interfaces/';
 
 export const createCustomer = async (customerInfo: CustomerInformation) => {
@@ -30,7 +30,7 @@ export const createAddress = async (
     city,
     province,
     zip,
-    customerAccessToken
+    customerAccessToken,
   };
   try {
     const response = await postWrapper(API_URL, reqObj);
@@ -39,5 +39,34 @@ export const createAddress = async (
   } catch (e) {
     console.log('caught', e);
     return { userErrors: [], error: true };
+  }
+};
+
+export const updateCustomerFavorites = async (
+  customerId: string,
+  favoriteIds: string[]
+) => {
+  // must container customer id in '383838929' format.
+  const API_URL = `${SHOPIFY_BASE_URL}/customer/${customerId}/metafields/updatefavorites`;
+  const reqObj = { favoriteIds };
+
+  try {
+    const response = await postWrapper(API_URL, reqObj);
+    return { error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { user: {}, error: true };
+  }
+};
+
+export const getCustomerFavorites = async (customerId: string) => {
+  const API_URL = `${SHOPIFY_BASE_URL}/customer/${customerId}/metafields/favorites`;
+  try {
+    const response = await fetchWrapper(API_URL);
+    let { favorites } = response.data;
+    return { favorites, error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { favorites: [], error: true };
   }
 };

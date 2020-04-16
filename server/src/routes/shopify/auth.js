@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
 const authQueries = require('../../graphql/queries/auth.js');
+const shopifyUtils = require('../../util/shopify.js');
 
 const router = express.Router();
 
@@ -11,40 +12,40 @@ router.post('/signin', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.createCustomerAccessToken(email, password)
+      query: authQueries.createCustomerAccessToken(email, password),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
-        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    }
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   })
-    .then(response => {
+    .then((response) => {
       const {
         customerUserErrors,
-        customerAccessToken
+        customerAccessToken,
       } = response.data.data.customerAccessTokenCreate;
       if (customerUserErrors.length > 0) {
         res.send({
           data: { userErrors: customerUserErrors, accessToken: '' },
-          error: true
+          error: true,
         });
       } else {
         res.send({
           data: {
             userErrors: customerUserErrors,
-            accessToken: customerAccessToken.accessToken
+            accessToken: customerAccessToken.accessToken,
           },
-          error: false
+          error: false,
         });
       }
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({
         data: {
           userErrors: [],
-          accessToken: ''
+          accessToken: '',
         },
-        error: true
+        error: true,
       });
     });
 });
@@ -55,22 +56,44 @@ router.get('/checktoken', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.getCustomerByCustomerAccessToken(token)
+      query: authQueries.getCustomerByCustomerAccessToken(token),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
-        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    }
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   })
-    .then(response => {
-      try {
-        const { customer } = response.data.data;
-        res.send({ data: { user: customer, activeToken: true }, error: false });
-      } catch (error) {
-        res.send({ data: { user: {}, activeToken: false }, error: false });
-      }
+    .then((response) => {
+      const { customer } = response.data.data;
+      customer.id = shopifyUtils.getNumericProductId(
+        shopifyUtils.getIdFromBase64(customer.id)
+      );
+      customer.favorites = { product: [] };
+
+      axios({
+        url: `${config.shopifyAdminRestUrlWithAuth}customers/${customer.id}/metafields.json`,
+        method: 'get',
+      })
+        .then((response) => {
+          const metaFields = response.data.metafields;
+          metaFields.forEach((metaField) => {
+            if (metaField.key === 'product') {
+              customer.favorites.product = JSON.parse(metaField.value);
+            }
+          });
+          res.send({
+            data: { user: customer, activeToken: true },
+            error: false,
+          });
+        })
+        .catch((response) => {
+          res.send({
+            data: { user: customer, activeToken: true },
+            error: true,
+          });
+        });
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ data: { user: {}, activeToken: false }, error: true });
     });
 });
@@ -81,42 +104,42 @@ router.post('/renewtoken', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.renewCustomerAccessToken(customerAccessToken)
+      query: authQueries.renewCustomerAccessToken(customerAccessToken),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
-        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    }
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   })
-    .then(response => {
+    .then((response) => {
       const {
         customerAccessToken,
-        userErrors
+        userErrors,
       } = response.data.data.customerAccessTokenRenew;
       if (userErrors.length > 0) {
         res.send({
           data: { userErrors, renewedToken: '', expiresAt: '' },
-          error: true
+          error: true,
         });
       } else {
         res.send({
           data: {
             userErrors,
             renewedToken: customerAccessToken.accessToken,
-            expiresAt: customerAccessToken.expiresAt
+            expiresAt: customerAccessToken.expiresAt,
           },
-          error: false
+          error: false,
         });
       }
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({
         data: {
           userErrors: [],
           renewedToken: '',
-          expiresAt: ''
+          expiresAt: '',
         },
-        error: true
+        error: true,
       });
     });
 });
