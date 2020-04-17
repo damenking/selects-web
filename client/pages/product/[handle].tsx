@@ -56,12 +56,11 @@ const ProductPage: NextPage = () => {
   const [selectedVariantIndex, updateSelectedVariantIndex] = useState(0);
   const [selectedStartDate, updatedSelectedStartDate] = useState('');
   const [selectedEndDate, updateSelectedEndDate] = useState('');
-  const defaultIsFavorited = user.favorites.product.indexOf(product.id) !== -1;
-  const [isFavorited, updateIsFavorited] = useState(defaultIsFavorited);
+  const [isFavorited, updateIsFavorited] = useState(false);
 
   useEffect(() => {
-    updateIsFavorited(defaultIsFavorited);
-  }, [defaultIsFavorited]);
+    updateIsFavorited(user.favorites.product.indexOf(product.id) !== -1);
+  }, [user, product]);
 
   useEffect(() => {
     if (handle) {
@@ -133,6 +132,7 @@ const ProductPage: NextPage = () => {
       updateSelectedVariantIndex(getVarianceIndexByDays(1));
     }
   };
+  console.log(isFavorited);
 
   if (isMobile) {
     return (
