@@ -68,33 +68,45 @@ router.get('/checktoken', (req, res) => {
       customer.id = shopifyUtils.getNumericProductId(
         shopifyUtils.getIdFromBase64(customer.id)
       );
-      customer.favorites = { product: [] };
-
-      axios({
-        url: `${config.shopifyAdminRestUrlWithAuth}customers/${customer.id}/metafields.json`,
-        method: 'get',
-      })
-        .then((response) => {
-          const metaFields = response.data.metafields;
+      const customerPromise = async (customerId) => {
+        return axios({
+          url: `${config.shopifyAdminRestUrlWithAuth}customers/${customerId}.json`,
+          method: 'get',
+        });
+      };
+      const metaFieldPromise = async (customerId) => {
+        return axios({
+          url: `${config.shopifyAdminRestUrlWithAuth}customers/${customerId}/metafields.json`,
+          method: 'get',
+        });
+      };
+      Promise.all([customerPromise(customer.id), metaFieldPromise(customer.id)])
+        .then((responses) => {
+          const customer = responses[0].data.customer;
+          const metaFields = responses[1].data.metafields;
+          const favorites = { product: {} };
           metaFields.forEach((metaField) => {
             if (metaField.key === 'product') {
-              customer.favorites.product = JSON.parse(metaField.value);
+              favorites.product = JSON.parse(metaField.value);
             }
           });
           res.send({
-            data: { user: customer, activeToken: true },
+            data: { user: customer, favorites, activeToken: true },
             error: false,
           });
         })
         .catch((response) => {
           res.send({
-            data: { user: customer, activeToken: true },
+            data: { user: {}, favorites: {}, activeToken: true },
             error: true,
           });
         });
     })
     .catch((response) => {
-      res.send({ data: { user: {}, activeToken: false }, error: true });
+      res.send({
+        data: { user: {}, favorites: {}, activeToken: false },
+        error: true,
+      });
     });
 });
 

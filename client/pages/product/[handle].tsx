@@ -48,7 +48,7 @@ const defaultProduct = {
 const ProductPage: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
-  const { checkoutId, user } = useContext(UserContext);
+  const { checkoutId, user, favorites } = useContext(UserContext);
   const isMobile = checkIsMobile();
   const [product, setProduct] = useState(defaultProduct);
   const [productImages, setProductImages] = useState([]);
@@ -59,7 +59,7 @@ const ProductPage: NextPage = () => {
   const [isFavorited, updateIsFavorited] = useState(false);
 
   useEffect(() => {
-    updateIsFavorited(user.favorites.product.indexOf(product.id) !== -1);
+    updateIsFavorited(favorites.product.indexOf(product.id) !== -1);
   }, [user, product]);
 
   useEffect(() => {
@@ -81,14 +81,14 @@ const ProductPage: NextPage = () => {
   }, [handle]);
 
   const handleAddToFavorites = () => {
-    const favoriteIds = [...user.favorites.product];
+    const favoriteIds = [...favorites.product];
     favoriteIds.push(product.id);
     updateCustomerFavorites(user.id, favoriteIds);
     updateIsFavorited(true);
   };
 
   const handleRemoveFromFavorites = () => {
-    const favoriteIds = [...user.favorites.product];
+    const favoriteIds = [...favorites.product];
     favoriteIds.splice(favoriteIds.indexOf(product.id), 1);
     updateCustomerFavorites(user.id, favoriteIds);
     updateIsFavorited(false);
@@ -132,7 +132,6 @@ const ProductPage: NextPage = () => {
       updateSelectedVariantIndex(getVarianceIndexByDays(1));
     }
   };
-  console.log(isFavorited);
 
   if (isMobile) {
     return (

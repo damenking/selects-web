@@ -2,7 +2,8 @@ const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
 const customerQueries = require('../../graphql/queries/customer.js');
-const convertToE164 = require('../../util/phone.js');
+const { convertToE164 } = require('../../util/phone.js');
+const { validateCustomerUpdateFields } = require('../../util/shopify');
 
 const router = express.Router();
 
@@ -109,7 +110,6 @@ router.get('/:customerId/metafields/favorites', (req, res) => {
 });
 
 router.post('/:customerId/metafields/updatefavorites', (req, res) => {
-  // /admin/api/2020-04/customers/#{customer_id}.json
   const customerId = req.params.customerId;
   const { favoriteIds } = req.body;
   const reqObj = {
@@ -132,4 +132,25 @@ router.post('/:customerId/metafields/updatefavorites', (req, res) => {
       res.send({ error: true });
     });
 });
+
+router.post('/:customerId/update', (req, res) => {
+  const customerId = req.params.customerId;
+  const { customer } = req.body;
+  if (!validateCustomerUpdateFields(customer)) {
+    res.send({ error: true });
+  }
+  axios({
+    url: `${config.shopifyAdminRestUrlWithAuth}customers/${customerId}.json`,
+    method: 'put',
+    data: { customer },
+  })
+    .then((response) => {
+      const customerResponse = response.data.customer;
+      res.send({ data: { user: customerResponse }, error: false });
+    })
+    .catch((response) => {
+      res.send({ data: { user: {} }, error: true });
+    });
+});
+
 module.exports = router;

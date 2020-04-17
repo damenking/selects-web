@@ -49,13 +49,12 @@ export const updateCustomerFavorites = async (
   // must container customer id in '383838929' format.
   const API_URL = `${SHOPIFY_BASE_URL}/customer/${customerId}/metafields/updatefavorites`;
   const reqObj = { favoriteIds };
-
   try {
     const response = await postWrapper(API_URL, reqObj);
     return { error: response.error };
   } catch (e) {
     console.log('caught', e);
-    return { user: {}, error: true };
+    return { error: true };
   }
 };
 
@@ -68,5 +67,21 @@ export const getCustomerFavorites = async (customerId: string) => {
   } catch (e) {
     console.log('caught', e);
     return { favorites: [], error: true };
+  }
+};
+
+export const updateCustomer = async (customerId: string, fields: any) => {
+  // must container customer id in '383838929' format.
+  const API_URL = `${SHOPIFY_BASE_URL}/customer/${customerId}/update`;
+  const reqObj = { customer: {} as any };
+  reqObj.customer = fields;
+  reqObj.customer.id = customerId;
+  try {
+    const response = await postWrapper(API_URL, reqObj);
+    const { user } = response.data;
+    return { user, error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { user: {}, error: true };
   }
 };

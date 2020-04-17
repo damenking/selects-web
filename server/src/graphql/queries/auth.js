@@ -19,30 +19,41 @@ const createCustomerAccessToken = (email, password) => {
   `;
 };
 
-const getCustomerByCustomerAccessToken = token => {
+// const getCustomerByCustomerAccessToken = (token) => {
+//   return `
+//     query {
+//       customer (customerAccessToken: "${token}") {
+//         id
+//         firstName
+//         lastName
+//         email
+//         defaultAddress {
+//           address1
+//           address2
+//           firstName
+//           lastName
+//           company
+//           city
+//           province
+//           zip
+//           phone
+//         }
+//       }
+//     }
+//   `;
+// };
+
+const getCustomerByCustomerAccessToken = (token) => {
   return `
     query {
       customer (customerAccessToken: "${token}") {
         id
-        displayName,
-        email
-        defaultAddress {
-          address1
-          address2
-          firstName
-          lastName
-          company
-          city
-          province
-          zip
-          phone
-        }
       }
     }
   `;
 };
 
-const renewCustomerAccessToken = token => {
+const renewCustomerAccessToken = (token) => {
   return `
     mutation {
       customerAccessTokenRenew(customerAccessToken: "${token}") {
@@ -62,5 +73,5 @@ const renewCustomerAccessToken = token => {
 module.exports = {
   createCustomerAccessToken,
   getCustomerByCustomerAccessToken,
-  renewCustomerAccessToken
+  renewCustomerAccessToken,
 };

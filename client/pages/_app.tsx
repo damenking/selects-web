@@ -8,7 +8,7 @@ import UserContext from '../components/UserContext';
 import WindowDimensionsProvider from '../components/WindowDimensionsProvider';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout } from '../api/shopify/checkout';
-import { Address } from '../interfaces/';
+import { Address, User } from '../interfaces/';
 
 import 'js-datepicker/dist/datepicker.min.css';
 import 'react-dates/lib/css/_datepicker.css';
@@ -17,24 +17,9 @@ import '../styles.css';
 
 class MyApp extends App {
   state = {
-    user: {
-      id: '',
-      defaultAddress: {
-        firstName: '',
-        lastName: '',
-        address1: '',
-        address2: '',
-        city: '',
-        province: '',
-        zip: '',
-        country: '',
-        company: '',
-      },
-      email: '',
-      displayName: '',
-      favorites: {
-        product: [] as string[],
-      },
+    user: {} as User,
+    favorites: {
+      product: [] as string[],
     },
     loggedIn: false,
     checkoutId: '',
@@ -45,12 +30,17 @@ class MyApp extends App {
     const checkoutId = localStorage.getItem('checkoutId') || '';
     if (accessToken && accessToken !== '') {
       checkToken(accessToken).then((response) => {
-        const { activeToken, user } = response;
+        const { activeToken, user, favorites } = response;
         if (activeToken) {
           renewToken(accessToken).then((response) => {
             localStorage.setItem('accessToken', response.renewedToken);
           });
-          this.setState({ loggedIn: true, user: user, checkoutId: checkoutId });
+          this.setState({
+            loggedIn: true,
+            user: user,
+            checkoutId: checkoutId,
+            favorites: favorites,
+          });
         }
       });
     } else {
@@ -98,28 +88,33 @@ class MyApp extends App {
     Router.push('/account/signIn');
   };
 
-  addFavorite = (productId: string) => {
-    const updatedFavorites = [...this.state.user.favorites.product];
-    const updatedUser = { ...this.state.user };
-    updatedUser.favorites = { ...this.state.user.favorites };
-    updatedFavorites.push(productId);
-    updatedUser.favorites.product = updatedFavorites;
-    this.setState({ user: updatedUser });
+  addProductFavorite = (productId: string) => {
+    const updatedProductFavorites = [...this.state.favorites.product];
+    const updatedFavorites = { ...this.state.favorites };
+    updatedProductFavorites.push(productId);
+    updatedFavorites.product = updatedProductFavorites;
+    this.setState({ favorites: updatedFavorites });
   };
 
-  removeFavorite = (productId: string) => {
-    const updatedFavorites = [...this.state.user.favorites.product];
-    const updatedUser = { ...this.state.user };
-    updatedUser.favorites = { ...this.state.user.favorites };
-    updatedFavorites.splice(updatedFavorites.indexOf(productId), 1);
-    updatedUser.favorites.product = updatedFavorites;
-    this.setState({ user: updatedUser });
+  removeProductFavorite = (productId: string) => {
+    const updatedProductFavorites = [...this.state.favorites.product];
+    const updatedFavorites = { ...this.state.favorites };
+    updatedProductFavorites.splice(
+      updatedProductFavorites.indexOf(productId),
+      1
+    );
+    updatedFavorites.product = updatedProductFavorites;
+    this.setState({ favorites: updatedFavorites });
   };
 
   updateCheckoutId = async (email: string, address: Address) => {
     const { checkoutId } = await createCheckout(email, address);
     this.setState({ checkoutId: checkoutId });
     localStorage.setItem('checkoutId', checkoutId);
+  };
+
+  updateUserData = (user: User) => {
+    this.setState({ user: user });
   };
 
   render() {
@@ -135,8 +130,10 @@ class MyApp extends App {
             user: this.state.user,
             checkoutId: this.state.checkoutId,
             updateCheckoutId: this.updateCheckoutId,
-            addFavorite: this.addFavorite,
-            removeFavorite: this.removeFavorite,
+            addProductFavorite: this.addProductFavorite,
+            removeProductFavorite: this.removeProductFavorite,
+            updateUserData: this.updateUserData,
+            favorites: this.state.favorites,
           }}
         >
           <Head>

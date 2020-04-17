@@ -123,6 +123,31 @@ export interface ProductFavorite {
   image: {
     src: string;
   };
-  handl: string;
+  handle: string;
   title: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  accepts_marketing: boolean;
+  created_at: string;
+  updated_at: string;
+  first_name: string;
+  last_name: string;
+  orders_count: number;
+  total_spent: string;
+  last_order_id: number;
+  note: string;
+  verified_email: boolean;
+  tax_exempt: boolean;
+  phone: string;
+  tags: string;
+  last_order_name: string;
+  currency: string;
+  addresses: Address[];
+  accepts_marketing_updated_at: string;
+  marketing_opt_in_level?: any;
+  tax_exemptions?: any[];
+  default_address: Address;
 }

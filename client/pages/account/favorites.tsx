@@ -1,24 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { getCustomerFavorites } from '../../api/shopify/customer';
 import { getProductsByIds } from '../../api/shopify/products';
 import UserContext from '../../components/UserContext';
 import { ProductFavorite } from '../../interfaces/';
 
 const FavoritesPage: NextPage = () => {
-  const { user } = useContext(UserContext);
+  const { favorites } = useContext(UserContext);
   const [products, updateProducts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { favorites } = await getCustomerFavorites(user.id);
-      const response = await getProductsByIds(favorites);
+      const response = await getProductsByIds(favorites.product);
       updateProducts(response.products);
     };
-    if (user.id) {
+    if (favorites.product.length) {
       fetchData();
     }
-  }, [user]);
+  }, [favorites]);
 
   return (
     <div>

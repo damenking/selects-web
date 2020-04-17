@@ -17,15 +17,16 @@ export const checkToken = async (token: string | null) => {
   const API_URL = `${SHOPIFY_BASE_URL}/auth/checktoken/?token=${token}`;
   try {
     const response = await fetchWrapper(API_URL);
-    const { user, activeToken } = response.data;
+    const { user, activeToken, favorites } = response.data;
     return {
       user,
       activeToken,
-      error: response.error
+      favorites,
+      error: response.error,
     };
   } catch (e) {
     console.log('caught', e);
-    return { user: {}, activeToken: false, error: true };
+    return { user: {}, activeToken: false, favorites: [], error: true };
   }
 };
 

@@ -42,7 +42,7 @@ const Profile: React.FunctionComponent = () => {
     return (
       <div className={`${styles.profileContainer} clickable`}>
         <div className="display-flex" onMouseDown={handleLoggedInClick}>
-          <span>{user.displayName}</span>
+          <span>{`${user.first_name} ${user.last_name}`}</span>
           <img src="/static/icons/chevronDown.svg" />
         </div>
         <DropdownMenu
@@ -50,6 +50,9 @@ const Profile: React.FunctionComponent = () => {
           handleMenuOnBlur={handleMenuOnBlur}
         >
           <div className={styles.dropdownContent}>
+            <Link href="/account/profile">
+              <p onClick={() => updateShowDropdown(false)}>Profile</p>
+            </Link>
             <Link href="/account/orderHistory">
               <p onClick={() => updateShowDropdown(false)}>Order History</p>
             </Link>
