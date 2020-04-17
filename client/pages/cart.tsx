@@ -78,14 +78,14 @@ const CartPage: NextPage = () => {
     });
     createAndConfirmReservation(
       checkoutId,
-      user.defaultAddress.firstName,
-      user.defaultAddress.lastName,
+      user.default_address.firstName,
+      user.default_address.lastName,
       user.email,
       reservationItems
     );
     if (onAccount) {
       createShopifyOrder();
-      updateCheckoutId(user.email, user.defaultAddress);
+      updateCheckoutId(user.email, user.default_address);
     } else {
       window.location.href = checkoutUrl;
     }
