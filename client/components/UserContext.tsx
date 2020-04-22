@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { Address, User } from '../interfaces/';
 
 const signOut = function (): void {};
-const signIn = function (_a: string, _b: string): void {};
+const signIn = function (_a?: string, _b?: string, _c?: string): void {};
 const updateCheckoutId = function (_a: string, _b: Address): void {};
 const addProductFavorite = function (_a: string): void {};
 const removeProductFavorite = function (_a: string): void {};

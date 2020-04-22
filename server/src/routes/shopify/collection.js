@@ -1,7 +1,10 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
-const collectionQueries = require('../../graphql/queries/collection.js');
+const {
+  menuCollectionByHandleQuery,
+  collectionByHandleQuery,
+} = require('../../graphql/queries/collection.js');
 
 const router = express.Router();
 
@@ -12,7 +15,7 @@ router.get('/:collectionHandle', (req, res) => {
     url: config.shopifyAdminUrl,
     method: 'post',
     data: {
-      query: collectionQueries.collectionByHandleQuery(collectionHandle),
+      query: collectionByHandleQuery(collectionHandle),
     },
     headers: {
       'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD,
@@ -34,7 +37,7 @@ router.get('/menu/:collectionHandle', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: collectionQueries.menuCollectionByHandleQuery(collectionHandle),
+      query: menuCollectionByHandleQuery(collectionHandle),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':

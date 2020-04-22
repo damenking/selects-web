@@ -59,10 +59,19 @@ class MyApp extends App {
     }
   };
 
-  signIn = async (userEmail: string, password: string) => {
+  signIn = async (
+    userEmail?: string,
+    password?: string,
+    accessToken?: string
+  ) => {
     let checkoutId = localStorage.getItem('checkoutId') || '';
-    const { accessToken, error } = await createToken(userEmail, password);
-    if (!error) {
+    let error;
+    if (userEmail && password && !accessToken) {
+      const response = await createToken(userEmail, password);
+      error = response.error;
+      accessToken = response.accessToken;
+    }
+    if (!error && accessToken) {
       const { user } = await checkToken(accessToken);
       localStorage.setItem('accessToken', accessToken);
       if (!checkoutId.length) {

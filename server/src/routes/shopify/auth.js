@@ -1,8 +1,17 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
-const authQueries = require('../../graphql/queries/auth.js');
-const shopifyUtils = require('../../util/shopify.js');
+const {
+  createCustomerAccessToken,
+  getCustomerByCustomerAccessToken,
+  renewCustomerAccessToken,
+  triggerPasswordReset,
+  passwordResetByUrl,
+} = require('../../graphql/queries/auth.js');
+const {
+  getNumericProductId,
+  getIdFromBase64,
+} = require('../../util/shopify.js');
 
 const router = express.Router();
 
@@ -12,7 +21,7 @@ router.post('/signin', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.createCustomerAccessToken(email, password),
+      query: createCustomerAccessToken(email, password),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
@@ -56,7 +65,7 @@ router.get('/checktoken', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.getCustomerByCustomerAccessToken(token),
+      query: getCustomerByCustomerAccessToken(token),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
@@ -65,9 +74,7 @@ router.get('/checktoken', (req, res) => {
   })
     .then((response) => {
       const { customer } = response.data.data;
-      customer.id = shopifyUtils.getNumericProductId(
-        shopifyUtils.getIdFromBase64(customer.id)
-      );
+      customer.id = getNumericProductId(getIdFromBase64(customer.id));
       const customerPromise = async (customerId) => {
         return axios({
           url: `${config.shopifyAdminRestUrlWithAuth}customers/${customerId}.json`,
@@ -116,7 +123,7 @@ router.post('/renewtoken', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.renewCustomerAccessToken(customerAccessToken),
+      query: renewCustomerAccessToken(customerAccessToken),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
@@ -151,6 +158,68 @@ router.post('/renewtoken', (req, res) => {
           renewedToken: '',
           expiresAt: '',
         },
+        error: true,
+      });
+    });
+});
+
+router.post('/resetpassword', (req, res) => {
+  const { email } = req.body;
+  axios({
+    url: config.shopifyStorefrontUrl,
+    method: 'post',
+    data: {
+      query: triggerPasswordReset(email),
+    },
+    headers: {
+      'X-Shopify-Storefront-Access-Token':
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
+  })
+    .then((response) => {
+      res.send({ error: false });
+    })
+    .catch((response) => {
+      res.send({ error: true });
+    });
+});
+
+router.post('/updatepassword', (req, res) => {
+  const { url, newPassword } = req.body;
+  axios({
+    url: config.shopifyStorefrontUrl,
+    method: 'post',
+    data: {
+      query: passwordResetByUrl(url, newPassword),
+    },
+    headers: {
+      'X-Shopify-Storefront-Access-Token':
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
+  })
+    .then((response) => {
+      const { customerResetByUrl } = response.data.data;
+      const customerAccessToken =
+        customerResetByUrl.customerAccessToken.accessToken;
+      const customerUserErrors = customerResetByUrl.customerUserErrors;
+      if (customerUserErrors.length) {
+        const formattedErrors = customerUserErrors.map((error) => {
+          return error.message;
+        });
+        res.send({
+          data: { customerUserErrors: formattedErrors },
+          error: true,
+        });
+      }
+
+      res.send({
+        data: { customerAccessToken, customerUserErrors: [] },
+        error: false,
+      });
+    })
+    .catch((response) => {
+      res.send({
+        data: { customerAccessToken: '', customerUserErrors: [] },
         error: true,
       });
     });

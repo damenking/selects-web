@@ -2,7 +2,10 @@ const express = require('express');
 const axios = require('axios');
 const shopifyClient = require('../../shopify-buy-sdk/shopifyBuy.js');
 const config = require('../../../config.js');
-const checkoutQueries = require('../../graphql/queries/checkout.js');
+const {
+  deleteCheckout,
+  updateShippingLine,
+} = require('../../graphql/queries/checkout.js');
 
 const router = express.Router();
 
@@ -11,10 +14,10 @@ router.post('/create', (req, res) => {
   shippingAddress.country = 'United States';
   shopifyClient.sdk.checkout
     .create({ email, shippingAddress })
-    .then(response => {
+    .then((response) => {
       res.send({ data: { checkoutId: response.id }, error: false });
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ data: { checkoutId: '' }, error: true });
     });
 });
@@ -23,17 +26,17 @@ router.get('/fetch', (req, res) => {
   const { checkoutId } = req.query;
   shopifyClient.sdk.checkout
     .fetch(checkoutId)
-    .then(response => {
+    .then((response) => {
       const { lineItems, webUrl } = response;
       res.send({
         data: {
           webUrl,
-          lineItems
+          lineItems,
         },
-        error: false
+        error: false,
       });
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ data: {}, error: true });
     });
 });
@@ -42,10 +45,10 @@ router.post('/addlineitems', (req, res) => {
   const { checkoutId, lineItems } = req.body;
   shopifyClient.sdk.checkout
     .addLineItems(checkoutId, lineItems)
-    .then(response => {
+    .then((response) => {
       res.send({ error: false });
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ error: true });
     });
 });
@@ -54,11 +57,11 @@ router.post('/removelineitems', (req, res) => {
   const { checkoutId, lineItems } = req.body;
   shopifyClient.sdk.checkout
     .removeLineItems(checkoutId, lineItems)
-    .then(response => {
+    .then((response) => {
       const { lineItems } = response;
       res.send({ data: { lineItems }, error: false });
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ data: {}, error: true });
     });
 });
@@ -75,17 +78,17 @@ router.post('/delete', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: checkoutQueries.deleteCheckout(checkoutId)
+      query: deleteCheckout(checkoutId),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
-        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    }
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   })
-    .then(response => {
+    .then((response) => {
       res.send({ error: false });
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ error: true });
     });
 });
@@ -97,17 +100,17 @@ router.post('/updateshippingline', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: checkoutQueries.updateShippingLine(checkoutId, 'Standard')
+      query: updateShippingLine(checkoutId, 'Standard'),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
-        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    }
+        config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    },
   })
-    .then(response => {
+    .then((response) => {
       res.send({ error: false });
     })
-    .catch(response => {
+    .catch((response) => {
       res.send({ error: true });
     });
 });

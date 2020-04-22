@@ -2,7 +2,10 @@ const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
 const { getNumericProductId } = require('../../util/shopify.js');
-const productsQueries = require('../../graphql/queries/products.js');
+const {
+  allProductsQuery,
+  productsSearchQuery,
+} = require('../../graphql/queries/products.js');
 
 const router = express.Router();
 
@@ -12,7 +15,7 @@ router.get('/', (req, res) => {
     url: config.shopifyAdminUrl,
     method: 'post',
     data: {
-      query: productsQueries.allProductsQuery,
+      query: allProductsQuery,
     },
     headers: {
       'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD,
@@ -47,7 +50,7 @@ router.get('/search', (req, res) => {
     url: config.shopifyAdminUrl,
     method: 'post',
     data: {
-      query: productsQueries.productsSearchQuery,
+      query: productsSearchQuery,
     },
     headers: {
       'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD,

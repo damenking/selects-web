@@ -70,8 +70,45 @@ const renewCustomerAccessToken = (token) => {
   `;
 };
 
+const triggerPasswordReset = (email) => {
+  return `
+    mutation {
+      customerRecover(email: "${email}") {
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+};
+
+const passwordResetByUrl = (resetUrl, password) => {
+  return `
+    mutation {
+      customerResetByUrl(resetUrl: "${resetUrl}", password: "${password}") {
+        customer {
+          id
+        }
+        customerAccessToken {
+          accessToken
+          expiresAt
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+};
+
 module.exports = {
   createCustomerAccessToken,
   getCustomerByCustomerAccessToken,
   renewCustomerAccessToken,
+  triggerPasswordReset,
+  passwordResetByUrl,
 };

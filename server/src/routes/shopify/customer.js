@@ -1,7 +1,10 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
-const customerQueries = require('../../graphql/queries/customer.js');
+const {
+  createCustomer,
+  createAddress,
+} = require('../../graphql/queries/customer.js');
 const { convertToE164 } = require('../../util/phone.js');
 const { validateCustomerUpdateFields } = require('../../util/shopify');
 
@@ -13,7 +16,7 @@ router.post('/create', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: customerQueries.createCustomer(
+      query: createCustomer(
         email,
         password,
         firstName,
@@ -56,7 +59,7 @@ router.post('/createAddress', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: customerQueries.createAddress(
+      query: createAddress(
         firstName,
         lastName,
         phone,

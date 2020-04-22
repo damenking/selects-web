@@ -41,3 +41,26 @@ export const renewToken = async (token: string) => {
     return { renewedToken: '', error: true };
   }
 };
+
+export const triggerPasswordResetEmail = async (email: string) => {
+  const API_URL = `${SHOPIFY_BASE_URL}/auth/resetpassword`;
+  try {
+    const response = await postWrapper(API_URL, { email: email });
+    return { error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { error: true };
+  }
+};
+
+export const passwordResetByUrl = async (url: string, newPassword: string) => {
+  const API_URL = `${SHOPIFY_BASE_URL}/auth/updatepassword`;
+  try {
+    const response = await postWrapper(API_URL, { url, newPassword });
+    const { customerAccessToken, customerUserErrors } = response.data;
+    return { customerAccessToken, customerUserErrors, error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { customerAccessToken: '', customerUserErrors: [], error: true };
+  }
+};

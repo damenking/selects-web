@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
-const productsQueries = require('../../graphql/queries/products.js');
+const { productByHandleQuery } = require('../../graphql/queries/products.js');
 const { getNumericProductId } = require('../../util/shopify.js');
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.get('/:productHandle', (req, res) => {
     url: config.shopifyAdminUrl,
     method: 'post',
     data: {
-      query: productsQueries.productByHandleQuery(productHandle),
+      query: productByHandleQuery(productHandle),
     },
     headers: {
       'X-Shopify-Access-Token': config.SHOPIFY_ADMIN_API_PASSWORD,

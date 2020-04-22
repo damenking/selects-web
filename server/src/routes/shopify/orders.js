@@ -1,9 +1,13 @@
 const express = require('express');
 const axios = require('axios');
 const config = require('../../../config.js');
-const authQueries = require('../../graphql/queries/auth.js');
-const { getNumericProductId } = require('../../util/shopify.js');
-const shopifyUtils = require('../../util/shopify.js');
+const {
+  getCustomerByCustomerAccessToken,
+} = require('../../graphql/queries/auth.js');
+const {
+  getNumericProductId,
+  getIdFromBase64,
+} = require('../../util/shopify.js');
 
 const router = express.Router();
 
@@ -13,7 +17,7 @@ router.get('/', (req, res) => {
     url: config.shopifyStorefrontUrl,
     method: 'post',
     data: {
-      query: authQueries.getCustomerByCustomerAccessToken(token),
+      query: getCustomerByCustomerAccessToken(token),
     },
     headers: {
       'X-Shopify-Storefront-Access-Token':
@@ -22,7 +26,7 @@ router.get('/', (req, res) => {
   })
     .then((response) => {
       const base64Id = response.data.data.customer.id;
-      const id = getNumericProductId(shopifyUtils.getIdFromBase64(base64Id));
+      const id = getNumericProductId(getIdFromBase64(base64Id));
       axios({
         url: `${config.shopifyAdminRestUrlWithAuth}customers/${id}/orders.json`,
         method: 'get',
