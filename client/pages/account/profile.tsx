@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import UserContext from '../../components/UserContext';
 import { updateCustomer } from '../../api/shopify/customer';
 import { User } from '../../interfaces/';
+import { triggerPasswordResetEmail } from '../../api/shopify/auth';
 
 const FavoritesPage: NextPage = () => {
   const { user, updateUserData } = useContext(UserContext);
@@ -46,6 +47,13 @@ const FavoritesPage: NextPage = () => {
     updateUserEmail(value);
   };
 
+  const handleResetSubmit = () => {
+    triggerPasswordResetEmail(user.email);
+    alert(
+      `An email has been sent to ${user.email} with a password reset link.`
+    );
+  };
+
   return (
     <div>
       <p>This is a profile page!!!</p>
@@ -63,6 +71,8 @@ const FavoritesPage: NextPage = () => {
       <input type="text" value={userEmail} onChange={handleEmailNameChange} />
       <br />
       <button onClick={handleProfileUpdateSubmit}>Update</button>
+      <br />
+      <button onClick={handleResetSubmit}>Password reset submit</button>
     </div>
   );
 };
