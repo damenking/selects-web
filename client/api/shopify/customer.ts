@@ -1,5 +1,8 @@
 import { postWrapper, fetchWrapper, SHOPIFY_BASE_URL } from '../api';
-import { CustomerInformation } from '../../interfaces/';
+import {
+  CustomerInformation,
+  ShippingAddressInformation,
+} from '../../interfaces/';
 
 export const createCustomer = async (customerInfo: CustomerInformation) => {
   const API_URL = `${SHOPIFY_BASE_URL}/customer/create`;
@@ -14,7 +17,7 @@ export const createCustomer = async (customerInfo: CustomerInformation) => {
 };
 
 export const createAddress = async (
-  customerInfo: CustomerInformation,
+  customerInfo: ShippingAddressInformation,
   customerAccessToken: string
 ) => {
   const API_URL = `${SHOPIFY_BASE_URL}/customer/createAddress`;

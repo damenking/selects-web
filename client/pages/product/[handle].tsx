@@ -10,8 +10,8 @@ import { checkIsMobile } from '../../components/WindowDimensionsProvider';
 import { ImageEdge } from '../../interfaces/';
 import Carousel from '../../components/Carousel';
 import TimeslotSelector from '../../components/TimeslotSelector';
-import AddToCart from '../../components/buttons/AddToCart';
-import AddToFavorites from '../../components/buttons/AddToFavorites';
+import PrimaryButton from '../../components/buttons/PrimaryButton';
+import SecondaryButton from '../../components/buttons/SecondaryButton';
 import RevealContent from '../../components/buttons/RevealContent';
 import ExpandableMenuItem from '../../components/ExpandableMenuItem';
 import ProductCard from '../../components/ProductCard';
@@ -159,15 +159,25 @@ const ProductPage: NextPage = () => {
           />
           <div className={styles.addToButtonsContainerMobile}>
             <div className={styles.addToCartButtonContainer}>
-              <AddToCart
+              <PrimaryButton
                 isDisabled={!selectedStartDate}
-                handleAddToCheckout={handleAddToCheckout}
+                handleClick={handleAddToCheckout}
+                text="Add to cart"
+                tooltipText={
+                  !selectedStartDate ? 'Select a rental start date' : ''
+                }
               />
             </div>
-            <AddToFavorites
-              handleAddToFavorites={handleAddToFavorites}
-              handleRemoveFromFavorites={handleRemoveFromFavorites}
-              isFavorited={isFavorited}
+            <SecondaryButton
+              handleClick={
+                isFavorited ? handleRemoveFromFavorites : handleAddToFavorites
+              }
+              text={isFavorited ? 'Favorited' : 'Favorite'}
+              icon="/static/icons/emptyStar.svg"
+              tooltipText={
+                !user.id ? 'You must be logged in to favorite items' : ''
+              }
+              isDisabled={!user.id}
             />
           </div>
         </div>
@@ -252,14 +262,27 @@ const ProductPage: NextPage = () => {
               handleDatesSelect={handleDatesSelect}
             />
             <div className={styles.addToButtonsContainerDesktop}>
-              <AddToCart
+              <PrimaryButton
                 isDisabled={!selectedStartDate}
-                handleAddToCheckout={handleAddToCheckout}
+                handleClick={handleAddToCheckout}
+                text="Add to cart"
+                icon="/static/icons/cartAdd.svg"
+                tooltipText={
+                  !selectedStartDate ? 'Select a rental start date' : ''
+                }
               />
-              <AddToFavorites
-                handleAddToFavorites={handleAddToFavorites}
-                handleRemoveFromFavorites={handleRemoveFromFavorites}
-                isFavorited={isFavorited}
+              <SecondaryButton
+                handleClick={
+                  isFavorited ? handleRemoveFromFavorites : handleAddToFavorites
+                }
+                text={isFavorited ? 'Favorited' : 'Favorite'}
+                icon="/static/icons/emptyStar.svg"
+                tooltipText={
+                  !selectedStartDate
+                    ? 'You must be logged in to favorite items'
+                    : ''
+                }
+                isDisabled={!user.id}
               />
             </div>
           </div>

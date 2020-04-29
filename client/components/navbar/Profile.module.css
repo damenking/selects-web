@@ -10,18 +10,17 @@
 }
 
 .dropdownContent {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  width: 150px;
-  line-height: 200%;
+  padding-top: 22px;
+  padding-bottom: 22px;
+  min-width: 175px;
 }
 
 .dropdownContent p {
-  padding-left: 8px;
-  padding-right: 8px;
-  margin: 0px;
+  margin-left: 25px;
+  margin-right: 8px;
+  padding: 0px;
 }
 
 .dropdownContent p:hover {
-  background-color: #f4f4f4;
+  text-decoration: underline;
 }

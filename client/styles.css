@@ -115,7 +115,6 @@ small {
   font-size: 14px;
   line-height: 150%;
   letter-spacing: 0.02em;
-  text-decoration-line: underline;
 }
 .text-tiny {
   font-style: normal;
@@ -393,6 +392,11 @@ input {
   margin-right: auto;
   margin-left: auto;
   max-width: 2000px;
+}
+
+.underlined {
+  text-decoration-line: underline;
+  text-underline-position: under;
 }
 
 /* Overrides to make Airbnb single month calendar responsive */

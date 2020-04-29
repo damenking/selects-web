@@ -2,7 +2,11 @@ import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import { createCustomer, createAddress } from '../../api/shopify/customer';
-import { UserError, CustomerInformation } from '../../interfaces/';
+import {
+  UserError,
+  CustomerInformation,
+  ShippingAddressInformation,
+} from '../../interfaces/';
 import UserContext from '../../components/UserContext';
 
 const SignUp: NextPage = () => {
@@ -76,7 +80,9 @@ const SignUp: NextPage = () => {
     updatePhone(value);
   };
 
-  const handleSubmit = async (customerInformation: CustomerInformation) => {
+  const handleSubmit = async (
+    customerInformation: ShippingAddressInformation
+  ) => {
     const { error, userErrors } = await createCustomer(customerInformation);
     updateError(error);
     updateUserErrors(userErrors);

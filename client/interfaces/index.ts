@@ -78,6 +78,17 @@ export interface CustomerInformation {
   firstName: string;
   lastName: string;
   password: string;
+  address?: Address;
+  phone: string;
+  customerAccessToken?: string;
+  company?: string;
+}
+
+export interface ShippingAddressInformation {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
   address: Address;
   phone: string;
   customerAccessToken?: string;
