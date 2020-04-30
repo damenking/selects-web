@@ -18,7 +18,7 @@ const PrimaryButton: React.FunctionComponent<PrimaryButtonProps> = (props) => {
       } 
       ${props.isDisabled ? '' : 'clickable'}
       background-color-orange`}
-      onClick={props.isDisabled ? '' : props.handleClick}
+      onClick={props.isDisabled ? null : props.handleClick}
       title={props.tooltipText ? props.tooltipText : ''}
     >
       <div className={styles.iconContainer}>

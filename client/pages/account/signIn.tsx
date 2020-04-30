@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { NextPage } from 'next';
 import UserContext from '../../components/UserContext';
 import { triggerPasswordResetEmail } from '../../api/shopify/auth';
@@ -9,10 +9,13 @@ import { createCustomer } from '../../api/shopify/customer';
 import { CustomerInformation, UserError } from '../../interfaces/';
 import { checkIsMobile } from '../../components/WindowDimensionsProvider';
 import ErrorMessages from '../../components/ErrorMessages';
+import { useRouter } from 'next/router';
 
 import styles from './signIn.module.css';
 
 const SignIn: NextPage = () => {
+  const router = useRouter();
+  const route = router.query.route as string;
   const { signIn } = useContext(UserContext);
   const isMobile = checkIsMobile(750);
   const [showRegister, updateShowRegister] = useState(false);
@@ -27,6 +30,16 @@ const SignIn: NextPage = () => {
   const [orderNumber, updateOrderNumber] = useState('');
   const [orderEmail, updateOrderEmail] = useState('');
   const [errors, updateErrors] = useState([] as string[]);
+
+  useEffect(() => {
+    updateFirstName('');
+    updateLastName('');
+    updateEmail('');
+    updateConfirmEmail('');
+    updatePassword('');
+    updateConfirmPassword('');
+    updatePhone('');
+  }, [showRegister]);
 
   const handleOrderNumberChange = (e: React.SyntheticEvent): void => {
     const { value } = e.target as HTMLInputElement;
@@ -58,7 +71,7 @@ const SignIn: NextPage = () => {
   };
 
   const handleSignIn = async () => {
-    const userErrors = await signIn(email, password, undefined);
+    const userErrors = await signIn(email, password, undefined, route);
     const messages = userErrors.map((error) => {
       if ((error.code = 'UNIDENTIFIED_CUSTOMER')) {
         return 'Your email or password is incorrect.';
@@ -115,7 +128,7 @@ const SignIn: NextPage = () => {
       updateErrors(messages);
     }
     if (!error) {
-      signIn(email, password);
+      signIn(email, password, undefined, route);
     }
   };
 

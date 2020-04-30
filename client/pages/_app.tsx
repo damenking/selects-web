@@ -10,7 +10,6 @@ import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout } from '../api/shopify/checkout';
 import { Address, User, UserError } from '../interfaces/';
 
-import 'js-datepicker/dist/datepicker.min.css';
 import 'react-dates/lib/css/_datepicker.css';
 import 'flickity/css/flickity.css';
 import '../styles.css';
@@ -23,6 +22,7 @@ class MyApp extends App {
     },
     loggedIn: false,
     checkoutId: '',
+    loadingUser: true,
   };
 
   componentDidMount = () => {
@@ -40,6 +40,7 @@ class MyApp extends App {
             user: user,
             checkoutId: checkoutId,
             favorites: favorites,
+            loadingUser: false,
           });
         }
       });
@@ -55,6 +56,7 @@ class MyApp extends App {
           displayName: '',
         },
         checkoutId: checkoutId,
+        loadingUser: false,
       });
     }
   };
@@ -148,6 +150,7 @@ class MyApp extends App {
             removeProductFavorite: this.removeProductFavorite,
             updateUserData: this.updateUserData,
             favorites: this.state.favorites,
+            loadingUser: this.state.loadingUser,
           }}
         >
           <Head>

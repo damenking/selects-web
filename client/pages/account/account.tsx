@@ -2,14 +2,26 @@ import React, { useContext, useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import UserContext from '../../components/UserContext';
 import { updateCustomer } from '../../api/shopify/customer';
-import { User } from '../../interfaces/';
+import { User } from '../../interfaces';
 import { triggerPasswordResetEmail } from '../../api/shopify/auth';
+import AccountLayout from '../../components/AccountLayout';
+import Router, { useRouter } from 'next/router';
 
-const FavoritesPage: NextPage = () => {
-  const { user, updateUserData } = useContext(UserContext);
+const AccountPage: NextPage = () => {
+  const { user, updateUserData, loggedIn, loadingUser } = useContext(
+    UserContext
+  );
+  const router = useRouter();
+  const { tab } = router.query;
   const [userFirstName, updateUserFirstName] = useState('');
   const [userLastName, updateUserLastName] = useState('');
   const [userEmail, updateUserEmail] = useState('');
+
+  useEffect(() => {
+    if (!loadingUser && !loggedIn) {
+      Router.push(`/account/signIn?route=/account/account?tab=${tab}`);
+    }
+  }, [loadingUser]);
 
   useEffect(() => {
     user.first_name && updateUserFirstName(user.first_name);
@@ -55,7 +67,7 @@ const FavoritesPage: NextPage = () => {
   };
 
   return (
-    <div>
+    <AccountLayout>
       <p>This is a profile page!!!</p>
       <br />
       <br />
@@ -73,8 +85,8 @@ const FavoritesPage: NextPage = () => {
       <button onClick={handleProfileUpdateSubmit}>Update</button>
       <br />
       <button onClick={handleResetSubmit}>Password reset submit</button>
-    </div>
+    </AccountLayout>
   );
 };
 
-export default FavoritesPage;
+export default AccountPage;

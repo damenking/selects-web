@@ -28,6 +28,7 @@ const UserContext = createContext({
   addProductFavorite,
   removeProductFavorite,
   updateUserData,
+  loadingUser: true,
 });
 
 export default UserContext;

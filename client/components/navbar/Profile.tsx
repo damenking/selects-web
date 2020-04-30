@@ -55,16 +55,16 @@ const Profile: React.FunctionComponent = () => {
         handleMenuOnBlur={handleMenuOnBlur}
       >
         <div className={styles.dropdownContent}>
-          <Link href="/account/profile/?tab=info">
+          <Link href="/account/account?tab=info">
             <p onClick={() => updateShowDropdown(false)}>Account Info</p>
           </Link>
-          <Link href="/account/profile/?tab=address">
+          <Link href="/account/account?tab=address">
             <p onClick={() => updateShowDropdown(false)}>Address</p>
           </Link>
-          <Link href="/account/profile/?tab=orders">
+          <Link href="/account/account?tab=orders">
             <p onClick={() => updateShowDropdown(false)}>Orders</p>
           </Link>
-          <Link href="/account/profile/?tab=favorites">
+          <Link href="/account/account?tab=favorites">
             <p onClick={() => updateShowDropdown(false)}>Favorites</p>
           </Link>
           {loggedIn && <p onClick={handleSignOutClick}>Sign Out</p>}

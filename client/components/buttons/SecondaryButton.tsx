@@ -14,7 +14,7 @@ const SecondaryButton: React.FunctionComponent<SecondaryButtonProps> = (
 ) => {
   return (
     <div
-      onClick={props.isDisabled ? '' : props.handleClick}
+      onClick={props.isDisabled ? null : props.handleClick}
       className={`${styles.container} ${
         props.isDisabled ? styles.disabled : ''
       } 

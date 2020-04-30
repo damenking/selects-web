@@ -1,0 +1,23 @@
+.container {
+  padding-top: 40px;
+}
+
+.menuContainer {
+  padding-left: 57px;
+  display: grid;
+  grid-template-rows: 56px 1fr;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu small {
+  margin-bottom: 8px;
+}
