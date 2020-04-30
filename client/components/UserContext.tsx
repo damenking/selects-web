@@ -1,8 +1,15 @@
 import { createContext } from 'react';
-import { Address, User } from '../interfaces/';
+import { Address, User, UserError } from '../interfaces/';
 
 const signOut = function (): void {};
-const signIn = function (_a?: string, _b?: string, _c?: string): void {};
+const signIn = function (
+  _a?: string,
+  _b?: string,
+  _c?: string,
+  _d?: string
+): Promise<UserError[]> {
+  return new Promise((resolve) => resolve([]));
+};
 const updateCheckoutId = function (_a: string, _b: Address): void {};
 const addProductFavorite = function (_a: string): void {};
 const removeProductFavorite = function (_a: string): void {};

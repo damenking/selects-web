@@ -33,4 +33,7 @@ export default WindowDimensionsProvider;
 
 export const useWindowDimensions = () => useContext(WindowDimensionsCtx);
 
-export const checkIsMobile = () => useContext(WindowDimensionsCtx).width < 800;
+export const checkIsMobile = (maxPixelWidth?: number) => {
+  const width = maxPixelWidth ? maxPixelWidth : 800;
+  return useContext(WindowDimensionsCtx).width < width;
+};

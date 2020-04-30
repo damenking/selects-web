@@ -1,4 +1,17 @@
-.panelContainer {
+.panelContainerLeft {
+  margin-top: 40px;
+  margin-right: -12px;
+  padding-right: 32px;
+  border-right: 1px solid #f4f4f4;
+}
+
+.panelContainerRight {
+  margin-top: 40px;
+  margin-left: -12px;
+  padding-left: 32px;
+}
+
+.panelContainerMobile {
   margin-top: 40px;
 }
 
@@ -23,4 +36,27 @@
 
 .forgotPassword {
   margin-bottom: 27px;
+}
+
+.checkStatusHeaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+  border-bottom: 2px solid #8e8e8e;
+  margin-bottom: 32px;
+}
+
+.checkOrderSubmitContainer {
+  margin-top: 16px;
+}
+
+.containerMobile {
+  max-width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.errorContainer {
+  margin-bottom: 16px;
 }

@@ -8,7 +8,7 @@ import UserContext from '../components/UserContext';
 import WindowDimensionsProvider from '../components/WindowDimensionsProvider';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout } from '../api/shopify/checkout';
-import { Address, User } from '../interfaces/';
+import { Address, User, UserError } from '../interfaces/';
 
 import 'js-datepicker/dist/datepicker.min.css';
 import 'react-dates/lib/css/_datepicker.css';
@@ -62,13 +62,16 @@ class MyApp extends App {
   signIn = async (
     userEmail?: string,
     password?: string,
-    accessToken?: string
+    accessToken?: string,
+    route?: string
   ) => {
     let checkoutId = localStorage.getItem('checkoutId') || '';
     let error;
+    let userErrors = [] as UserError[];
     if (userEmail && password && !accessToken) {
       const response = await createToken(userEmail, password);
       error = response.error;
+      userErrors = response.userErrors;
       accessToken = response.accessToken;
     }
     if (!error && accessToken) {
@@ -84,8 +87,10 @@ class MyApp extends App {
         user: user,
         checkoutId: checkoutId,
       });
-      Router.push('/');
+      Router.push(`${route ? route : '/'}`);
     }
+
+    return userErrors;
   };
 
   signOut = () => {

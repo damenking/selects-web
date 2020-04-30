@@ -59,6 +59,7 @@ export interface ProductEdge {
 export interface UserError {
   field: string[];
   message: string;
+  code: string;
 }
 
 export interface Address {
