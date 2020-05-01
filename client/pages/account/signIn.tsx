@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import UserContext from '../../components/UserContext';
 import { triggerPasswordResetEmail } from '../../api/shopify/auth';
 import TextInput from '../../components/TextInput';
@@ -9,7 +10,7 @@ import { createCustomer } from '../../api/shopify/customer';
 import { CustomerInformation, UserError } from '../../interfaces/';
 import { checkIsMobile } from '../../components/WindowDimensionsProvider';
 import ErrorMessages from '../../components/ErrorMessages';
-import { useRouter } from 'next/router';
+import Checkbox from '../../components/Checkbox';
 
 import styles from './signIn.module.css';
 
@@ -30,6 +31,9 @@ const SignIn: NextPage = () => {
   const [orderNumber, updateOrderNumber] = useState('');
   const [orderEmail, updateOrderEmail] = useState('');
   const [errors, updateErrors] = useState([] as string[]);
+  // Sub preference should be pulled from use once I know what newsletter
+  // subscribed is.  For now just a controlled component...
+  const [newsletterSubcribed, updateNewsletterSubscribed] = useState(false);
 
   useEffect(() => {
     updateFirstName('');
@@ -161,6 +165,13 @@ const SignIn: NextPage = () => {
     return false;
   };
 
+  const handleupdateNewsletterSubscribedChange = (
+    e: React.SyntheticEvent
+  ): void => {
+    const { checked } = e.target as HTMLInputElement;
+    updateNewsletterSubscribed(checked);
+  };
+
   // Need to get usererrors or any error to display on failure
   if (isMobile) {
     return (
@@ -262,7 +273,12 @@ const SignIn: NextPage = () => {
                 value={confirmPassword}
                 inputType="password"
               />
-
+              <Checkbox
+                isChecked={newsletterSubcribed}
+                handleChange={handleupdateNewsletterSubscribedChange}
+                label="Subscribe to Newsletter"
+                className={styles.subcribeCheckbox}
+              />
               <PrimaryButton
                 handleClick={handleRegistrationSubmit}
                 text="Register"
@@ -401,7 +417,12 @@ const SignIn: NextPage = () => {
               value={confirmPassword}
               inputType="password"
             />
-
+            <Checkbox
+              isChecked={newsletterSubcribed}
+              handleChange={handleupdateNewsletterSubscribedChange}
+              label="Subscribe to Newsletter"
+              className={styles.subcribeCheckbox}
+            />
             <PrimaryButton
               handleClick={handleRegistrationSubmit}
               text="Register"

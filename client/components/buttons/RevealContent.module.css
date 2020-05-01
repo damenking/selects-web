@@ -10,10 +10,6 @@
   overflow: hidden;
 }
 
-.readMoreText {
-  margin-left: 12px;
-}
-
 .contentContainerHidden {
   max-height: 0px;
   overflow: hidden;
@@ -27,4 +23,8 @@
 
 .contentContainerExpanded p {
   margin: 0px;
+}
+
+.icon {
+  margin-right: 12px;
 }

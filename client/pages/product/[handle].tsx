@@ -190,7 +190,7 @@ const ProductPage: NextPage = () => {
           </ul>
         </div>
         <div className={`${styles.readMoreContainer} col-span-4`}>
-          <RevealContent>
+          <RevealContent text="READ MORE" icon="/static/icons/plus.svg">
             <p>{product.metaData.descriptionLong}</p>
           </RevealContent>
         </div>
@@ -295,7 +295,7 @@ const ProductPage: NextPage = () => {
             </ul>
           </div>
           <div className={`${styles.readMoreContainer} col-span-12`}>
-            <RevealContent>
+            <RevealContent text="READ MORE" icon="/static/icons/plus.svg">
               <p>{product.metaData.descriptionLong}</p>
             </RevealContent>
           </div>

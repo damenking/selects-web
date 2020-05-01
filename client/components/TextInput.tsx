@@ -3,13 +3,14 @@ import React from 'react';
 import styles from './TextInput.module.css';
 
 interface TextInputProps {
-  isDisabled?: boolean;
-  handleChange?: any;
-  label?: string;
-  isError?: boolean;
-  errorMessage?: string;
   inputType: string;
   value: string;
+  handleChange?: any;
+  label?: string;
+  isDisabled?: boolean;
+  isError?: boolean;
+  errorMessage?: string;
+
   pattern?: string;
 }
 

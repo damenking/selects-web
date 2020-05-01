@@ -21,3 +21,7 @@
 .menu small {
   margin-bottom: 8px;
 }
+
+.selectedMenuOption {
+  text-decoration: underline;
+}

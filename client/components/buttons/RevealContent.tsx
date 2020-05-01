@@ -2,9 +2,22 @@ import React, { useState } from 'react';
 
 import styles from './RevealContent.module.css';
 
-const RevealContent: React.FunctionComponent = ({ children }) => {
+interface RevealContentProps {
+  text: string;
+  handleClick?: any;
+  icon?: string;
+  textClass?: string;
+  contentClass?: string;
+}
+const RevealContent: React.FunctionComponent<RevealContentProps> = (props) => {
   const [contentRevealed, updateContentRevealed] = useState(false);
 
+  const handleClick = () => {
+    updateContentRevealed(true);
+    if (props.handleClick) {
+      props.handleClick();
+    }
+  };
   return (
     <>
       <div
@@ -13,21 +26,21 @@ const RevealContent: React.FunctionComponent = ({ children }) => {
             ? styles.buttonContainerHidden
             : styles.buttonContainerExpanded
         } clickable`}
-        onClick={() => updateContentRevealed(true)}
+        onClick={handleClick}
       >
-        <img src="/static/icons/plus.svg" />
-        <span className={`${styles.readMoreText} font-family-apercu-medium`}>
-          Read more
+        {props.icon && <img className={styles.icon} src={props.icon} />}
+        <span className={`${props.textClass} font-family-apercu-medium`}>
+          {props.text}
         </span>
       </div>
       <div
-        className={`${
+        className={`${props.contentClass} ${
           !contentRevealed
             ? styles.contentContainerHidden
             : styles.contentContainerExpanded
         }`}
       >
-        {children}
+        {props.children}
       </div>
     </>
   );
