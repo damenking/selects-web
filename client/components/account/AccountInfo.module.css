@@ -27,3 +27,7 @@
 .resetText {
   text-decoration: underline;
 }
+
+.errorMessages {
+  margin-bottom: 16px;
+}

@@ -8,6 +8,7 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
 import Checkbox from '../Checkbox';
 import RevealContent from '../buttons/RevealContent';
+import ErrorMessages from '../ErrorMessages';
 
 import styles from './AccountInfo.module.css';
 
@@ -20,6 +21,7 @@ const AccountInfo: React.FunctionComponent = () => {
   // Sub preference should be pulled from use once I know what newsletter
   // subscribed is.  For now just a controlled component...
   const [newsletterSubcribed, updateNewsletterSubscribed] = useState(false);
+  const [errors, updateErrors] = useState([] as string[]);
 
   useEffect(() => {
     user.first_name && updateUserFirstName(user.first_name);
@@ -39,8 +41,21 @@ const AccountInfo: React.FunctionComponent = () => {
     if (user.email && userEmail !== user.email) {
       updateFields.email = userEmail;
     }
+    if (user.phone && userPhone !== user.phone) {
+      updateFields.phone = userPhone;
+    }
     const response = await updateCustomer(user.id, updateFields);
-    updateUserData(response.user);
+    if (response.error) {
+      const formattedErrors = [] as string[];
+      Object.keys(response.errors).forEach((key) => {
+        response.errors[key].forEach((error: string) => {
+          formattedErrors.push(`${key}: ${error}`);
+        });
+      });
+      updateErrors(formattedErrors);
+    } else {
+      updateUserData(response.user);
+    }
   };
 
   const handleFirstNameChange = (e: React.SyntheticEvent): void => {
@@ -79,6 +94,7 @@ const AccountInfo: React.FunctionComponent = () => {
         <div className={styles.panelHeader}>
           <p>Update Information</p>
         </div>
+        <ErrorMessages className={styles.errorMessages} messages={errors} />
         <TextInput
           inputType="text"
           label="* First Name"

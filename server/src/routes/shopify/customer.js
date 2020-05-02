@@ -152,7 +152,15 @@ router.post('/:customerId/update', (req, res) => {
       res.send({ data: { user: customerResponse }, error: false });
     })
     .catch((response) => {
-      res.send({ data: { user: {} }, error: true });
+      let errors = {};
+      if (
+        response.response &&
+        response.response.data &&
+        response.response.data.errors
+      ) {
+        errors = response.response.data.errors;
+      }
+      res.send({ data: { user: {}, errors }, error: true });
     });
 });
 

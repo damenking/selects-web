@@ -81,10 +81,10 @@ export const updateCustomer = async (customerId: string, fields: any) => {
   reqObj.customer.id = customerId;
   try {
     const response = await postWrapper(API_URL, reqObj);
-    const { user } = response.data;
-    return { user, error: response.error };
+    const { user, errors } = response.data;
+    return { user, errors, error: response.error };
   } catch (e) {
     console.log('caught', e);
-    return { user: {}, error: true };
+    return { user: {}, errors: {}, error: true };
   }
 };
