@@ -22,6 +22,7 @@ const AccountInfo: React.FunctionComponent = () => {
   // subscribed is.  For now just a controlled component...
   const [newsletterSubcribed, updateNewsletterSubscribed] = useState(false);
   const [errors, updateErrors] = useState([] as string[]);
+  const [isEditing, updateIsEditing] = useState(false);
 
   useEffect(() => {
     user.first_name && updateUserFirstName(user.first_name);
@@ -55,6 +56,7 @@ const AccountInfo: React.FunctionComponent = () => {
       updateErrors(formattedErrors);
     } else {
       updateUserData(response.user);
+      handleToggleIsEditing(false);
     }
   };
 
@@ -88,6 +90,39 @@ const AccountInfo: React.FunctionComponent = () => {
     const { checked } = e.target as HTMLInputElement;
     updateNewsletterSubscribed(checked);
   };
+
+  const handleToggleIsEditing = (editing: boolean) => {
+    updateIsEditing(editing);
+    if (!editing) {
+      window.scroll({
+        top: 0,
+      });
+    }
+  };
+
+  if (!isEditing) {
+    return (
+      <div className={styles.contentContainer}>
+        <div className={styles.leftPanelContainer}>
+          <div className={styles.panelHeader}>
+            <div className={styles.infoHeader}>
+              <p>Account Info</p>
+              <small
+                onClick={() => handleToggleIsEditing(true)}
+                className="font-family-apercu-medium underlined clickable"
+              >
+                Manage
+              </small>
+            </div>
+          </div>
+          <p>
+            {user.first_name} {user.last_name}
+          </p>
+          <small>{user.email}</small>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={styles.contentContainer}>
       <div className={styles.leftPanelContainer}>
@@ -135,7 +170,7 @@ const AccountInfo: React.FunctionComponent = () => {
         <div className={styles.updateButtonsContainer}>
           <PrimaryButton handleClick={handleProfileUpdateSubmit} text="Save" />
           <SecondaryButton
-            handleClick={() => console.warn('cancel')}
+            handleClick={() => handleToggleIsEditing(false)}
             text="Cancel"
           />
         </div>

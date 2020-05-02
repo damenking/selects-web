@@ -31,3 +31,10 @@
 .errorMessages {
   margin-bottom: 16px;
 }
+
+.infoHeader {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
