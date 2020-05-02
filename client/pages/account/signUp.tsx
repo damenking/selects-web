@@ -3,11 +3,7 @@ import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import { createCustomer, createAddress } from '../../api/shopify/customer';
-import {
-  UserError,
-  CustomerInformation,
-  ShippingAddressInformation,
-} from '../../interfaces/';
+import { UserError, ShippingAddressInformation } from '../../interfaces/';
 import UserContext from '../../components/UserContext';
 
 const SignUp: NextPage = () => {
