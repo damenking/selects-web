@@ -161,5 +161,5 @@ export interface User {
   accepts_marketing_updated_at: string;
   marketing_opt_in_level?: any;
   tax_exemptions?: any[];
-  default_address: Address;
+  default_address: Address | undefined;
 }

@@ -48,16 +48,19 @@ class MyApp extends App {
       this.setState({
         loggedIn: false,
         user: {
-          defaultAddress: {
-            firstName: '',
-            lastName: '',
-          },
+          first_name: '',
+          lastName: '',
+          default_address: undefined,
           email: '',
-          displayName: '',
         },
-        checkoutId: checkoutId,
+        favorites: {
+          product: [] as string[],
+        },
         loadingUser: false,
       });
+      if (!checkoutId) {
+        this.updateCheckoutId();
+      }
     }
   };
 
@@ -80,7 +83,7 @@ class MyApp extends App {
       const { user } = await checkToken(accessToken);
       localStorage.setItem('accessToken', accessToken);
       if (!checkoutId.length) {
-        const response = await createCheckout(user.email, user.defaultAddress);
+        const response = await createCheckout(user.email, user.default_address);
         checkoutId = response.checkoutId;
         localStorage.setItem('checkoutId', checkoutId);
       }
@@ -123,7 +126,7 @@ class MyApp extends App {
     this.setState({ favorites: updatedFavorites });
   };
 
-  updateCheckoutId = async (email: string, address: Address) => {
+  updateCheckoutId = async (email?: string, address?: Address | undefined) => {
     const { checkoutId } = await createCheckout(email, address);
     this.setState({ checkoutId: checkoutId });
     localStorage.setItem('checkoutId', checkoutId);

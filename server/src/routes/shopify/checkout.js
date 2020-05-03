@@ -11,9 +11,24 @@ const router = express.Router();
 
 router.post('/create', (req, res) => {
   const { email, shippingAddress } = req.body;
-  shippingAddress.country = 'United States';
+  let formattedShippingAddress = undefined;
+
+  if (shippingAddress) {
+    formattedShippingAddress = {
+      address1: shippingAddress.address1,
+      address2: shippingAddress.address2,
+      city: shippingAddress.city,
+      company: shippingAddress.company,
+      country: 'United States',
+      firstName: shippingAddress.first_name,
+      lastName: shippingAddress.last_name,
+      phone: shippingAddress.phone,
+      province: shippingAddress.province,
+      zip: shippingAddress.zip,
+    };
+  }
   shopifyClient.sdk.checkout
-    .create({ email, shippingAddress })
+    .create({ email, shippingAddress: formattedShippingAddress })
     .then((response) => {
       res.send({ data: { checkoutId: response.id }, error: false });
     })

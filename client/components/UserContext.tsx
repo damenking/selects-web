@@ -10,7 +10,10 @@ const signIn = function (
 ): Promise<UserError[]> {
   return new Promise((resolve) => resolve([]));
 };
-const updateCheckoutId = function (_a: string, _b: Address): void {};
+const updateCheckoutId = function (
+  _a: string,
+  _b?: Address | undefined
+): void {};
 const addProductFavorite = function (_a: string): void {};
 const removeProductFavorite = function (_a: string): void {};
 const updateUserData = function (_a: User): void {};

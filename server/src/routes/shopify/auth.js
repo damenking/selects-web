@@ -91,7 +91,7 @@ router.get('/checktoken', (req, res) => {
         .then((responses) => {
           const customer = responses[0].data.customer;
           const metaFields = responses[1].data.metafields;
-          const favorites = { product: {} };
+          const favorites = { product: [] };
           metaFields.forEach((metaField) => {
             if (metaField.key === 'product') {
               favorites.product = JSON.parse(metaField.value);
@@ -104,14 +104,14 @@ router.get('/checktoken', (req, res) => {
         })
         .catch((response) => {
           res.send({
-            data: { user: {}, favorites: {}, activeToken: true },
+            data: { user: {}, favorites: { product: [] }, activeToken: true },
             error: true,
           });
         });
     })
     .catch((response) => {
       res.send({
-        data: { user: {}, favorites: {}, activeToken: false },
+        data: { user: {}, favorites: { product: [] }, activeToken: false },
         error: true,
       });
     });

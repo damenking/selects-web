@@ -1,11 +1,11 @@
 import { fetchWrapper, postWrapper, SHOPIFY_BASE_URL } from '../api';
 import { LineItem, CheckoutLineItem, Address } from '../../interfaces/index';
 
-export const createCheckout = async (email: string, address: Address) => {
+export const createCheckout = async (email?: string, address?: Address) => {
   const API_URL = `${SHOPIFY_BASE_URL}/checkout/create`;
   const reqObj = {
     email,
-    shippingAddress: address
+    shippingAddress: address,
   };
   try {
     const response = await postWrapper(API_URL, reqObj);
@@ -23,7 +23,7 @@ export const getCheckout = async (checkoutId: string) => {
     const response = await fetchWrapper(API_URL);
     const {
       lineItems,
-      webUrl
+      webUrl,
     }: { lineItems: CheckoutLineItem[]; webUrl: string } = response.data;
     return { checkoutUrl: webUrl, lineItems, error: response.error };
   } catch (e) {
@@ -39,7 +39,7 @@ export const addLineItems = async (
   const API_URL = `${SHOPIFY_BASE_URL}/checkout/addlineitems`;
   const reqObj = {
     checkoutId,
-    lineItems
+    lineItems,
   };
   try {
     const response = await postWrapper(API_URL, reqObj);
@@ -57,7 +57,7 @@ export const removeLineItems = async (
   const API_URL = `${SHOPIFY_BASE_URL}/checkout/removelineitems`;
   const reqObj = {
     checkoutId,
-    lineItems
+    lineItems,
   };
   try {
     const response = await postWrapper(API_URL, reqObj);

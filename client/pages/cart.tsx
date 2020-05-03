@@ -78,8 +78,8 @@ const CartPage: NextPage = () => {
     });
     createAndConfirmReservation(
       checkoutId,
-      user.default_address.firstName,
-      user.default_address.lastName,
+      user.first_name,
+      user.last_name,
       user.email,
       reservationItems
     );
