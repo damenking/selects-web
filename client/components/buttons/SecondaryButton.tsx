@@ -24,7 +24,7 @@ const SecondaryButton: React.FunctionComponent<SecondaryButtonProps> = (
       <div className={styles.iconContainer}>
         {props.icon && <img src={props.icon} />}
       </div>
-      <span className={styles.textContainer}>{props.text}</span>
+      <span className={`${styles.textContainer} underlined`}>{props.text}</span>
     </div>
   );
 };

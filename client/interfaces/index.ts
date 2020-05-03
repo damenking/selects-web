@@ -52,6 +52,12 @@ export interface Product {
   };
 }
 
+export interface ProductVariant {
+  id: string;
+  title: string;
+  price: string;
+}
+
 export interface ProductEdge {
   node: Product;
 }
@@ -137,6 +143,7 @@ export interface ProductFavorite {
   };
   handle: string;
   title: string;
+  variants: ProductVariant[];
 }
 
 export interface User {

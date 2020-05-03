@@ -110,7 +110,7 @@ class MyApp extends App {
   addProductFavorite = (productId: string) => {
     const updatedProductFavorites = [...this.state.favorites.product];
     const updatedFavorites = { ...this.state.favorites };
-    updatedProductFavorites.push(productId);
+    updatedProductFavorites.push(`${productId}`);
     updatedFavorites.product = updatedProductFavorites;
     this.setState({ favorites: updatedFavorites });
   };
@@ -119,7 +119,7 @@ class MyApp extends App {
     const updatedProductFavorites = [...this.state.favorites.product];
     const updatedFavorites = { ...this.state.favorites };
     updatedProductFavorites.splice(
-      updatedProductFavorites.indexOf(productId),
+      updatedProductFavorites.indexOf(`${productId}`),
       1
     );
     updatedFavorites.product = updatedProductFavorites;

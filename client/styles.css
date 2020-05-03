@@ -48,6 +48,7 @@
   --color-ink: #434343;
   --color-ink-plus-1: #8e8e8e;
   --color-orange-plus-1: #f79c7f;
+  --color-blue-minus-1: #2c5c7f;
   /* text-underline-position: under; */
   /* This seems to break on hover effects sadly.  Will have to add to static underlines case by case. */
 }
@@ -139,6 +140,9 @@ p {
 }
 .color-ink-plus-1 {
   color: var(--color-ink-plus-1);
+}
+.color-blue-minus-1 {
+  color: var(--color-blue-minus-1);
 }
 .font-family-apercu-medium {
   font-family: 'apercu-medium';

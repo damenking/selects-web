@@ -48,7 +48,13 @@ const defaultProduct = {
 const ProductPage: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
-  const { checkoutId, user, favorites } = useContext(UserContext);
+  const {
+    checkoutId,
+    user,
+    favorites,
+    removeProductFavorite,
+    addProductFavorite,
+  } = useContext(UserContext);
   const isMobile = checkIsMobile();
   const [product, setProduct] = useState(defaultProduct);
   const [productImages, setProductImages] = useState([]);
@@ -80,18 +86,24 @@ const ProductPage: NextPage = () => {
     }
   }, [handle]);
 
-  const handleAddToFavorites = () => {
+  const handleAddToFavorites = async () => {
     const favoriteIds = [...favorites.product];
     favoriteIds.push(product.id);
-    updateCustomerFavorites(user.id, favoriteIds);
-    updateIsFavorited(true);
+    const { error } = await updateCustomerFavorites(user.id, favoriteIds);
+    if (!error) {
+      addProductFavorite(product.id);
+      updateIsFavorited(true);
+    }
   };
 
-  const handleRemoveFromFavorites = () => {
+  const handleRemoveFromFavorites = async () => {
     const favoriteIds = [...favorites.product];
     favoriteIds.splice(favoriteIds.indexOf(product.id), 1);
-    updateCustomerFavorites(user.id, favoriteIds);
-    updateIsFavorited(false);
+    const { error } = await updateCustomerFavorites(user.id, favoriteIds);
+    if (!error) {
+      removeProductFavorite(product.id);
+      updateIsFavorited(false);
+    }
   };
 
   const handleAddToCheckout = async () => {

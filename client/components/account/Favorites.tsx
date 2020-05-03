@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { getProductsByIds } from '../../api/shopify/products';
 import UserContext from '../../components/UserContext';
 import { ProductFavorite } from '../../interfaces/';
+import ProductCard from '../ProductCard';
+import { updateCustomerFavorites } from '../../api/shopify/customer';
 
-// import styles from './Favorites.module.css';
+import styles from './Favorites.module.css';
 
 const Favorites: React.FunctionComponent = () => {
-  const { favorites } = useContext(UserContext);
+  const { favorites, user, removeProductFavorite } = useContext(UserContext);
   const [products, updateProducts] = useState([]);
 
   useEffect(() => {
@@ -18,17 +20,38 @@ const Favorites: React.FunctionComponent = () => {
       fetchData();
     }
   }, [favorites]);
+
+  const handleRemoveFromFavorites = (productId: string) => {
+    return async () => {
+      const favoriteIds = [...favorites.product];
+      favoriteIds.splice(favoriteIds.indexOf(`${productId}`), 1);
+      const { error } = await updateCustomerFavorites(user.id, favoriteIds);
+      if (!error) {
+        removeProductFavorite(productId);
+      }
+    };
+  };
+
+  const handleAddToCart = async () => {};
   return (
     <div>
-      <h4>Favorites Page</h4>
-      {products.map((product: ProductFavorite, index: number) => {
-        return (
-          <div key={index}>
-            <p>{product.title}</p>
-            <img src={product.image.src} height="100" width="100" />
-          </div>
-        );
-      })}
+      <div className={styles.header}>
+        <p>Favorites</p>
+      </div>
+      <div className={styles.container}>
+        {products.map((product: ProductFavorite, index: number) => {
+          return (
+            <ProductCard
+              key={index}
+              title={product.title}
+              imageUrl={product.image.src}
+              price={product.variants[0].price}
+              handleRemoveFromFavorites={handleRemoveFromFavorites(product.id)}
+              handleAddToCart={handleAddToCart}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
