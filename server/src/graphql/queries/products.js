@@ -87,8 +87,41 @@ const productsSearchQuery = `
   }
 `;
 
+const productsByTagsQuery = (tags) => {
+  return `
+    query { 
+      products(first: 50, query:"tag:${tags}") {
+        edges {
+          node {
+            id
+            title
+            handle
+            tags
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+            }
+            media(first: 1) {
+              edges {
+                node {
+                  previewImage {
+                    originalSrc
+                    transformedSrc
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+};
+
 module.exports = {
   allProductsQuery,
   productByHandleQuery,
   productsSearchQuery,
+  productsByTagsQuery,
 };

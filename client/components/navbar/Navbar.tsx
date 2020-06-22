@@ -1,76 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Profile from './Profile';
 import Search from './Search';
 import Drawer from './Drawer';
 import MobileDrawer from './MobileDrawer';
 import { checkIsMobile } from '../WindowDimensionsProvider';
-import { getMenuCollectionByHandle } from '../../api/shopify/collection';
-import { DrawerOptionsObj } from '../../interfaces/';
 
 import styles from './Navbar.module.css';
 
 const Navbar: React.FunctionComponent = () => {
   const [showDrawer, updateShowDrawer] = useState(false);
-  const [currentDrawerOptions, updateCurrentDrawerOptions] = useState(
-    'brandsOptions'
-  );
-  const [highlightedMenuItem, updateHighlightedMenuItem] = useState('');
-  const [brandsOptions, updateBrandsOptions] = useState([]);
-  const [camerasOptions, updateCamerasOptions] = useState([]);
-  const [lensesOptions, updateLensesOptions] = useState([]);
-  const [lightingOptions, updateLightingOptions] = useState([]);
-  const [kitsOptions, updateKitsOptions] = useState([]);
+  const [highlightedMenuItem, updateHighlightedMenuItem] = useState('brands');
   const isMobile = checkIsMobile();
-
-  useEffect(() => {
-    const fetchMenuCollections = async () => {
-      const [brands, cameras, lenses, lighting, kits] = await Promise.all([
-        getMenuCollectionByHandle('brands-menu'),
-        getMenuCollectionByHandle('cameras-menu'),
-        getMenuCollectionByHandle('lenses-menu'),
-        getMenuCollectionByHandle('lighting-menu'),
-        getMenuCollectionByHandle('kits-menu'),
-      ]);
-      updateBrandsOptions(brands.options);
-      updateCamerasOptions(cameras.options);
-      updateLensesOptions(lenses.options);
-      updateLightingOptions(lighting.options);
-      updateKitsOptions(kits.options);
-    };
-    fetchMenuCollections();
-  }, []);
-
-  const getDrawerOptions = () => {
-    switch (currentDrawerOptions) {
-      case 'brandsOptions':
-        return { elIndex: 0, options: brandsOptions } as DrawerOptionsObj;
-      case 'camerasOptions':
-        return { elIndex: 1, options: camerasOptions } as DrawerOptionsObj;
-      case 'lensesOptions':
-        return { elIndex: 2, options: lensesOptions } as DrawerOptionsObj;
-      case 'lightingOptions':
-        return { elIndex: 3, options: lightingOptions } as DrawerOptionsObj;
-      case 'kitsOptions':
-        return { elIndex: 4, options: kitsOptions } as DrawerOptionsObj;
-      default:
-        return { elIndex: 0, options: brandsOptions } as DrawerOptionsObj;
-    }
-  };
 
   const handleMenuMouseOver = (options: string) => {
     setHighlightedMenuItem(options);
-    handleShowDrawer(options);
+    handleShowDrawer();
   };
 
-  const handleShowDrawer = (options: string) => {
-    updateCurrentDrawerOptions(options);
+  const handleShowDrawer = () => {
     updateShowDrawer(true);
   };
 
   const handleHideDrawer = () => {
     updateShowDrawer(false);
-    updateHighlightedMenuItem('');
+    updateHighlightedMenuItem('brands');
   };
 
   const setHighlightedMenuItem = (menuItem: string) => {
@@ -111,11 +65,6 @@ const Navbar: React.FunctionComponent = () => {
           </Link>
         </div>
         <MobileDrawer
-          brandsOptions={brandsOptions}
-          camerasOptions={camerasOptions}
-          lensesOptions={lensesOptions}
-          lightingOptions={lightingOptions}
-          kitsOptions={kitsOptions}
           showDrawer={showDrawer}
           handleHideDrawer={handleHideDrawer}
         />
@@ -126,7 +75,7 @@ const Navbar: React.FunctionComponent = () => {
     <nav className={`${styles.navbarContainer} background-color-paper`}>
       {showDrawer && (
         <Drawer
-          options={getDrawerOptions()}
+          displayedMenu={highlightedMenuItem}
           handleHideDrawer={handleHideDrawer}
         />
       )}
@@ -143,11 +92,9 @@ const Navbar: React.FunctionComponent = () => {
           <div></div>
           <div
             className={`${styles.categoryItemInnerContainer} ${
-              highlightedMenuItem === 'brandsOptions'
-                ? styles.menuHighlighted
-                : ''
+              highlightedMenuItem === 'brands' ? styles.menuHighlighted : ''
             }`}
-            onMouseOver={() => handleMenuMouseOver('brandsOptions')}
+            onMouseOver={() => handleMenuMouseOver('brands')}
           >
             <span>Brands</span>
           </div>
@@ -156,11 +103,9 @@ const Navbar: React.FunctionComponent = () => {
           <div></div>
           <div
             className={`${styles.categoryItemInnerContainer} ${
-              highlightedMenuItem === 'camerasOptions'
-                ? styles.menuHighlighted
-                : ''
+              highlightedMenuItem === 'cameras' ? styles.menuHighlighted : ''
             }`}
-            onMouseOver={() => handleMenuMouseOver('camerasOptions')}
+            onMouseOver={() => handleMenuMouseOver('cameras')}
           >
             <span>Cameras</span>
           </div>
@@ -169,11 +114,9 @@ const Navbar: React.FunctionComponent = () => {
           <div></div>
           <div
             className={`${styles.categoryItemInnerContainer} ${
-              highlightedMenuItem === 'lensesOptions'
-                ? styles.menuHighlighted
-                : ''
+              highlightedMenuItem === 'lenses' ? styles.menuHighlighted : ''
             }`}
-            onMouseOver={() => handleMenuMouseOver('lensesOptions')}
+            onMouseOver={() => handleMenuMouseOver('lenses')}
           >
             <span>Lenses</span>
           </div>
@@ -182,11 +125,9 @@ const Navbar: React.FunctionComponent = () => {
           <div></div>
           <div
             className={`${styles.categoryItemInnerContainer} ${
-              highlightedMenuItem === 'lightingOptions'
-                ? styles.menuHighlighted
-                : ''
+              highlightedMenuItem === 'lighting' ? styles.menuHighlighted : ''
             }`}
-            onMouseOver={() => handleMenuMouseOver('lightingOptions')}
+            onMouseOver={() => handleMenuMouseOver('lighting')}
           >
             <span>Lighting</span>
           </div>
@@ -195,11 +136,9 @@ const Navbar: React.FunctionComponent = () => {
           <div></div>
           <div
             className={`${styles.categoryItemInnerContainer} ${
-              highlightedMenuItem === 'kitsOptions'
-                ? styles.menuHighlighted
-                : ''
+              highlightedMenuItem === 'kits' ? styles.menuHighlighted : ''
             }`}
-            onMouseOver={() => handleMenuMouseOver('kitsOptions')}
+            onMouseOver={() => handleMenuMouseOver('kits')}
           >
             <span>Kits</span>
           </div>

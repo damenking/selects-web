@@ -20,14 +20,7 @@
   flex-direction: column;
   margin-top: 24px;
   margin-bottom: 24px;
-}
-
-.itemListInnerContainer {
-  display: flex;
-  flex-flow: column wrap;
-  align-content: flex-start;
-  padding-left: 8px;
-  margin-top: -8px;
+  line-height: 2.5;
 }
 
 .menuItem {
@@ -39,4 +32,8 @@
 
 .menuItem:hover {
   text-decoration: underline;
+}
+
+.subMenuContainer {
+  margin-left: 16px;
 }

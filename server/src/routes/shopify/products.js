@@ -5,6 +5,7 @@ const { getNumericProductId } = require('../../util/shopify.js');
 const {
   allProductsQuery,
   productsSearchQuery,
+  productsByTagsQuery,
 } = require('../../graphql/queries/products.js');
 
 const router = express.Router();
@@ -104,6 +105,32 @@ router.get('/byIds', (req, res) => {
     })
       .then((response) => {
         const products = response.data.products;
+        res.send({ data: { products }, error: false });
+      })
+      .catch((response) => {
+        res.send({ data: { products: [] }, error: true });
+      });
+  }
+});
+
+router.get('/byTags', (req, res) => {
+  const { tags } = req.query;
+  if (!tags) {
+    res.send({ data: { products: [] }, error: true });
+  } else {
+    axios({
+      url: config.shopifyStorefrontUrl,
+      method: 'post',
+      data: {
+        query: productsByTagsQuery(tags.replace(',', ' ')),
+      },
+      headers: {
+        'X-Shopify-Storefront-Access-Token':
+          config.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+      },
+    })
+      .then((response) => {
+        const products = response.data.data.products.edges;
         res.send({ data: { products }, error: false });
       })
       .catch((response) => {

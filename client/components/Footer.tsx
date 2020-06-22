@@ -29,13 +29,13 @@ const Footer: React.FunctionComponent = () => {
         <footer>
           <div className={styles.contentContainerMobile}>
             <hr />
-            <ExpandableMenuItem title="Contact">
+            <ExpandableMenuItem title="Contact" size="large">
               <p>Phone</p>
               <p>Email</p>
               <p>Map</p>
             </ExpandableMenuItem>
             <hr />
-            <ExpandableMenuItem title="Social">
+            <ExpandableMenuItem title="Social" size="large">
               <p>Instagram</p>
               <p>Twitter</p>
               <p>Facebook</p>
@@ -43,7 +43,7 @@ const Footer: React.FunctionComponent = () => {
               <p>Tumblr</p>
             </ExpandableMenuItem>
             <hr />
-            <ExpandableMenuItem title="Support">
+            <ExpandableMenuItem title="Support" size="large">
               <p>Contact</p>
               <p>Help</p>
               <p>Shipping</p>
@@ -51,7 +51,7 @@ const Footer: React.FunctionComponent = () => {
               <p>International</p>
             </ExpandableMenuItem>
             <hr />
-            <ExpandableMenuItem title="Info">
+            <ExpandableMenuItem title="Info" size="large">
               <p>About</p>
               <p>Donations</p>
               <p>Friends</p>

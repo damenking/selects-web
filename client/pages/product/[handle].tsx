@@ -14,14 +14,10 @@ import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
 import RevealContent from '../../components/buttons/RevealContent';
 import ExpandableMenuItem from '../../components/ExpandableMenuItem';
-import ProductCard from '../../components/ProductCard';
 import { getVarianceIndexByDays } from '../../util/checkout';
 import { updateCustomerFavorites } from '../../api/shopify/customer';
 
 import styles from './handle.module.css';
-
-const placeholderImage =
-  'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1085741674.jpg?crop=0.668xw:1.00xh;0.175xw,0&resize=480:*';
 
 const defaultProduct = {
   id: '',
@@ -208,36 +204,18 @@ const ProductPage: NextPage = () => {
         </div>
         <div className={`${styles.extraInfoContainer} col-span-4`}>
           <hr />
-          <ExpandableMenuItem title="specs">
+          <ExpandableMenuItem title="specs" size="large">
             <p>{product.metaData.specs}</p>
           </ExpandableMenuItem>
           <hr />
-          <ExpandableMenuItem title="bill's take">
+          <ExpandableMenuItem title="bill's take" size="large">
             <p>{product.metaData.take}</p>
           </ExpandableMenuItem>
           <hr />
-          <ExpandableMenuItem title="shipping">
+          <ExpandableMenuItem title="shipping" size="large">
             <p>Shipping content to be added sometime in the future...</p>
           </ExpandableMenuItem>
           <hr />
-        </div>
-        <div className={`${styles.pairWithTextContainer} col-span-4`}>
-          <span className="font-family-apercu-medium">PAIR WITH</span>
-        </div>
-        <div className="col-span-2">
-          <ProductCard imageUrl={placeholderImage} />
-        </div>
-        <div className="col-span-2">
-          <ProductCard imageUrl={placeholderImage} />
-        </div>
-        <div className={`${styles.similarProductsTextContainer} col-span-4`}>
-          <span className="font-family-apercu-medium">SIMILAR PRODUCTS</span>
-        </div>
-        <div className="col-span-2">
-          <ProductCard imageUrl={placeholderImage} />
-        </div>
-        <div className="col-span-2">
-          <ProductCard imageUrl={placeholderImage} />
         </div>
       </div>
     );
@@ -313,42 +291,20 @@ const ProductPage: NextPage = () => {
           </div>
           <div className={`${styles.extraInfoContainer} col-span-12`}>
             <hr />
-            <ExpandableMenuItem title="specs">
+            <ExpandableMenuItem title="specs" size="large">
               <p>{product.metaData.specs}</p>
             </ExpandableMenuItem>
             <hr />
-            <ExpandableMenuItem title="bill's take">
+            <ExpandableMenuItem title="bill's take" size="large">
               <p>{product.metaData.take}</p>
             </ExpandableMenuItem>
             <hr />
-            <ExpandableMenuItem title="shipping">
+            <ExpandableMenuItem title="shipping" size="large">
               <p>Shipping content to be added sometime in the future...</p>
             </ExpandableMenuItem>
             <hr />
           </div>
         </div>
-      </div>
-
-      <div className={`${styles.pairWithTextContainer} col-span-10-offset-1`}>
-        <span className="font-family-apercu-medium">PAIR WITH</span>
-      </div>
-      <div className="col-span-5-offset-1">
-        <ProductCard imageUrl={placeholderImage} />
-      </div>
-      <div className="col-span-5">
-        <ProductCard imageUrl={placeholderImage} />
-      </div>
-
-      <div
-        className={`${styles.similarProductsTextContainer} col-span-10-offset-1`}
-      >
-        <span className="font-family-apercu-medium">ALSO GREAT</span>
-      </div>
-      <div className="col-span-5-offset-1">
-        <ProductCard imageUrl={placeholderImage} />
-      </div>
-      <div className="col-span-5">
-        <ProductCard imageUrl={placeholderImage} />
       </div>
     </div>
   );

@@ -37,6 +37,15 @@ export interface Checkout {
   lineItems: CheckoutLineItem[];
 }
 
+export interface PreviewImageEdge {
+  node: {
+    previewImage: {
+      originalSrc: string;
+      transformedSrc: string;
+    };
+  };
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -49,6 +58,9 @@ export interface Product {
     minVariantPrice: {
       amount: string;
     };
+  };
+  media: {
+    edges: PreviewImageEdge[];
   };
 }
 
