@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import Router from 'next/router';
+import React from 'react';
+import Router, { useRouter } from 'next/router';
 
 import styles from './AccountLayout.module.css';
 
 const AccountLayout: React.FunctionComponent = ({ children }) => {
-  const [selectedTab, updateSelectedTab] = useState('info');
-
+  const router = useRouter();
+  const selectedTab = router.query.tab;
   const handleTabClick = (tab: string) => {
-    updateSelectedTab(tab);
     Router.replace(`/account/account?tab=${tab}`);
   };
-
   return (
     <div className={`${styles.container} grid-desktop-layout`}>
       <div className={`${styles.menuContainer} col-span-2`}>

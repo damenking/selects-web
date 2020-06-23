@@ -7,7 +7,7 @@ import 'react-dates/initialize';
 import UserContext from '../components/UserContext';
 import WindowDimensionsProvider from '../components/WindowDimensionsProvider';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
-import { createCheckout } from '../api/shopify/checkout';
+import { createCheckout, getCheckout } from '../api/shopify/checkout';
 import { Address, User, UserError } from '../interfaces/';
 
 import 'react-dates/lib/css/_datepicker.css';
@@ -58,9 +58,15 @@ class MyApp extends App {
         },
         loadingUser: false,
       });
-      if (!checkoutId) {
-        this.updateCheckoutId();
-      }
+    }
+    if (!checkoutId) {
+      this.updateCheckoutId();
+    } else {
+      getCheckout(checkoutId).then((response) => {
+        if (response.error) {
+          this.updateCheckoutId();
+        }
+      });
     }
   };
 

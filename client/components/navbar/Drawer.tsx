@@ -27,7 +27,10 @@ const Drawer: React.FunctionComponent<DrawerProps> = (props) => {
       <div className={styles.drawerInnerContainer}>
         {menuTree[displayedMenu]?.ordered.map((subMenu: string) => {
           return (
-            <div className={styles.subMenuContainer}>
+            <div
+              className={styles.subMenuContainer}
+              key={menuTree[displayedMenu][subMenu].title}
+            >
               <p className={styles.subMenuHeader}>
                 {menuTree[displayedMenu][subMenu].title}
               </p>

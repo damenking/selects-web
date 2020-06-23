@@ -42,6 +42,10 @@ router.get('/fetch', (req, res) => {
   shopifyClient.sdk.checkout
     .fetch(checkoutId)
     .then((response) => {
+      if (response === null) {
+        // If the checkout id is invalid the sdk simply returns null
+        res.send({ data: {}, error: true });
+      }
       const { lineItems, webUrl } = response;
       res.send({
         data: {

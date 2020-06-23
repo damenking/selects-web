@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'next/router';
-import Link from 'next/link';
 import SecondaryButton from '../components/buttons/SecondaryButton';
 
 import styles from './ProductCard.module.css';
@@ -33,10 +32,9 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = (props) => {
         onClick={handleClick}
       />
       {/* <p className={`${styles.categoryText} text-tiny`}>PRODUCT TYPE</p> */}
-      <Link href="/product/[handle]" as={`/product/${props.handle}`}>
-        <a>{props.title}</a>
-      </Link>
-      <br />
+      <p className="clickable" onClick={handleClick}>
+        {props.title}
+      </p>
       <small>
         <u
           className="clickable color-blue-minus-1 font-family-apercu-medium underlined"

@@ -19,7 +19,7 @@ const Favorites: React.FunctionComponent = () => {
     if (favorites.product.length) {
       fetchData();
     }
-  }, [favorites]);
+  }, []);
 
   const handleRemoveFromFavorites = (productId: string) => {
     return async () => {
@@ -32,7 +32,6 @@ const Favorites: React.FunctionComponent = () => {
     };
   };
 
-  const handleAddToCart = async () => {};
   return (
     <div>
       <div className={styles.header}>
@@ -40,16 +39,20 @@ const Favorites: React.FunctionComponent = () => {
       </div>
       <div className={styles.container}>
         {products.map((product: ProductFavorite, index: number) => {
-          return (
-            <ProductCard
-              key={index}
-              title={product.title}
-              imageUrl={product.image.src}
-              price={product.variants[0].price}
-              handleRemoveFromFavorites={handleRemoveFromFavorites(product.id)}
-              handleAddToCart={handleAddToCart}
-            />
-          );
+          if (favorites.product.includes(`${product.id}`)) {
+            return (
+              <ProductCard
+                key={index}
+                title={product.title}
+                imageUrl={product.image.src}
+                price={product.variants[0].price}
+                handleRemoveFromFavorites={handleRemoveFromFavorites(
+                  product.id
+                )}
+                handle={product.handle}
+              />
+            );
+          }
         })}
       </div>
     </div>
