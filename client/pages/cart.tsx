@@ -9,6 +9,9 @@ import {
 } from '../interfaces/index';
 import { createAndConfirmReservation } from '../api/bta/booking';
 import { createOrder } from '../api/shopify/order';
+import PrimaryButton from '../components/buttons/PrimaryButton';
+
+import styles from './cart.module.css';
 
 const defaultLineItems: CheckoutLineItem[] = [];
 
@@ -17,6 +20,7 @@ const CartPage: NextPage = () => {
   const [lineItems, setLineItems] = useState(defaultLineItems);
   const [checkoutUrl, setCheckoutUrl] = useState('');
   const [error, setError] = useState(false);
+  let subTotal = 0.0;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,28 +99,81 @@ const CartPage: NextPage = () => {
     return <h1>There was an error...</h1>;
   }
   return (
-    <div>
-      {lineItems.map((lineItem: CheckoutLineItem) => {
-        return (
-          <div key={lineItem.id}>
-            <h5>{lineItem.title}</h5>
-            <h5>Quantity: {lineItem.quantity}</h5>
-            <button onClick={() => handleRemoveLineItem(lineItem.id)}>
-              remove item
-            </button>
-            <hr />
-          </div>
-        );
-      })}
+    <div
+      className={`${styles.containerDesktop} grid-desktop-layout-expandable`}
+    >
+      <div className="col-span-6-offset-1">
+        <h4>Cart</h4>
+        {lineItems.map((lineItem: CheckoutLineItem, index: number) => {
+          if (index === 0) {
+            subTotal = 0.0;
+          }
+          subTotal =
+            subTotal + parseInt(lineItem.variant.price, 10) * lineItem.quantity;
+          return (
+            <>
+              <div key={lineItem.id} className={styles.lineContainer}>
+                <img
+                  src={lineItem.variant.image.src}
+                  height="212px"
+                  width="212px"
+                />
+                <div className={styles.lineContent}>
+                  <div className={styles.lineContentLine1}>
+                    <span>{lineItem.title}</span>
+                    <span>{`$${lineItem.variant.price}`}</span>
+                  </div>
+                  <p className="font-family-apercu-medium">
+                    Quantity {lineItem.quantity}
+                  </p>
+
+                  <div
+                    className={`${styles.lineButtonsContainer} font-family-apercu-medium`}
+                  >
+                    <span className="underlined clickable">Favorite</span>
+                    <span
+                      className="underlined clickable"
+                      onClick={() => handleRemoveLineItem(lineItem.id)}
+                    >
+                      Remove
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <hr style={{ marginTop: '24px', marginBottom: '24px' }} />
+            </>
+          );
+        })}
+      </div>
+      <div className="col-span-1" />
       {!!lineItems.length && !!checkoutUrl.length && (
-        <>
-          <button onClick={() => handleConfirmBooking(false)}>
-            Book and pay
-          </button>
-          <button onClick={() => handleConfirmBooking(true)}>
-            Book and add to account
-          </button>
-        </>
+        <div className="col-span-3">
+          <p className={styles.summaryHeader}>Summary</p>
+          <hr />
+          <div className={styles.summaryLine}>
+            <span>Subtotal</span>
+            <span>{`$${subTotal}`}</span>
+          </div>
+          <div className={styles.summaryLine}>
+            <span>Sales Tax</span>
+            <span>$0.00</span>
+          </div>
+          <div className={styles.summaryLine}>
+            <span>Shipping</span>
+            <span>Free Delivery</span>
+          </div>
+          <div
+            className={`${styles.summaryTotalLine} font-family-apercu-medium`}
+          >
+            <span>Total</span>
+            <span>{`$${subTotal}`}</span>
+          </div>
+          <PrimaryButton
+            text="Checkout"
+            handleClick={() => handleConfirmBooking(false)}
+          />
+        </div>
       )}
     </div>
   );

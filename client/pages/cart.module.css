@@ -1,0 +1,54 @@
+.containerMobile {
+  padding: 16px;
+}
+
+.containerDesktop {
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 70px;
+}
+
+.lineContainer {
+  width: 100%;
+  display: flex;
+}
+
+.lineContent {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 2fr 2fr;
+  margin-left: 24px;
+}
+
+.lineButtonsContainer {
+  display: flex;
+  align-items: flex-end;
+}
+
+.lineContentLine1 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+}
+
+.lineButtonsContainer span {
+  margin-right: 16px;
+}
+
+.summaryLine {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summaryTotalLine {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 36px;
+}
+
+.summaryHeader {
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-top: 16px;
+}

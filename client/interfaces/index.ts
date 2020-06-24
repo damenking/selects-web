@@ -22,6 +22,10 @@ export interface LineItem {
 
 export interface CheckoutLineItemVariant {
   id: string;
+  image: {
+    src: string;
+  };
+  price: string;
 }
 
 export interface CheckoutLineItem {
