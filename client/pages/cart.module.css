@@ -20,6 +20,13 @@
   margin-left: 24px;
 }
 
+.lineContentMobile {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 2fr 1fr;
+  margin-left: 24px;
+}
+
 .lineButtonsContainer {
   display: flex;
   align-items: flex-end;

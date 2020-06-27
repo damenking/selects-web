@@ -10,12 +10,14 @@ import {
 import { createAndConfirmReservation } from '../api/bta/booking';
 import { createOrder } from '../api/shopify/order';
 import PrimaryButton from '../components/buttons/PrimaryButton';
+import { checkIsMobile } from '../components/WindowDimensionsProvider';
 
 import styles from './cart.module.css';
 
 const defaultLineItems: CheckoutLineItem[] = [];
 
 const CartPage: NextPage = () => {
+  const isMobile = checkIsMobile();
   const { checkoutId, user, updateCheckoutId } = useContext(UserContext);
   const [lineItems, setLineItems] = useState(defaultLineItems);
   const [checkoutUrl, setCheckoutUrl] = useState('');
@@ -98,6 +100,84 @@ const CartPage: NextPage = () => {
   if (error) {
     return <h1>There was an error...</h1>;
   }
+  if (isMobile) {
+    return (
+      <div className={`${styles.containerMobile} grid-mobile-layout`}>
+        <h4>Cart</h4>
+        <div className="col-span-4">
+          {lineItems.map((lineItem: CheckoutLineItem, index: number) => {
+            if (index === 0) {
+              subTotal = 0.0;
+            }
+            subTotal =
+              subTotal +
+              parseInt(lineItem.variant.price, 10) * lineItem.quantity;
+            return (
+              <React.Fragment key={lineItem.id}>
+                <div className={styles.lineContainer}>
+                  <img
+                    src={lineItem.variant.image.src}
+                    height="70px"
+                    width="70px"
+                  />
+                  <div className={styles.lineContentMobile}>
+                    <div className={styles.lineContentLine1}>
+                      <span>{lineItem.title}</span>
+                      <span>{`$${lineItem.variant.price}`}</span>
+                    </div>
+                    <p className="font-family-apercu-medium">
+                      Quantity {lineItem.quantity}
+                    </p>
+
+                    <div
+                      className={`${styles.lineButtonsContainer} font-family-apercu-medium`}
+                    >
+                      <span
+                        className="underlined clickable"
+                        onClick={() => handleRemoveLineItem(lineItem.id)}
+                      >
+                        Remove
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <hr style={{ marginTop: '24px', marginBottom: '24px' }} />
+              </React.Fragment>
+            );
+          })}
+          {!!lineItems.length && !!checkoutUrl.length && (
+            <div>
+              <p className={styles.summaryHeader}>Summary</p>
+              <hr />
+              <div className={styles.summaryLine}>
+                <span>Subtotal</span>
+                <span>{`$${subTotal}`}</span>
+              </div>
+              <div className={styles.summaryLine}>
+                <span>Sales Tax</span>
+                <span>$0.00</span>
+              </div>
+              <div className={styles.summaryLine}>
+                <span>Shipping</span>
+                <span>Free Delivery</span>
+              </div>
+              <div
+                className={`${styles.summaryTotalLine} font-family-apercu-medium`}
+              >
+                <span>Total</span>
+                <span>{`$${subTotal}`}</span>
+              </div>
+              <PrimaryButton
+                text="Checkout"
+                handleClick={() => handleConfirmBooking(false)}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className={`${styles.containerDesktop} grid-desktop-layout-expandable`}
@@ -111,8 +191,8 @@ const CartPage: NextPage = () => {
           subTotal =
             subTotal + parseInt(lineItem.variant.price, 10) * lineItem.quantity;
           return (
-            <>
-              <div key={lineItem.id} className={styles.lineContainer}>
+            <React.Fragment key={lineItem.id}>
+              <div className={styles.lineContainer}>
                 <img
                   src={lineItem.variant.image.src}
                   height="212px"
@@ -130,7 +210,6 @@ const CartPage: NextPage = () => {
                   <div
                     className={`${styles.lineButtonsContainer} font-family-apercu-medium`}
                   >
-                    <span className="underlined clickable">Favorite</span>
                     <span
                       className="underlined clickable"
                       onClick={() => handleRemoveLineItem(lineItem.id)}
@@ -142,7 +221,7 @@ const CartPage: NextPage = () => {
               </div>
 
               <hr style={{ marginTop: '24px', marginBottom: '24px' }} />
-            </>
+            </React.Fragment>
           );
         })}
       </div>

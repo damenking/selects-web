@@ -56,7 +56,7 @@ const ProductsByTagsPage: NextPage = () => {
     <div
       className={`${styles.containerDesktop} grid-desktop-layout-expandable-2`}
     >
-      <div className="col-span-10-offset-1 text-tiny">results</div>
+      <div className="col-span-10-offset-2 text-tiny">results</div>
       {products.map((edge: ProductEdge, index: number) => {
         let gridClassName = '';
         if (index === 0) {
