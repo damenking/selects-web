@@ -5,6 +5,7 @@ const productByHandleQuery = (productHandle) => {
         id
         title
         description
+        descriptionHtml
         featuredImage {
           originalSrc
           transformedSrc

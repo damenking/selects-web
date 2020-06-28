@@ -29,7 +29,8 @@ router.get('/:productHandle', (req, res) => {
         formattedResponse.data.product.id = getNumericProductId(
           formattedResponse.data.product.id
         );
-        formattedResponse.data.product.metaData = JSON.parse(data.description);
+        // formattedResponse.data.product.metaData = JSON.parse(data.description);
+
         data.variants.edges.forEach((edge) => {
           edge.node.id = getNumericProductId(edge.node.id);
           formattedResponse.data.product.variantIds.push(edge.node.id);
@@ -44,7 +45,8 @@ router.get('/:productHandle', (req, res) => {
           data.variants.edges[0].node.storefrontId;
         formattedResponse.data.product.primaryVariantPrice =
           data.variants.edges[0].node.price;
-        delete formattedResponse.data.product.description;
+        // delete formattedResponse.data.product.description;
+
         res.send(formattedResponse);
       } catch (e) {
         res.send({ data: {}, error: true });

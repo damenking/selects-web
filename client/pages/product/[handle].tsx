@@ -12,8 +12,8 @@ import Carousel from '../../components/Carousel';
 import TimeslotSelector from '../../components/TimeslotSelector';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
-import RevealContent from '../../components/buttons/RevealContent';
-import ExpandableMenuItem from '../../components/ExpandableMenuItem';
+// import RevealContent from '../../components/buttons/RevealContent';
+// import ExpandableMenuItem from '../../components/ExpandableMenuItem';
 import { getVarianceIndexByDays } from '../../util/checkout';
 import { updateCustomerFavorites } from '../../api/shopify/customer';
 
@@ -39,6 +39,7 @@ const defaultProduct = {
     originalSrc: '',
     transformedSrc: '',
   },
+  descriptionHtml: '',
 };
 
 const ProductPage: NextPage = () => {
@@ -189,7 +190,12 @@ const ProductPage: NextPage = () => {
             />
           </div>
         </div>
-        <div className="col-span-4">
+        {/* possible/probable security risk. Should find an alternative or SSR  */}
+        <div
+          className="col-span-4"
+          dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+        />
+        {/* <div className="col-span-4">
           <p>{product.metaData.descriptionShort}</p>
           <ul className={styles.keyFeaturesList}>
             {product.metaData.keyFeatures.map((feature, index) => {
@@ -216,7 +222,7 @@ const ProductPage: NextPage = () => {
             <p>Shipping content to be added sometime in the future...</p>
           </ExpandableMenuItem>
           <hr />
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -276,7 +282,12 @@ const ProductPage: NextPage = () => {
               />
             </div>
           </div>
-          <div className="col-span-12">
+          {/* possible/probable security risk. Should find an alternative or SSR  */}
+          <div
+            className="col-span-10"
+            dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+          />
+          {/* <div className="col-span-12">
             <p>{product.metaData.descriptionShort}</p>
             <ul className={styles.keyFeaturesList}>
               {product.metaData.keyFeatures.map((feature, index) => {
@@ -303,7 +314,7 @@ const ProductPage: NextPage = () => {
               <p>Shipping content to be added sometime in the future...</p>
             </ExpandableMenuItem>
             <hr />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
