@@ -8,7 +8,7 @@ import UserContext from '../components/UserContext';
 import WindowDimensionsProvider from '../components/WindowDimensionsProvider';
 import { checkToken, createToken, renewToken } from '../api/shopify/auth';
 import { createCheckout, getCheckout } from '../api/shopify/checkout';
-import { Address, User, UserError } from '../interfaces/';
+import { Address, User, UserError, Product } from '../interfaces/';
 
 import 'react-dates/lib/css/_datepicker.css';
 import 'flickity/css/flickity.css';
@@ -23,6 +23,9 @@ class MyApp extends App {
     loggedIn: false,
     checkoutId: '',
     loadingUser: true,
+    showAddedToCart: false,
+    lastProductAddedToCart: {} as Product,
+    addedToCartPriceText: '',
   };
 
   componentDidMount = () => {
@@ -142,6 +145,18 @@ class MyApp extends App {
     this.setState({ user: user });
   };
 
+  setShowAddedToCart = (
+    showCart: boolean,
+    product?: Product,
+    priceText?: string
+  ) => {
+    this.setState({
+      showAddedToCart: showCart,
+      lastProductAddedToCart: product || this.state.lastProductAddedToCart,
+      addedToCartPriceText: priceText || this.state.addedToCartPriceText,
+    });
+  };
+
   render() {
     const { Component, pageProps } = this.props;
 
@@ -160,6 +175,10 @@ class MyApp extends App {
             updateUserData: this.updateUserData,
             favorites: this.state.favorites,
             loadingUser: this.state.loadingUser,
+            showAddedToCart: this.state.showAddedToCart,
+            setShowAddedToCart: this.setShowAddedToCart,
+            lastProductAddedToCart: this.state.lastProductAddedToCart,
+            addedToCartPriceText: this.state.addedToCartPriceText,
           }}
         >
           <Head>

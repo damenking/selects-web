@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Profile from './Profile';
 import Search from './Search';
 import Drawer from './Drawer';
+import Cart from './Cart';
 import MobileDrawer from './MobileDrawer';
 import { checkIsMobile } from '../WindowDimensionsProvider';
 
@@ -60,9 +61,7 @@ const Navbar: React.FunctionComponent = () => {
         <div className={styles.navbarRightInnerContainer}>
           <Search />
           <Profile />
-          <Link href="/cart">
-            <img className="clickable" src="/static/icons/cart.svg" />
-          </Link>
+          <Cart />
         </div>
         <MobileDrawer
           showDrawer={showDrawer}
@@ -150,9 +149,7 @@ const Navbar: React.FunctionComponent = () => {
       >
         <Search />
         <Profile />
-        <Link href="/cart">
-          <img className="clickable" src="/static/icons/cart.svg" />
-        </Link>
+        <Cart />
       </div>
     </nav>
   );

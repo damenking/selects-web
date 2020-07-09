@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Address, User, UserError } from '../interfaces/';
+import { Address, User, UserError, Product } from '../interfaces/';
 
 const signOut = function (): void {};
 const signIn = function (
@@ -17,6 +17,11 @@ const updateCheckoutId = function (
 const addProductFavorite = function (_a: string): void {};
 const removeProductFavorite = function (_a: string): void {};
 const updateUserData = function (_a: User): void {};
+const setShowAddedToCart = function (
+  _a: boolean,
+  _b?: Product,
+  _c?: string
+): void {};
 
 const UserContext = createContext({
   user: {} as User,
@@ -32,6 +37,10 @@ const UserContext = createContext({
   removeProductFavorite,
   updateUserData,
   loadingUser: true,
+  showAddedToCart: true,
+  setShowAddedToCart,
+  lastProductAddedToCart: {} as Product,
+  addedToCartPriceText: '',
 });
 
 export default UserContext;

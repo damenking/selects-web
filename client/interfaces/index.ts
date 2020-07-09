@@ -66,6 +66,9 @@ export interface Product {
   media: {
     edges: PreviewImageEdge[];
   };
+  variantStorefrontIds: string[];
+  variantIds: string[];
+  descriptionHtml: string;
 }
 
 export interface ProductVariant {

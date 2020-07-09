@@ -7,7 +7,7 @@ import { getProductAvailability } from '../../api/bta/product';
 import { addLineItems } from '../../api/shopify/checkout';
 import UserContext from '../../components/UserContext';
 import { checkIsMobile } from '../../components/WindowDimensionsProvider';
-import { ImageEdge } from '../../interfaces/';
+import { ImageEdge, Product, PreviewImageEdge } from '../../interfaces/';
 import Carousel from '../../components/Carousel';
 import TimeslotSelector from '../../components/TimeslotSelector';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
@@ -40,7 +40,16 @@ const defaultProduct = {
     transformedSrc: '',
   },
   descriptionHtml: '',
-};
+  priceRange: {
+    minVariantPrice: {
+      amount: '',
+    },
+  },
+  media: {
+    edges: [] as PreviewImageEdge[],
+  },
+  handle: '',
+} as Product;
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
@@ -51,11 +60,12 @@ const ProductPage: NextPage = () => {
     favorites,
     removeProductFavorite,
     addProductFavorite,
+    setShowAddedToCart,
   } = useContext(UserContext);
   const isMobile = checkIsMobile();
   const [product, setProduct] = useState(defaultProduct);
   const [productImages, setProductImages] = useState([]);
-  const [availableDatesObj, updateavailableDatesObj] = useState({});
+  const [availableDatesObject, updateAvailableDatesObj] = useState({});
   const [selectedVariantIndex, updateSelectedVariantIndex] = useState(0);
   const [selectedStartDate, updatedSelectedStartDate] = useState('');
   const [selectedEndDate, updateSelectedEndDate] = useState('');
@@ -72,7 +82,7 @@ const ProductPage: NextPage = () => {
         setProduct(product);
         getProductAvailability(product.variantIds[0]).then((response) => {
           const { availableDatesObj } = response;
-          updateavailableDatesObj(availableDatesObj);
+          updateAvailableDatesObj(availableDatesObj);
         });
         const images = product.images.edges.map((edge: ImageEdge) => {
           return edge.node.originalSrc;
@@ -103,7 +113,7 @@ const ProductPage: NextPage = () => {
     }
   };
 
-  const handleAddToCheckout = async () => {
+  const handleAddToCheckout = () => {
     addLineItems(checkoutId, [
       {
         variantId: product.variantStorefrontIds[selectedVariantIndex],
@@ -117,7 +127,11 @@ const ProductPage: NextPage = () => {
           },
         ],
       },
-    ]);
+    ]).then(() => {
+      setShowAddedToCart(true, product, '$347.00 / 7 days');
+    });
+    updatedSelectedStartDate('');
+    updateSelectedEndDate('');
   };
 
   const handleDatesSelect = (
@@ -163,7 +177,7 @@ const ProductPage: NextPage = () => {
         <div className="col-span-4">WHEN</div>
         <div className={`${styles.dateSelectionOuterContainer} col-span-4`}>
           <TimeslotSelector
-            availableDates={availableDatesObj}
+            availableDates={availableDatesObject}
             handleDatesSelect={handleDatesSelect}
           />
           <div className={styles.addToButtonsContainerMobile}>
@@ -254,7 +268,7 @@ const ProductPage: NextPage = () => {
           <div className="col-span-12">WHEN</div>
           <div className={`${styles.dateSelectionOuterContainer} col-span-12`}>
             <TimeslotSelector
-              availableDates={availableDatesObj}
+              availableDates={availableDatesObject}
               handleDatesSelect={handleDatesSelect}
             />
             <div className={styles.addToButtonsContainerDesktop}>
