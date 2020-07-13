@@ -1,6 +1,7 @@
 import { postWrapper, BTA_BASE_URL } from '../api';
 import { ReservationLineItem } from '../../interfaces/';
 
+// currently not used in favor of reservation system
 export const createBooking = async (
   productId: string,
   startsAt: string,
@@ -48,7 +49,6 @@ export const createAndConfirmReservation = async (
     email,
     reservationLineItems,
   };
-  // reservationLineItems[0].external_id = '32618861920387';
   try {
     const response = await postWrapper(API_URL, reqObj);
     return { error: response.error };

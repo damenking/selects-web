@@ -54,7 +54,7 @@ const CartPage: NextPage = () => {
           external_id = attribute.value;
         }
       });
-      return { variant_id: external_id, quantity: 1 };
+      return { variant_id: external_id, quantity: lineItem.quantity };
     });
     createOrder(user.email, orderLineItems);
   };
@@ -78,7 +78,7 @@ const CartPage: NextPage = () => {
         external_id,
         start,
         finish,
-        quantity: '1',
+        quantity: `${lineItem.quantity}`,
       };
       reservationItems.push(reservationLineItem);
     });
@@ -100,6 +100,7 @@ const CartPage: NextPage = () => {
   if (error) {
     return <h1>There was an error...</h1>;
   }
+
   if (isMobile) {
     return (
       <div className={`${styles.containerMobile} grid-mobile-layout`}>

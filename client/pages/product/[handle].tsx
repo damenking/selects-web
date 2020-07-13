@@ -65,11 +65,13 @@ const ProductPage: NextPage = () => {
   const isMobile = checkIsMobile();
   const [product, setProduct] = useState(defaultProduct);
   const [productImages, setProductImages] = useState([]);
-  const [availableDatesObject, updateAvailableDatesObj] = useState({});
+  const [availableDatesObject, updateAvailableDatesObj] = useState({} as any);
   const [selectedVariantIndex, updateSelectedVariantIndex] = useState(0);
   const [selectedStartDate, updatedSelectedStartDate] = useState('');
   const [selectedEndDate, updateSelectedEndDate] = useState('');
   const [isFavorited, updateIsFavorited] = useState(false);
+  const [availableQuantity, updateAvailableQuantity] = useState(0);
+  const [selectedQuantity, updateSelectedQuantity] = useState(1);
 
   useEffect(() => {
     updateIsFavorited(favorites.product.indexOf(product.id) !== -1);
@@ -117,7 +119,7 @@ const ProductPage: NextPage = () => {
     addLineItems(checkoutId, [
       {
         variantId: product.variantStorefrontIds[selectedVariantIndex],
-        quantity: 1,
+        quantity: selectedQuantity,
         customAttributes: [
           { key: 'start', value: selectedStartDate },
           { key: 'finish', value: selectedEndDate },
@@ -132,6 +134,28 @@ const ProductPage: NextPage = () => {
     });
     updatedSelectedStartDate('');
     updateSelectedEndDate('');
+  };
+
+  const calculateAvailableQuantity = (
+    startDate: momentJS.Moment,
+    endDate: momentJS.Moment
+  ): number => {
+    const endDateString = endDate.toDate().toString();
+    const startDateString = startDate.toDate().toString();
+    let checking = true;
+    let quantity = availableDatesObject[startDateString];
+    let date = startDate.clone();
+    while (checking) {
+      date.add('1', 'day');
+      const dateString = date.toDate().toString();
+      if (availableDatesObject[dateString] < quantity) {
+        quantity = availableDatesObject[dateString];
+      }
+      if (dateString === endDateString) {
+        checking = false;
+      }
+    }
+    return quantity;
   };
 
   const handleDatesSelect = (
@@ -151,9 +175,34 @@ const ProductPage: NextPage = () => {
     if (startDate && endDate) {
       const dateDif = endDate.diff(startDate, 'days') + 1;
       updateSelectedVariantIndex(getVarianceIndexByDays(dateDif));
+      updateAvailableQuantity(calculateAvailableQuantity(startDate, endDate));
+      updateSelectedQuantity(1);
     } else {
       updateSelectedVariantIndex(getVarianceIndexByDays(1));
     }
+  };
+
+  const handleQuantitySelectChange = (e: React.SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+    updateSelectedQuantity(parseInt(value, 10));
+  };
+
+  const getQuantitySelectMenu = () => {
+    const options = new Array(availableQuantity);
+    for (let i = availableQuantity - 1; i >= 0; i--) {
+      options[i] = i + 1;
+    }
+    return (
+      <select onChange={(e) => handleQuantitySelectChange(e)}>
+        {options.map((option: number) => {
+          return (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+    );
   };
 
   if (isMobile) {
@@ -180,6 +229,19 @@ const ProductPage: NextPage = () => {
             availableDates={availableDatesObject}
             handleDatesSelect={handleDatesSelect}
           />
+          {selectedStartDate && selectedEndDate && (
+            <div>
+              <label>Quantity:</label>
+              {getQuantitySelectMenu()}
+              <span>
+                {`${
+                  availableQuantity === 1
+                    ? `There is 1 available for the date range selected`
+                    : `There are ${availableQuantity} available for the date range selected`
+                }`}
+              </span>
+            </div>
+          )}
           <div className={styles.addToButtonsContainerMobile}>
             <div className={styles.addToCartButtonContainer}>
               <PrimaryButton
@@ -271,6 +333,19 @@ const ProductPage: NextPage = () => {
               availableDates={availableDatesObject}
               handleDatesSelect={handleDatesSelect}
             />
+            {selectedStartDate && selectedEndDate && (
+              <div>
+                <label>Quantity:</label>
+                {getQuantitySelectMenu()}
+                <span>
+                  {`${
+                    availableQuantity === 1
+                      ? `There is 1 available for the date range selected`
+                      : `There are ${availableQuantity} available for the date range selected`
+                  }`}
+                </span>
+              </div>
+            )}
             <div className={styles.addToButtonsContainerDesktop}>
               <PrimaryButton
                 isDisabled={!selectedStartDate}
