@@ -18,13 +18,14 @@ const Carousel: React.FunctionComponent<CarouselProps> = (props) => {
   useEffect(() => {
     const lazyCarousel = async () => {
       // Avoids window is not defined error on server
-      const flickity = new (await import('flickity')).default(
+      const flickity = new (await import('flickity-imagesloaded')).default(
         document.querySelector('.carousel'),
         {
           // options
           cellAlign: 'left',
           contain: true,
           adaptiveHeight: true,
+          imagesLoaded: true,
         }
       );
       updateFlickityInstance(flickity);
@@ -43,14 +44,7 @@ const Carousel: React.FunctionComponent<CarouselProps> = (props) => {
     <>
       <div className="carousel">
         {props.images.map((image, index) => {
-          return (
-            <img
-              key={index}
-              style={{ height: `${screenWidth - 32}` }}
-              className="responsive-img"
-              src={image}
-            />
-          );
+          return <img key={index} className="responsive-img" src={image} />;
         })}
       </div>
       {props.includeSelector && (
