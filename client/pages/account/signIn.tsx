@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import UserContext from '../../components/UserContext';
-import { triggerPasswordResetEmail } from '../../api/shopify/auth';
+// import { triggerPasswordResetEmail } from '../../api/shopify/auth';
 import TextInput from '../../components/TextInput';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
@@ -27,7 +27,7 @@ const SignIn: NextPage = () => {
   const [confirmEmail, updateConfirmEmail] = useState('');
   const [password, updatePassword] = useState('');
   const [confirmPassword, updateConfirmPassword] = useState('');
-  const [resetEmail, updateResetEmail] = useState('');
+  // const [resetEmail, updateResetEmail] = useState('');
   const [orderNumber, updateOrderNumber] = useState('');
   const [orderEmail, updateOrderEmail] = useState('');
   const [errors, updateErrors] = useState([] as string[]);
@@ -65,14 +65,14 @@ const SignIn: NextPage = () => {
     updatePassword(value);
   };
 
-  const handleResetEmailChange = (e: React.SyntheticEvent): void => {
-    const { value } = e.target as HTMLInputElement;
-    updateResetEmail(value);
-  };
+  // const handleResetEmailChange = (e: React.SyntheticEvent): void => {
+  //   const { value } = e.target as HTMLInputElement;
+  //   updateResetEmail(value);
+  // };
 
-  const handleResetSubmit = () => {
-    triggerPasswordResetEmail(resetEmail);
-  };
+  // const handleResetSubmit = () => {
+  //   triggerPasswordResetEmail(resetEmail);
+  // };
 
   const handleSignIn = async () => {
     const userErrors = await signIn(email, password, undefined, route);
@@ -172,6 +172,10 @@ const SignIn: NextPage = () => {
     updateNewsletterSubscribed(checked);
   };
 
+  const handleForgotPasswordClick = () => {
+    router.push('/account/passwordReset');
+  };
+
   // Need to get usererrors or any error to display on failure
   if (isMobile) {
     return (
@@ -214,9 +218,10 @@ const SignIn: NextPage = () => {
               />
               <div className={styles.forgotPassword}>
                 <small
+                  onClick={handleForgotPasswordClick}
                   className={`font-family-apercu-medium underlined clickable`}
                 >
-                  Forgot your password?
+                  Forgot password?
                 </small>
               </div>
               <PrimaryButton
@@ -358,6 +363,7 @@ const SignIn: NextPage = () => {
             />
             <div className={styles.forgotPassword}>
               <small
+                onClick={handleForgotPasswordClick}
                 className={`font-family-apercu-medium underlined clickable`}
               >
                 Forgot Password?
@@ -431,7 +437,7 @@ const SignIn: NextPage = () => {
           </>
         )}
 
-        <input
+        {/* <input
           className="hidden"
           type="text"
           value={resetEmail}
@@ -439,7 +445,7 @@ const SignIn: NextPage = () => {
         />
         <button className="hidden" onClick={handleResetSubmit}>
           Password reset submit
-        </button>
+        </button> */}
       </div>
 
       <div className={`${styles.panelContainerRight} col-span-4`}>

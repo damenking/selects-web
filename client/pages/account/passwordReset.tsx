@@ -1,35 +1,31 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { passwordResetByUrl } from '../../api/shopify/auth';
-import UserContext from '../../components/UserContext';
+import { triggerPasswordResetEmail } from '../../api/shopify/auth';
+import RevealContent from '../../components/buttons/RevealContent';
 
 const PasswordReset: NextPage = () => {
-  const router = useRouter();
-  const reset_url = router.query.reset_url as string;
-  const { signIn } = useContext(UserContext);
-  const [password, updatePassword] = useState('');
+  const [email, updateEmail] = useState('');
 
-  const handlePasswordChange = (e: React.SyntheticEvent): void => {
+  const handleEmailChange = (e: React.SyntheticEvent): void => {
     const { value } = e.target as HTMLInputElement;
-    updatePassword(value);
+    updateEmail(value);
   };
 
-  const handleResetSubmit = async () => {
-    const { customerAccessToken } = await passwordResetByUrl(
-      reset_url,
-      password
-    );
-    signIn(undefined, undefined, customerAccessToken);
+  const handleResetSubmit = () => {
+    triggerPasswordResetEmail(email);
   };
 
   // Need to get usererrors or any error to display on failure
   return (
     <div>
       <h5>Reset your password</h5>
-      <label>password:</label>
-      <input type="password" value={password} onChange={handlePasswordChange} />
-      <button onClick={handleResetSubmit}>Submit</button>
+      <label>Account Email:</label>
+      <input type="email" value={email} onChange={handleEmailChange} />
+      <br />
+      <RevealContent text="Reset Submit" handleClick={handleResetSubmit}>
+        <p>A password reset link has been sent to {email}</p>
+        <a href="/account/signIn">Sign In</a>
+      </RevealContent>
     </div>
   );
 };

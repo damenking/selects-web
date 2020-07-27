@@ -113,6 +113,7 @@ class MyApp extends App {
       user: {},
     });
     localStorage.setItem('accessToken', '');
+    localStorage.setItem('checkoutId', '');
     Router.push('/account/signIn');
   };
 
