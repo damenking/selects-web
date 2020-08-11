@@ -44,8 +44,8 @@ router.post('/create', (req, res) => {
 
 router.post('/createAddress', (req, res) => {
   const {
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     phone,
     company,
     address1,
@@ -60,8 +60,8 @@ router.post('/createAddress', (req, res) => {
     method: 'post',
     data: {
       query: createAddress(
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         phone,
         company,
         address1,
@@ -88,6 +88,48 @@ router.post('/createAddress', (req, res) => {
     })
     .catch((response) => {
       res.send({ data: { userErrors: [] }, error: true });
+    });
+});
+
+router.post('/updateAddress', (req, res) => {
+  const {
+    addressId,
+    customerId,
+    first_name,
+    last_name,
+    phone,
+    company,
+    address1,
+    address2,
+    city,
+    province,
+    zip,
+    setDefaultAddress,
+  } = req.body;
+  axios({
+    url: `${config.shopifyAdminRestUrlWithAuth}customers/${customerId}/addresses/${addressId}.json`,
+    method: 'put',
+    data: {
+      address: {
+        id: addressId,
+        first_name,
+        last_name,
+        phone,
+        company,
+        address1,
+        address2,
+        city,
+        province,
+        zip,
+      },
+    },
+  })
+    .then((response) => {
+      const { customer_address } = response.data;
+      res.send({ data: { address: customer_address }, error: false });
+    })
+    .catch(() => {
+      res.send({ data: { address: {} }, error: true });
     });
 });
 

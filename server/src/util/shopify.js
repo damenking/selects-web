@@ -6,6 +6,14 @@ const getIdFromBase64 = (base64Id) => {
   return Buffer.from(base64Id, 'base64').toString();
 };
 
+const getBase64FromString = (s) => {
+  return Buffer.from(`${s}`).toString('base64');
+};
+
+const getGlobalId = (model, id) => {
+  return `gid://shopify/${model}/${id}`;
+};
+
 const validateCustomerUpdateFields = (fields) => {
   const acceptableFields = [
     'id',
@@ -29,4 +37,6 @@ module.exports = {
   getNumericProductId,
   getIdFromBase64,
   validateCustomerUpdateFields,
+  getBase64FromString,
+  getGlobalId,
 };

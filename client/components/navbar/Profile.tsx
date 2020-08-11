@@ -58,9 +58,9 @@ const Profile: React.FunctionComponent = () => {
           <Link href="/account/account?tab=info">
             <p onClick={() => updateShowDropdown(false)}>Account Info</p>
           </Link>
-          <Link href="/account/account?tab=address">
+          {/* <Link href="/account/account?tab=address">
             <p onClick={() => updateShowDropdown(false)}>Address</p>
-          </Link>
+          </Link> */}
           <Link href="/account/account?tab=orders">
             <p onClick={() => updateShowDropdown(false)}>Orders</p>
           </Link>

@@ -88,8 +88,9 @@ export interface UserError {
 }
 
 export interface Address {
-  firstName: string;
-  lastName: string;
+  id?: number;
+  first_name: string;
+  last_name: string;
   address1: string;
   address2?: string;
   city: string;
@@ -97,6 +98,7 @@ export interface Address {
   zip: string;
   company?: string;
   country?: string;
+  phone?: string;
 }
 
 export interface CustomerInformation {

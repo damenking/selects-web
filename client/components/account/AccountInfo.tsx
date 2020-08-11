@@ -9,6 +9,7 @@ import SecondaryButton from '../buttons/SecondaryButton';
 import Checkbox from '../Checkbox';
 import RevealContent from '../buttons/RevealContent';
 import ErrorMessages from '../ErrorMessages';
+import AccountInfoAddressPane from './AccountInfoAddressPane';
 
 import styles from './AccountInfo.module.css';
 
@@ -84,7 +85,7 @@ const AccountInfo: React.FunctionComponent = () => {
     triggerPasswordResetEmail(user.email);
   };
 
-  const handleupdateNewsletterSubscribedChange = (
+  const handleUpdateNewsletterSubscribedChange = (
     e: React.SyntheticEvent
   ): void => {
     const { checked } = e.target as HTMLInputElement;
@@ -119,6 +120,9 @@ const AccountInfo: React.FunctionComponent = () => {
             {user.first_name} {user.last_name}
           </p>
           <small>{user.email}</small>
+        </div>
+        <div className={styles.rightPanelContainer}>
+          <AccountInfoAddressPane />
         </div>
       </div>
     );
@@ -156,7 +160,7 @@ const AccountInfo: React.FunctionComponent = () => {
         />
         <Checkbox
           isChecked={newsletterSubcribed}
-          handleChange={handleupdateNewsletterSubscribedChange}
+          handleChange={handleUpdateNewsletterSubscribedChange}
           label="Subscribe to Newsletter"
           className={styles.subcribeCheckbox}
         />
@@ -174,6 +178,9 @@ const AccountInfo: React.FunctionComponent = () => {
             text="Cancel"
           />
         </div>
+      </div>
+      <div className={styles.rightPanelContainer}>
+        <AccountInfoAddressPane />
       </div>
     </div>
   );

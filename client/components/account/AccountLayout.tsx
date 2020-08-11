@@ -24,14 +24,14 @@ const AccountLayout: React.FunctionComponent = ({ children }) => {
           >
             Account Info
           </small>
-          <small
+          {/* <small
             className={`${
               selectedTab === 'address' ? styles.selectedMenuOption : ''
             } clickable`}
             onClick={() => handleTabClick('address')}
           >
             Address
-          </small>
+          </small> */}
           <small
             className={`${
               selectedTab === 'orders' ? styles.selectedMenuOption : ''

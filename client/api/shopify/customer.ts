@@ -1,8 +1,5 @@
 import { postWrapper, fetchWrapper, SHOPIFY_BASE_URL } from '../api';
-import {
-  CustomerInformation,
-  ShippingAddressInformation,
-} from '../../interfaces/';
+import { CustomerInformation, Address } from '../../interfaces/';
 
 export const createCustomer = async (customerInfo: CustomerInformation) => {
   const API_URL = `${SHOPIFY_BASE_URL}/customer/create`;
@@ -17,15 +14,24 @@ export const createCustomer = async (customerInfo: CustomerInformation) => {
 };
 
 export const createAddress = async (
-  customerInfo: ShippingAddressInformation,
+  address: Address,
   customerAccessToken: string
 ) => {
   const API_URL = `${SHOPIFY_BASE_URL}/customer/createAddress`;
-  const { firstName, lastName, phone, company } = customerInfo;
-  const { address1, address2, city, province, zip } = customerInfo.address;
+  const {
+    first_name,
+    last_name,
+    phone,
+    company,
+    address1,
+    address2,
+    city,
+    province,
+    zip,
+  } = address;
   const reqObj = {
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     phone,
     company,
     address1,
@@ -42,6 +48,49 @@ export const createAddress = async (
   } catch (e) {
     console.log('caught', e);
     return { userErrors: [], error: true };
+  }
+};
+
+export const updateAddress = async (
+  address: Address,
+  setDefaultAddress: boolean,
+  customerId: string
+) => {
+  // set default will be used once a customer can add more than one address
+  const API_URL = `${SHOPIFY_BASE_URL}/customer/updateAddress`;
+  const {
+    id,
+    first_name,
+    last_name,
+    phone,
+    company,
+    address1,
+    address2,
+    city,
+    province,
+    zip,
+  } = address;
+  const reqObj = {
+    addressId: id,
+    customerId,
+    first_name,
+    last_name,
+    phone,
+    company,
+    address1,
+    address2,
+    city,
+    province,
+    zip,
+    setDefaultAddress,
+  };
+  try {
+    const response = await postWrapper(API_URL, reqObj);
+    const { address } = response.data;
+    return { address, error: response.error };
+  } catch (e) {
+    console.log('caught', e);
+    return { address: {}, error: true };
   }
 };
 

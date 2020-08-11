@@ -5,7 +5,7 @@ import AccountLayout from '../../components/account/AccountLayout';
 import AccountInfo from '../../components/account/AccountInfo';
 import Favorites from '../../components/account/Favorites';
 import Orders from '../../components/account/Orders';
-import Address from '../../components/account/Address';
+// import Address from '../../components/account/Address';
 import UserContext from '../../components/UserContext';
 
 const AccountPage: NextPage = () => {
@@ -26,8 +26,8 @@ const AccountPage: NextPage = () => {
       return <Orders />;
     } else if (tab === 'favorites') {
       return <Favorites />;
-    } else if (tab === 'address') {
-      return <Address />;
+      // } else if (tab === 'address') {
+      //   return <Address />;
     }
     return null;
   };
