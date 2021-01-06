@@ -13,7 +13,7 @@
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "airbnb-prop-types": "^2.15.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "firebase": "^7.10.0",
     "firebaseui": "^4.4.0",
     "flickity": "^2.2.1",
